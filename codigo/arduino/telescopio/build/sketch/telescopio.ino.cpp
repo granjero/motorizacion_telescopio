@@ -11,18 +11,9 @@ AccelStepper elevacion(AccelStepper::DRIVER, 3, 6);
 char serial_command_buffer_[32];
 SerialCommands serial_commands_(&Serial, serial_command_buffer_, sizeof(serial_command_buffer_), "\r\n", " ");
 
+#include ".comandos_serial.ino"
+
 //This is the default handler, and gets called when no other command matches. 
-#line 14 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_unrecognized(SerialCommands* sender, const char* cmd);
-#line 22 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_azimut(SerialCommands* sender);
-#line 33 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_off(SerialCommands* sender);
-#line 48 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void setup();
-#line 71 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void loop();
-#line 14 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_unrecognized(SerialCommands* sender, const char* cmd)
 {
     sender->GetSerial()->print("Unrecognized command [");
@@ -89,5 +80,14 @@ void loop() {
         azimut.runSpeed();
         elevacion.runSpeed();
     }
+}
+
+#line 1 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/comandos_serial.ino"
+
+// OFF
+void cmd_off(SerialCommands* sender)
+{
+    azimut.disableOutputs(); // funciona al revés
+    sender->GetSerial()->println("MOTORES OFF");
 }
 

@@ -3,6 +3,7 @@
 #include <SerialCommands.h>
 
 #define ENABLE_PIN 8
+#define VEL_MAX 10000
 
 AccelStepper azimut(AccelStepper::DRIVER, 2, 5);
 AccelStepper elevacion(AccelStepper::DRIVER, 3, 6);
@@ -58,14 +59,14 @@ void setup() {
     azimut.setPinsInverted(false, false, true);
 
     azimut.setEnablePin(ENABLE_PIN);
-    azimut.setMaxSpeed(5000.0);
-    azimut.setSpeed(500.0);
+    azimut.setMaxSpeed(VEL_MAX);
+    /*azimut.setSpeed(500.0);*/
 
     elevacion.setPinsInverted(false, false, true);
 
     elevacion.setEnablePin(ENABLE_PIN);
-    elevacion.setMaxSpeed(5000.0);
-    elevacion.setSpeed(500.0);
+    elevacion.setMaxSpeed(VEL_MAX);
+    /*elevacion.setSpeed(500.0);*/
 }
 
 void loop() {

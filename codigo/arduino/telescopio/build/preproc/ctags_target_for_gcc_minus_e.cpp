@@ -30,12 +30,6 @@ void cmd_azimut(SerialCommands* sender)
     sender->GetSerial()->println(velocidad);
 }
 
-// OFF
-void cmd_off(SerialCommands* sender)
-{
-    azimut.disableOutputs(); // funciona al revés
-    sender->GetSerial()->println("MOTORES OFF");
-}
 
 SerialCommand cmd_azimut_("AZ", cmd_azimut);
 SerialCommand cmd_off_("OFF", cmd_off);
