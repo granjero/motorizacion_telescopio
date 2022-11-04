@@ -1,16 +1,28 @@
 # 1 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-# 2 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino" 2
+// librerias
 # 3 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino" 2
 # 4 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino" 2
+# 5 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino" 2
+
+// constantes
 
 
 
+// variables
+bool andando = true;
+bool acelerado = true;
+int posAZ = 0;
+int posEL = 0;
+
+// inicializacion de los motores
 AccelStepper azimut(AccelStepper::DRIVER, 2, 5);
 AccelStepper elevacion(AccelStepper::DRIVER, 3, 6);
-
+// SerialCommands
 char serial_command_buffer_[32];
 SerialCommands serial_commands_(&Serial, serial_command_buffer_, sizeof(serial_command_buffer_), "\r\n", " ");
 
+// funciones serial
+// ****************
 //This is the default handler, and gets called when no other command matches. 
 void cmd_unrecognized(SerialCommands* sender, const char* cmd)
 {
@@ -18,58 +30,135 @@ void cmd_unrecognized(SerialCommands* sender, const char* cmd)
     sender->GetSerial()->print(cmd);
     sender->GetSerial()->println("]");
 }
-
-// AZIMUT
+// AZIMUT comnados para el motor de control azimutal
 void cmd_azimut(SerialCommands* sender)
+{
+    char* velocidad = sender->Next();
+
+    andando = true;
+    acelerado = false;
+
+    azimut.enableOutputs();
+    azimut.setMaxSpeed(10000);
+    azimut.setSpeed(atol(velocidad));
+    sender->GetSerial()->print("Velocidad motor AZIMUT: ");
+    sender->GetSerial()->println(velocidad);
+}
+// AZIMUT comnados para el motor de control azimutal
+void cmd_azimut_pos(SerialCommands* sender)
+{
+    char* posDestino = sender->Next();
+    char* velocidad = sender->Next();
+
+    andando = true;
+    acelerado = true;
+
+    azimut.enableOutputs();
+    azimut.setMaxSpeed(atoi(velocidad));
+    azimut.moveTo(atol(posDestino));
+    sender->GetSerial()->print("Posicion destino motor AZIMUT: ");
+    sender->GetSerial()->println(posDestino);
+    sender->GetSerial()->print("Velocidad motor AZIMUT: ");
+    sender->GetSerial()->println(velocidad);
+}
+// ELEVACION comnados para el motor de control de elevacion
+void cmd_elevacion(SerialCommands* sender)
 {
     char* velocidad = sender->Next();
     char* estadoMotor = sender->Next();
 
-    azimut.enableOutputs(); // funciona al revés
-    azimut.setSpeed(atoi(velocidad));
+    andando = true;
+    acelerado = false;
+
+    elevacion.enableOutputs();
+    elevacion.setSpeed(atoi(velocidad));
+    sender->GetSerial()->print("ELEVACION Vel: ");
     sender->GetSerial()->println(velocidad);
 }
+// ENABLE_PIN comnados para el motor de control de elevacion
+void cmd_elevacion_pos(SerialCommands* sender)
+{
+    char* posDestino = sender->Next();
+    char* velocidad = sender->Next();
 
+    andando = true;
+    acelerado = true;
 
+    elevacion.enableOutputs();
+    elevacion.setMaxSpeed(atoi(velocidad));
+    elevacion.moveTo(atol(posDestino));
+    sender->GetSerial()->print("ELEVACION Pos: ");
+    sender->GetSerial()->print(posDestino);
+    sender->GetSerial()->print(" Vel: ");
+    sender->GetSerial()->println(velocidad);
+}
+// OFF apaga los motores
+void cmd_off(SerialCommands* sender)
+{
+    andando = false; // para que deje de contar pasos.
+    azimut.stop();
+    elevacion.stop();
+    azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
+    sender->GetSerial()->println("MOTORES OFF");
+}
+
+// declaracion de variables a enviar por serial
 SerialCommand cmd_azimut_("AZ", cmd_azimut);
+SerialCommand cmd_azimut_pos_("AZp", cmd_azimut_pos);
+SerialCommand cmd_elevacion_("EL", cmd_elevacion);
+SerialCommand cmd_elevacion_pos_("ELp", cmd_elevacion_pos);
 SerialCommand cmd_off_("OFF", cmd_off);
 
 
-
-
-
-bool andando = true;
+// ************
+// ************
 
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(115200); // comienza la comunicacion serial
 
- serial_commands_.SetDefaultHandler(&cmd_unrecognized);
+    // inicializacion de los comandos definidos
+    serial_commands_.SetDefaultHandler(&cmd_unrecognized);
     serial_commands_.AddCommand(&cmd_azimut_);
+    serial_commands_.AddCommand(&cmd_azimut_pos_);
+    serial_commands_.AddCommand(&cmd_elevacion_);
+    serial_commands_.AddCommand(&cmd_elevacion_pos_);
     serial_commands_.AddCommand(&cmd_off_);
 
-    Serial.println("Motores Telescopio 0.1");
+    Serial.println("Motores Telescopio 0.1 -> Ready");
 
+    // motor AZIMUT
+    azimut.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
+    azimut.setEnablePin(8 /* pin del Arduino conectado al enable de los drivers de los motores*/);
+    azimut.setMaxSpeed(10000);
+    azimut.setAcceleration(2000);
+    /*azimut.setSpeed(500.0);*/
 
-    azimut.setPinsInverted(false, false, true);
+    // motor ELEVACION
+    elevacion.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
+    elevacion.setEnablePin(8 /* pin del Arduino conectado al enable de los drivers de los motores*/);
+    elevacion.setMaxSpeed(10000);
+    elevacion.setAcceleration(2000);
+    /*elevacion.setSpeed(500.0);*/
 
-    azimut.setEnablePin(8);
-    azimut.setMaxSpeed(5000.0);
-    azimut.setSpeed(500.0);
-
-    elevacion.setPinsInverted(false, false, true);
-
-    elevacion.setEnablePin(8);
-    elevacion.setMaxSpeed(5000.0);
-    elevacion.setSpeed(500.0);
+    azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
 }
 
 void loop() {
 
- serial_commands_.ReadSerial();
+ serial_commands_.ReadSerial(); // SerialCommands
 
     if(andando)
     {
-        azimut.runSpeed();
-        elevacion.runSpeed();
+        if(acelerado)
+        {
+            azimut.run();
+            elevacion.run();
+        }
+        else
+        {
+            azimut.runSpeed();
+            elevacion.runSpeed();
+        }
     }
+    /*Serial.println(azimut.currentPosition());*/
 }
