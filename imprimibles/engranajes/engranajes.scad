@@ -9,6 +9,7 @@ Softare libre.
 
 include <gears.scad> // https://github.com/chrisspen/gears
 
+$fn = 200;
 DIAMETRO_BASE_MONTURA = 480; // medida de la base de la montura en milimetros.
 
 MODULO = 1.1185; // modificar este valor segun corresponda para que el valor de "Ring Gear Outer Diamater" que se lee al ejecutar el programa sea lo más cercano al diametro de la base de la montura en milimetros.  
@@ -26,9 +27,10 @@ TORNILLOS = 8; // CANTIDAD DE ORIFICIOS EN LA CORONA PARTIDA PARA IMPRIMIR
 
 // PARAMETROS PIÑON
 CANT_DIENTES_PINON = 20;
-ALTO_PINON = 15;
+ALTO_PINON = 20;
+ALTO_ANCLAJE_PINION = 15;
 ANCHO_EJE_MOTOR = 5.2;
-DIAMETRO_ANCLAJE_PINON = 18.5;
+DIAMETRO_ANCLAJE_PINON = 25;
 
 // PARAMETROS REDUCCION
 CANT_DIENTES_REDUCCION_CORONA = 100;
@@ -118,7 +120,6 @@ module coronaPara3D ()
 
 module pinonPara3D()
 {
-    altoAnclajeEje = 20;
     difference()
     {
         difference()
@@ -133,19 +134,20 @@ module pinonPara3D()
                         pressure_angle=20, 
                         helix_angle=0, 
                         optimized=true);
-                cylinder(h = ALTO_PINON + altoAnclajeEje, d = DIAMETRO_ANCLAJE_PINON);
+                translate([0,0,ALTO_PINON])
+                cylinder(h = ALTO_ANCLAJE_PINION, d = DIAMETRO_ANCLAJE_PINON);
             }
             // hueco para el eje del motor
-            cylinder(h = ALTO_PINON + altoAnclajeEje, d = ANCHO_EJE_MOTOR);
+            cylinder(h = ALTO_PINON + ALTO_ANCLAJE_PINION, d = ANCHO_EJE_MOTOR);
         }
-        // huecos para los tornillos 
-        translate([0,0,ALTO_PINON + altoAnclajeEje * 0.25 ])
+        // hueco para el tornillo de anclaje 
+        translate([0,0,ALTO_PINON + ALTO_ANCLAJE_PINION * 0.5])
         rotate([0,90,0])
-        cylinder(h =20, d = 2.5);
-        translate([0,0,ALTO_PINON + altoAnclajeEje * 0.75])
-        rotate([0,90,0])
-        cylinder(h =20, d = 2.5);
+        cylinder(h =20, d = 3);
+    translate([DIAMETRO_ANCLAJE_PINON*.2,-3, ALTO_PINON * 1.12])
+    cube([2.5, 5.5, 20]); // tuerca
     }
+
 }
 
 //
