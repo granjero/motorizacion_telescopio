@@ -27,7 +27,7 @@ TORNILLOS = 8; // CANTIDAD DE ORIFICIOS EN LA CORONA PARTIDA PARA IMPRIMIR
 // PARAMETROS PIÑON
 CANT_DIENTES_PINON = 20;
 ALTO_PINON = 15;
-ANCHO_EJE_MOTOR = 5.5;
+ANCHO_EJE_MOTOR = 5.1;
 DIAMETRO_ANCLAJE_PINON = 18.5;
 
 // PARAMETROS REDUCCION
@@ -47,9 +47,9 @@ ANCHO_EJE_REDUCCION = 5;
 
 /*coronaPara3D();*/
 
-/*pinonPara3D();*/
+pinonPara3D();
 
-reduccionPara3D();
+/*reduccionPara3D();*/
 
 //
 // CORONA
@@ -141,10 +141,10 @@ module pinonPara3D()
         // huecos para los tornillos 
         translate([0,0,ALTO_PINON + altoAnclajeEje * 0.25 ])
         rotate([0,90,0])
-        cylinder(h =20, d = 3.5);
+        cylinder(h =20, d = 2.5);
         translate([0,0,ALTO_PINON + altoAnclajeEje * 0.75])
         rotate([0,90,0])
-        cylinder(h =20, d = 3.5);
+        cylinder(h =20, d = 2.5);
     }
 }
 

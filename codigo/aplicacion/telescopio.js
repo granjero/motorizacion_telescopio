@@ -1,36 +1,9 @@
+const button = document.querySelector('button');
+  button.addEventListener('click', async function() {
 
-console.log('test');
+    // Prompt user to select any serial port.
+    const port = await navigator.serial.requestPort();
 
-async function inicializaPuerto() {
-	let promesa = new Promise();
-	const port = await navigator.serial.requestPort();
-	return port;
-}
-
-function puertoSeleccionado()
-{
-return new Promise
-}
-
-inicializaPuerto();
-
-
-while (port.readable) {
-  const reader = port.readable.getReader();
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        // |reader| has been canceled.
-        break;
-      }
-      console.log(value);
-      // Do something with |value|…
-    }
-  } catch (error) {
-    // Handle |error|…
-  } finally {
-    reader.releaseLock();
-  }
-}
-
+    // Wait for the serial port to open.
+    await port.open({ baudRate: 115200 });
+  });

@@ -10,8 +10,8 @@
 // variables
 bool andando = true;
 bool acelerado = true;
-int posAZ = 0;
-int posEL = 0;
+/*int posAZ = 0;*/
+/*int posEL = 0;*/
 
 // inicializacion de los motores
 AccelStepper azimut(AccelStepper::DRIVER, 2, 5);
