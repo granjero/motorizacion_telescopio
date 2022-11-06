@@ -1,15 +1,22 @@
 // librerias
 #include <Arduino.h>
+#include <math.h>
 #include <AccelStepper.h>
 #include <SerialCommands.h>
 
 // constantes
 #define ENABLE_PIN 8 // pin del Arduino conectado al enable de los drivers de los motores
+#define PASOS_MOTOR 1600L // pasos para dar una vuelta contando el microstepping
+#define RELACION_AZ 20L // relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)
+#define RELACION_EL 20L // relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)
 #define VEL_MAX 10000
 #define ACELERACION 2000
+
 // variables
 bool andando = true;
-bool acelerado = true;
+bool constante = false;
+/*bool motorAZ = false;*/
+/*bool motorEL = false;*/
 /*int posAZ = 0;*/
 /*int posEL = 0;*/
 
@@ -35,7 +42,7 @@ void cmd_azimut(SerialCommands* sender)
     char* velocidad = sender->Next();
 
     andando = true;
-    acelerado = false;
+    constante = true;
 
     azimut.enableOutputs(); 
     azimut.setMaxSpeed(VEL_MAX);
@@ -46,48 +53,55 @@ void cmd_azimut(SerialCommands* sender)
 // AZIMUT comnados para el motor de control azimutal
 void cmd_azimut_pos(SerialCommands* sender)
 {
-    char* posDestino = sender->Next();
+    char* angulo = sender->Next();
     char* velocidad = sender->Next();
 
     andando = true;
-    acelerado = true;
+    constante = false;
 
     azimut.enableOutputs(); 
     azimut.setMaxSpeed(atoi(velocidad));
-    azimut.moveTo(atol(posDestino));
-    sender->GetSerial()->print("Posicion destino motor AZIMUT: ");
-    sender->GetSerial()->println(posDestino);
+    azimut.moveTo(anguloAzimutAPaso(atof(angulo)));
+    sender->GetSerial()->print("Angulo destino motor AZIMUT: ");
+    sender->GetSerial()->println(angulo);
     sender->GetSerial()->print("Velocidad motor AZIMUT: ");
     sender->GetSerial()->println(velocidad);
 }
 // ELEVACION comnados para el motor de control de elevacion
+// acelera hasta la velocidad maxima
 void cmd_elevacion(SerialCommands* sender)
 {
     char* velocidad = sender->Next();
-    char* estadoMotor = sender->Next();
+    /*char* estadoMotor = sender->Next();*/
     
     andando = true;
-    acelerado = false;
+    constante = true;
+    /*motorEL = true;*/
 
     elevacion.enableOutputs(); 
+    /*elevacion.move(1600);*/
+    elevacion.setMaxSpeed(atoi(velocidad));
     elevacion.setSpeed(atoi(velocidad));
     sender->GetSerial()->print("ELEVACION Vel: ");
     sender->GetSerial()->println(velocidad);
 }
 // ENABLE_PIN comnados para el motor de control de elevacion
+// va a la posicion recibida
 void cmd_elevacion_pos(SerialCommands* sender)
 {
-    char* posDestino = sender->Next();
+    char* angulo = sender->Next();
     char* velocidad = sender->Next();
 
     andando = true;
-    acelerado = true;
+    constante = false;
 
     elevacion.enableOutputs(); 
     elevacion.setMaxSpeed(atoi(velocidad));
-    elevacion.moveTo(atol(posDestino));
-    sender->GetSerial()->print("ELEVACION Pos: ");
-    sender->GetSerial()->print(posDestino);
+    elevacion.moveTo(anguloElevacionAPaso(atof(angulo)));
+    sender->GetSerial()->print("ELEVACION angulo: ");
+    sender->GetSerial()->println(angulo);
+    sender->GetSerial()->print(" Posicion: ");
+    sender->GetSerial()->print(anguloElevacionAPaso(atof(angulo)));
     sender->GetSerial()->print(" Vel: ");
     sender->GetSerial()->println(velocidad);
 }
@@ -95,6 +109,10 @@ void cmd_elevacion_pos(SerialCommands* sender)
 void cmd_off(SerialCommands* sender)
 {
     andando = false; // para que deje de contar pasos.
+    constante = false;
+    /*motorAZ = false;*/
+    /*motorEL = false;*/
+
     azimut.stop();
     elevacion.stop();
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
@@ -108,6 +126,19 @@ SerialCommand cmd_elevacion_("EL", cmd_elevacion);
 SerialCommand cmd_elevacion_pos_("ELp", cmd_elevacion_pos);
 SerialCommand cmd_off_("OFF", cmd_off);
 
+
+
+// angulo a pasos
+
+long anguloElevacionAPaso(float angulo)
+{
+    return round((angulo * PASOS_MOTOR * RELACION_EL) / 360);
+}
+
+long anguloAzimutAPaso(float angulo)
+{
+    return round((angulo * PASOS_MOTOR * RELACION_AZ) / 360);
+}
 
 // ************
 // ************
@@ -148,16 +179,39 @@ void loop() {
 
     if(andando)
     {
-        if(acelerado)
-        {
-            azimut.run();
-            elevacion.run();
-        }
-        else
+        if(constante)
         {
             azimut.runSpeed();
             elevacion.runSpeed();
         }
+        else
+        {
+            azimut.run();
+            elevacion.run();
+        }
     }
+    /*if (andando && !constante)*/
+    /*{*/
+        /*azimut.run();*/
+        /*elevacion.run();*/
+    /*}*/
+    /*else if (andando && constante)*/
+    /*{*/
+        /*if (motorAZ)*/
+        /*{*/
+            /*azimut.move(1600);*/
+        /*}*/
+
+        /*if (motorEL)*/
+        /*{*/
+            /*elevacion.runSpeed();*/
+            /*[>Serial.print("-");<]*/
+        /*}*/
+
+    /*}*/
+    /*else */
+    /*{*/
+
+    /*}*/
     /*Serial.println(azimut.currentPosition());*/
 }
