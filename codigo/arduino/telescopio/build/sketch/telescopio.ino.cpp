@@ -8,18 +8,14 @@
 // constantes
 #define ENABLE_PIN 8 // pin del Arduino conectado al enable de los drivers de los motores
 #define PASOS_MOTOR 1600L // pasos para dar una vuelta contando el microstepping
-#define RELACION_AZ 20L // relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)
-#define RELACION_EL 20L // relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)
-#define VEL_MAX 10000
+#define RELACION_AZ 20 // relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)
+#define RELACION_EL 20 // relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)
+#define VEL_MAX 2000
 #define ACELERACION 2000
 
 // variables
 bool andando = true;
 bool constante = false;
-/*bool motorAZ = false;*/
-/*bool motorEL = false;*/
-/*int posAZ = 0;*/
-/*int posEL = 0;*/
 
 // inicializacion de los motores
 AccelStepper azimut(AccelStepper::DRIVER, 2, 5);
@@ -31,38 +27,48 @@ SerialCommands serial_commands_(&Serial, serial_command_buffer_, sizeof(serial_c
 // funciones serial
 // ****************
 //This is the default handler, and gets called when no other command matches. 
-#line 33 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 29 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_unrecognized(SerialCommands* sender, const char* cmd);
 #line 40 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_azimut(SerialCommands* sender);
-#line 54 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_azimut_vel_cte(SerialCommands* sender);
+#line 55 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_azimut_pos(SerialCommands* sender);
-#line 72 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_elevacion(SerialCommands* sender);
-#line 90 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 74 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_azimut_avanza(SerialCommands* sender);
+#line 93 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_elevacion_vel_cte(SerialCommands* sender);
+#line 108 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_elevacion_pos(SerialCommands* sender);
-#line 109 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_off(SerialCommands* sender);
-#line 133 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-long anguloElevacionAPaso(float angulo);
-#line 138 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-long anguloAzimutAPaso(float angulo);
+#line 128 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_elevacion_avanza(SerialCommands* sender);
 #line 146 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_go_home(SerialCommands* sender);
+#line 162 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_off(SerialCommands* sender);
+#line 189 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+long anguloElevacionAPaso(float angulo);
+#line 195 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+long anguloAzimutAPaso(float angulo);
+#line 203 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void setup();
-#line 176 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 236 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void loop();
-#line 33 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 29 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_unrecognized(SerialCommands* sender, const char* cmd)
 {
     sender->GetSerial()->print("Unrecognized command [");
     sender->GetSerial()->print(cmd);
     sender->GetSerial()->println("]");
 }
-// AZIMUT comnados para el motor de control azimutal
-void cmd_azimut(SerialCommands* sender)
+
+/*MOTOR AZIMUT*/
+/*------------*/
+// MOTOR AZIMUT VELOCIDAD CONSTANTE
+// comando serial: AZ velocidad
+void cmd_azimut_vel_cte(SerialCommands* sender)
 {
     char* velocidad = sender->Next();
-
+    // TODO controlar que atol(velocidad) esté entre 0 y VEL_MAX
     andando = true;
     constante = true;
 
@@ -72,12 +78,14 @@ void cmd_azimut(SerialCommands* sender)
     sender->GetSerial()->print("Velocidad motor AZIMUT: ");
     sender->GetSerial()->println(velocidad);
 }
-// AZIMUT comnados para el motor de control azimutal
+// MOTOR AZIMUT IR A POSICION SEGUN ANGULO
+// comando serial: AZp angulo velocidad
 void cmd_azimut_pos(SerialCommands* sender)
 {
     char* angulo = sender->Next();
     char* velocidad = sender->Next();
-
+    // TODO controlar que atol(velocidad) esté entre 0 y VEL_MAX
+    // TODO controlar que anguloAzimutAPaso se encuentre entre 0 y 360
     andando = true;
     constante = false;
 
@@ -89,26 +97,42 @@ void cmd_azimut_pos(SerialCommands* sender)
     sender->GetSerial()->print("Velocidad motor AZIMUT: ");
     sender->GetSerial()->println(velocidad);
 }
-// ELEVACION comnados para el motor de control de elevacion
-// acelera hasta la velocidad maxima
-void cmd_elevacion(SerialCommands* sender)
+// MOTOR AZIMUT AVANZA X
+// comando serial: AZa grados velocidad
+void cmd_azimut_avanza(SerialCommands* sender)
+{
+    char* grados = sender->Next();
+
+    andando = true;
+    constante = false;
+
+    azimut.enableOutputs(); 
+    azimut.setMaxSpeed(VEL_MAX);
+    azimut.moveTo(
+            azimut.currentPosition() + anguloAzimutAPaso(atof(grados))
+            );
+    sender->GetSerial()->print("Mueve:  ");
+    sender->GetSerial()->println(grados);
+}
+/*MOTOR ELEVACION*/
+/*---------------*/
+// MOTOR ELEVACION VELOCIDAD CONSTANTE
+// comando serial: EL velocidad
+void cmd_elevacion_vel_cte(SerialCommands* sender)
 {
     char* velocidad = sender->Next();
-    /*char* estadoMotor = sender->Next();*/
     
     andando = true;
     constante = true;
-    /*motorEL = true;*/
 
     elevacion.enableOutputs(); 
-    /*elevacion.move(1600);*/
-    elevacion.setMaxSpeed(atoi(velocidad));
+    elevacion.setMaxSpeed(VEL_MAX);
     elevacion.setSpeed(atoi(velocidad));
-    sender->GetSerial()->print("ELEVACION Vel: ");
+    sender->GetSerial()->print("EL vel: ");
     sender->GetSerial()->println(velocidad);
 }
-// ENABLE_PIN comnados para el motor de control de elevacion
-// va a la posicion recibida
+// MOTOR ELEVACION IR A POSICION SEGUN ANGULO
+// comando serial: ELp angulo velocidad
 void cmd_elevacion_pos(SerialCommands* sender)
 {
     char* angulo = sender->Next();
@@ -127,6 +151,41 @@ void cmd_elevacion_pos(SerialCommands* sender)
     sender->GetSerial()->print(" Vel: ");
     sender->GetSerial()->println(velocidad);
 }
+// MOTOR ELEVACION AVANZA X
+// comando serial: ELa grados velocidad
+void cmd_elevacion_avanza(SerialCommands* sender)
+{
+    char* grados = sender->Next();
+
+    andando = true;
+    constante = false;
+
+    elevacion.enableOutputs(); 
+    elevacion.setMaxSpeed(VEL_MAX);
+    elevacion.moveTo(
+            elevacion.currentPosition() + anguloElevacionAPaso(atof(grados))
+            );
+    sender->GetSerial()->print("Mueve:  ");
+    sender->GetSerial()->println(grados);
+
+}
+
+// GO HOME (u r drunk)
+void cmd_go_home(SerialCommands* sender)
+{
+    andando = true;
+    constante = false;
+
+    elevacion.enableOutputs(); 
+    elevacion.setMaxSpeed(VEL_MAX);
+    elevacion.moveTo(0);
+    azimut.enableOutputs();
+    azimut.setMaxSpeed(VEL_MAX);
+    azimut.moveTo(0);
+
+    sender->GetSerial()->print("Yendo a Casa ");
+
+}
 // OFF apaga los motores
 void cmd_off(SerialCommands* sender)
 {
@@ -142,21 +201,25 @@ void cmd_off(SerialCommands* sender)
 }
 
 // declaracion de variables a enviar por serial
-SerialCommand cmd_azimut_("AZ", cmd_azimut);
+SerialCommand cmd_azimut_vel_cte_("AZ", cmd_azimut_vel_cte);
 SerialCommand cmd_azimut_pos_("AZp", cmd_azimut_pos);
-SerialCommand cmd_elevacion_("EL", cmd_elevacion);
+SerialCommand cmd_azimut_avanza_("AZa", cmd_azimut_avanza);
+SerialCommand cmd_elevacion_vel_cte_("EL", cmd_elevacion_vel_cte);
 SerialCommand cmd_elevacion_pos_("ELp", cmd_elevacion_pos);
+SerialCommand cmd_elevacion_avanza_("ELa", cmd_elevacion_avanza);
+SerialCommand cmd_go_home_("HOME", cmd_go_home);
 SerialCommand cmd_off_("OFF", cmd_off);
 
 
-
-// angulo a pasos
-
+// angulo a nro de paso
+// @param angulo de destino
+// @return numero de paso correspondiente al angulo
 long anguloElevacionAPaso(float angulo)
 {
     return round((angulo * PASOS_MOTOR * RELACION_EL) / 360);
 }
-
+// @param angulo de destino
+// @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
     return round((angulo * PASOS_MOTOR * RELACION_AZ) / 360);
@@ -170,10 +233,13 @@ void setup() {
 
     // inicializacion de los comandos definidos
     serial_commands_.SetDefaultHandler(&cmd_unrecognized);
-    serial_commands_.AddCommand(&cmd_azimut_);
+    serial_commands_.AddCommand(&cmd_azimut_vel_cte_);
     serial_commands_.AddCommand(&cmd_azimut_pos_);
-    serial_commands_.AddCommand(&cmd_elevacion_);
+    serial_commands_.AddCommand(&cmd_azimut_avanza_);
+    serial_commands_.AddCommand(&cmd_elevacion_vel_cte_);
     serial_commands_.AddCommand(&cmd_elevacion_pos_);
+    serial_commands_.AddCommand(&cmd_elevacion_avanza_);
+    serial_commands_.AddCommand(&cmd_go_home_);
     serial_commands_.AddCommand(&cmd_off_);
 
     Serial.println("Motores Telescopio 0.1 -> Ready");
@@ -183,14 +249,14 @@ void setup() {
     azimut.setEnablePin(ENABLE_PIN);
     azimut.setMaxSpeed(VEL_MAX);
     azimut.setAcceleration(ACELERACION);
-    /*azimut.setSpeed(500.0);*/
+    azimut.setSpeed(0);
 
     // motor ELEVACION
     elevacion.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
     elevacion.setEnablePin(ENABLE_PIN);
     elevacion.setMaxSpeed(VEL_MAX);
     elevacion.setAcceleration(ACELERACION);
-    /*elevacion.setSpeed(500.0);*/
+    elevacion.setSpeed(0);
 
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
 }
@@ -212,29 +278,6 @@ void loop() {
             elevacion.run();
         }
     }
-    /*if (andando && !constante)*/
-    /*{*/
-        /*azimut.run();*/
-        /*elevacion.run();*/
-    /*}*/
-    /*else if (andando && constante)*/
-    /*{*/
-        /*if (motorAZ)*/
-        /*{*/
-            /*azimut.move(1600);*/
-        /*}*/
-
-        /*if (motorEL)*/
-        /*{*/
-            /*elevacion.runSpeed();*/
-            /*[>Serial.print("-");<]*/
-        /*}*/
-
-    /*}*/
-    /*else */
-    /*{*/
-
-    /*}*/
     /*Serial.println(azimut.currentPosition());*/
 }
 

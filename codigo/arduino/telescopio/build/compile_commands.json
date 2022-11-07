@@ -1,6 +1,6 @@
 [
  {
-  "directory": "/Users/juanmiguel/telesy",
+  "directory": "/Users/juanmiguel/telesy/codigo/arduino/telescopio",
   "arguments": [
    "/Users/juanmiguel/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-g++",
    "-c",
@@ -32,7 +32,7 @@
   "file": "/Users/juanmiguel/telesy/codigo/arduino/telescopio/build/sketch/telescopio.ino.cpp"
  },
  {
-  "directory": "/Users/juanmiguel/telesy",
+  "directory": "/Users/juanmiguel/telesy/codigo/arduino/telescopio",
   "arguments": [
    "/Users/juanmiguel/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-g++",
    "-c",
@@ -64,7 +64,7 @@
   "file": "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/AccelStepper.cpp"
  },
  {
-  "directory": "/Users/juanmiguel/telesy",
+  "directory": "/Users/juanmiguel/telesy/codigo/arduino/telescopio",
   "arguments": [
    "/Users/juanmiguel/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-g++",
    "-c",
@@ -96,7 +96,7 @@
   "file": "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/MultiStepper.cpp"
  },
  {
-  "directory": "/Users/juanmiguel/telesy",
+  "directory": "/Users/juanmiguel/telesy/codigo/arduino/telescopio",
   "arguments": [
    "/Users/juanmiguel/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-g++",
    "-c",

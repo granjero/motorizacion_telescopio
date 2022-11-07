@@ -16,10 +16,6 @@
 // variables
 bool andando = true;
 bool constante = false;
-/*bool motorAZ = false;*/
-/*bool motorEL = false;*/
-/*int posAZ = 0;*/
-/*int posEL = 0;*/
 
 // inicializacion de los motores
 AccelStepper azimut(AccelStepper::DRIVER, 2, 5);
@@ -37,26 +33,32 @@ void cmd_unrecognized(SerialCommands* sender, const char* cmd)
     sender->GetSerial()->print(cmd);
     sender->GetSerial()->println("]");
 }
-// AZIMUT comnados para el motor de control azimutal
-void cmd_azimut(SerialCommands* sender)
+
+/*MOTOR AZIMUT*/
+/*------------*/
+// MOTOR AZIMUT VELOCIDAD CONSTANTE
+// comando serial: AZ velocidad
+void cmd_azimut_vel_cte(SerialCommands* sender)
 {
     char* velocidad = sender->Next();
-
+    // TODO controlar que atol(velocidad) esté entre 0 y VEL_MAX
     andando = true;
     constante = true;
 
     azimut.enableOutputs();
-    azimut.setMaxSpeed(10000);
+    azimut.setMaxSpeed(2000);
     azimut.setSpeed(atol(velocidad));
     sender->GetSerial()->print("Velocidad motor AZIMUT: ");
     sender->GetSerial()->println(velocidad);
 }
-// AZIMUT comnados para el motor de control azimutal
+// MOTOR AZIMUT IR A POSICION SEGUN ANGULO
+// comando serial: AZp angulo velocidad
 void cmd_azimut_pos(SerialCommands* sender)
 {
     char* angulo = sender->Next();
     char* velocidad = sender->Next();
-
+    // TODO controlar que atol(velocidad) esté entre 0 y VEL_MAX
+    // TODO controlar que anguloAzimutAPaso se encuentre entre 0 y 360
     andando = true;
     constante = false;
 
@@ -68,26 +70,42 @@ void cmd_azimut_pos(SerialCommands* sender)
     sender->GetSerial()->print("Velocidad motor AZIMUT: ");
     sender->GetSerial()->println(velocidad);
 }
-// ELEVACION comnados para el motor de control de elevacion
-// acelera hasta la velocidad maxima
-void cmd_elevacion(SerialCommands* sender)
+// MOTOR AZIMUT AVANZA X
+// comando serial: AZa grados velocidad
+void cmd_azimut_avanza(SerialCommands* sender)
+{
+    char* grados = sender->Next();
+
+    andando = true;
+    constante = false;
+
+    azimut.enableOutputs();
+    azimut.setMaxSpeed(2000);
+    azimut.moveTo(
+            azimut.currentPosition() + anguloAzimutAPaso(atof(grados))
+            );
+    sender->GetSerial()->print("Mueve:  ");
+    sender->GetSerial()->println(grados);
+}
+/*MOTOR ELEVACION*/
+/*---------------*/
+// MOTOR ELEVACION VELOCIDAD CONSTANTE
+// comando serial: EL velocidad
+void cmd_elevacion_vel_cte(SerialCommands* sender)
 {
     char* velocidad = sender->Next();
-    /*char* estadoMotor = sender->Next();*/
 
     andando = true;
     constante = true;
-    /*motorEL = true;*/
 
     elevacion.enableOutputs();
-    /*elevacion.move(1600);*/
-    elevacion.setMaxSpeed(atoi(velocidad));
+    elevacion.setMaxSpeed(2000);
     elevacion.setSpeed(atoi(velocidad));
-    sender->GetSerial()->print("ELEVACION Vel: ");
+    sender->GetSerial()->print("EL vel: ");
     sender->GetSerial()->println(velocidad);
 }
-// ENABLE_PIN comnados para el motor de control de elevacion
-// va a la posicion recibida
+// MOTOR ELEVACION IR A POSICION SEGUN ANGULO
+// comando serial: ELp angulo velocidad
 void cmd_elevacion_pos(SerialCommands* sender)
 {
     char* angulo = sender->Next();
@@ -106,6 +124,41 @@ void cmd_elevacion_pos(SerialCommands* sender)
     sender->GetSerial()->print(" Vel: ");
     sender->GetSerial()->println(velocidad);
 }
+// MOTOR ELEVACION AVANZA X
+// comando serial: ELa grados velocidad
+void cmd_elevacion_avanza(SerialCommands* sender)
+{
+    char* grados = sender->Next();
+
+    andando = true;
+    constante = false;
+
+    elevacion.enableOutputs();
+    elevacion.setMaxSpeed(2000);
+    elevacion.moveTo(
+            elevacion.currentPosition() + anguloElevacionAPaso(atof(grados))
+            );
+    sender->GetSerial()->print("Mueve:  ");
+    sender->GetSerial()->println(grados);
+
+}
+
+// GO HOME (u r drunk)
+void cmd_go_home(SerialCommands* sender)
+{
+    andando = true;
+    constante = false;
+
+    elevacion.enableOutputs();
+    elevacion.setMaxSpeed(2000);
+    elevacion.moveTo(0);
+    azimut.enableOutputs();
+    azimut.setMaxSpeed(2000);
+    azimut.moveTo(0);
+
+    sender->GetSerial()->print("Yendo a Casa ");
+
+}
 // OFF apaga los motores
 void cmd_off(SerialCommands* sender)
 {
@@ -121,24 +174,28 @@ void cmd_off(SerialCommands* sender)
 }
 
 // declaracion de variables a enviar por serial
-SerialCommand cmd_azimut_("AZ", cmd_azimut);
+SerialCommand cmd_azimut_vel_cte_("AZ", cmd_azimut_vel_cte);
 SerialCommand cmd_azimut_pos_("AZp", cmd_azimut_pos);
-SerialCommand cmd_elevacion_("EL", cmd_elevacion);
+SerialCommand cmd_azimut_avanza_("AZa", cmd_azimut_avanza);
+SerialCommand cmd_elevacion_vel_cte_("EL", cmd_elevacion_vel_cte);
 SerialCommand cmd_elevacion_pos_("ELp", cmd_elevacion_pos);
+SerialCommand cmd_elevacion_avanza_("ELa", cmd_elevacion_avanza);
+SerialCommand cmd_go_home_("HOME", cmd_go_home);
 SerialCommand cmd_off_("OFF", cmd_off);
 
 
-
-// angulo a pasos
-
+// angulo a nro de paso
+// @param angulo de destino
+// @return numero de paso correspondiente al angulo
 long anguloElevacionAPaso(float angulo)
 {
-    return round((angulo * 1600L /* pasos para dar una vuelta contando el microstepping*/ * 20L /* relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)*/) / 360);
+    return round((angulo * 1600L /* pasos para dar una vuelta contando el microstepping*/ * 20 /* relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)*/) / 360);
 }
-
+// @param angulo de destino
+// @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * 1600L /* pasos para dar una vuelta contando el microstepping*/ * 20L /* relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)*/) / 360);
+    return round((angulo * 1600L /* pasos para dar una vuelta contando el microstepping*/ * 20 /* relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)*/) / 360);
 }
 
 // ************
@@ -149,10 +206,13 @@ void setup() {
 
     // inicializacion de los comandos definidos
     serial_commands_.SetDefaultHandler(&cmd_unrecognized);
-    serial_commands_.AddCommand(&cmd_azimut_);
+    serial_commands_.AddCommand(&cmd_azimut_vel_cte_);
     serial_commands_.AddCommand(&cmd_azimut_pos_);
-    serial_commands_.AddCommand(&cmd_elevacion_);
+    serial_commands_.AddCommand(&cmd_azimut_avanza_);
+    serial_commands_.AddCommand(&cmd_elevacion_vel_cte_);
     serial_commands_.AddCommand(&cmd_elevacion_pos_);
+    serial_commands_.AddCommand(&cmd_elevacion_avanza_);
+    serial_commands_.AddCommand(&cmd_go_home_);
     serial_commands_.AddCommand(&cmd_off_);
 
     Serial.println("Motores Telescopio 0.1 -> Ready");
@@ -160,16 +220,16 @@ void setup() {
     // motor AZIMUT
     azimut.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
     azimut.setEnablePin(8 /* pin del Arduino conectado al enable de los drivers de los motores*/);
-    azimut.setMaxSpeed(10000);
+    azimut.setMaxSpeed(2000);
     azimut.setAcceleration(2000);
-    /*azimut.setSpeed(500.0);*/
+    azimut.setSpeed(0);
 
     // motor ELEVACION
     elevacion.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
     elevacion.setEnablePin(8 /* pin del Arduino conectado al enable de los drivers de los motores*/);
-    elevacion.setMaxSpeed(10000);
+    elevacion.setMaxSpeed(2000);
     elevacion.setAcceleration(2000);
-    /*elevacion.setSpeed(500.0);*/
+    elevacion.setSpeed(0);
 
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
 }
@@ -191,28 +251,5 @@ void loop() {
             elevacion.run();
         }
     }
-    /*if (andando && !constante)*/
-    /*{*/
-        /*azimut.run();*/
-        /*elevacion.run();*/
-    /*}*/
-    /*else if (andando && constante)*/
-    /*{*/
-        /*if (motorAZ)*/
-        /*{*/
-            /*azimut.move(1600);*/
-        /*}*/
-
-        /*if (motorEL)*/
-        /*{*/
-            /*elevacion.runSpeed();*/
-            /*[>Serial.print("-");<]*/
-        /*}*/
-
-    /*}*/
-    /*else */
-    /*{*/
-
-    /*}*/
     /*Serial.println(azimut.currentPosition());*/
 }
