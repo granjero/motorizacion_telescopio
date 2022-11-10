@@ -1,26 +1,39 @@
-const button = document.querySelector("button");
+async function getReader() {
+    port = await navigator.serial.requestPort({});
+    await port.open({ baudRate: 9600 });
 
-button.addEventListener("click", async function () {
-    // Prompt user to select any serial port.
-    const port = await navigator.serial.requestPort();
-    // Wait for the serial port to open.
-    await port.open({ baudRate: 115200 });
-});
+    connectButton.innerText = "🔌 Disconnect";
 
-let url = "http://127.0.0.1:8090/api/objects/listobjecttypes";
+    ledDimmer.addEventListener("input", (event) => {
+        if (port && port.writable) {
+            const value = parseInt(event.target.value);
+            const bytes = new Uint8Array([value]);
+            const writer = port.writable.getWriter();
 
-fetch(url, {
-    method: "GET",
-    mode: "no-cors",
-    cache: "no-cache",
-    headers: {
-        "Content-Type": "application/json",
-    },
-})
-    .then((res) => console.log(res))
-    .then((out) => console.log(out))
-    .catch((err) => {
-        throw err;
+            writer.write(bytes);
+            writer.releaseLock();
+        }
+    });
+}
+
+const connectButton = document.getElementById("connect-button");
+let port;
+
+if ("serial" in navigator) {
+    connectButton.addEventListener("click", function () {
+        if (port) {
+            port.close();
+            port = undefined;
+
+            connectButton.innerText = "🔌 Connect";
+            document
+                .querySelector("figure")
+                .classList.replace("bounceIn", "fadeOut");
+        } else {
+            getReader();
+        }
     });
 
-console.log("caca");
+    connectButton.disabled = false;
+} else {
+}

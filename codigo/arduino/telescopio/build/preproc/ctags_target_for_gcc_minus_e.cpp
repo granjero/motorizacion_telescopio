@@ -6,13 +6,7 @@
 # 6 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino" 2
 
 // constantes
-
-
-
-
-
-
-
+# 17 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 // variables
 bool andando = true;
 bool constante = false;
@@ -46,7 +40,7 @@ void cmd_azimut_vel_cte(SerialCommands* sender)
     constante = true;
 
     azimut.enableOutputs();
-    azimut.setMaxSpeed(2000);
+    azimut.setMaxSpeed(1000);
     azimut.setSpeed(atol(velocidad));
     sender->GetSerial()->print("Velocidad motor AZIMUT: ");
     sender->GetSerial()->println(velocidad);
@@ -80,7 +74,7 @@ void cmd_azimut_avanza(SerialCommands* sender)
     constante = false;
 
     azimut.enableOutputs();
-    azimut.setMaxSpeed(2000);
+    azimut.setMaxSpeed(1000);
     azimut.moveTo(
             azimut.currentPosition() + anguloAzimutAPaso(atof(grados))
             );
@@ -99,7 +93,7 @@ void cmd_elevacion_vel_cte(SerialCommands* sender)
     constante = true;
 
     elevacion.enableOutputs();
-    elevacion.setMaxSpeed(2000);
+    elevacion.setMaxSpeed(1000);
     elevacion.setSpeed(atoi(velocidad));
     sender->GetSerial()->print("EL vel: ");
     sender->GetSerial()->println(velocidad);
@@ -134,7 +128,7 @@ void cmd_elevacion_avanza(SerialCommands* sender)
     constante = false;
 
     elevacion.enableOutputs();
-    elevacion.setMaxSpeed(2000);
+    elevacion.setMaxSpeed(1000);
     elevacion.moveTo(
             elevacion.currentPosition() + anguloElevacionAPaso(atof(grados))
             );
@@ -150,10 +144,10 @@ void cmd_go_home(SerialCommands* sender)
     constante = false;
 
     elevacion.enableOutputs();
-    elevacion.setMaxSpeed(2000);
+    elevacion.setMaxSpeed(1000);
     elevacion.moveTo(0);
     azimut.enableOutputs();
-    azimut.setMaxSpeed(2000);
+    azimut.setMaxSpeed(1000);
     azimut.moveTo(0);
 
     sender->GetSerial()->print("Yendo a Casa ");
@@ -189,13 +183,13 @@ SerialCommand cmd_off_("OFF", cmd_off);
 // @return numero de paso correspondiente al angulo
 long anguloElevacionAPaso(float angulo)
 {
-    return round((angulo * 1600L /* pasos para dar una vuelta contando el microstepping*/ * 20 /* relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)*/) / 360);
+    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * 20 /* relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)*/) / 360);
 }
 // @param angulo de destino
 // @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * 1600L /* pasos para dar una vuelta contando el microstepping*/ * 20 /* relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)*/) / 360);
+    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * 20 /* relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)*/) / 360);
 }
 
 // ************
@@ -220,15 +214,15 @@ void setup() {
     // motor AZIMUT
     azimut.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
     azimut.setEnablePin(8 /* pin del Arduino conectado al enable de los drivers de los motores*/);
-    azimut.setMaxSpeed(2000);
-    azimut.setAcceleration(2000);
+    azimut.setMaxSpeed(1000);
+    azimut.setAcceleration(500);
     azimut.setSpeed(0);
 
     // motor ELEVACION
     elevacion.setPinsInverted(false, false, true); // el pin enable funciona cuando está el LOW.
     elevacion.setEnablePin(8 /* pin del Arduino conectado al enable de los drivers de los motores*/);
-    elevacion.setMaxSpeed(2000);
-    elevacion.setAcceleration(2000);
+    elevacion.setMaxSpeed(1000);
+    elevacion.setAcceleration(500);
     elevacion.setSpeed(0);
 
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
