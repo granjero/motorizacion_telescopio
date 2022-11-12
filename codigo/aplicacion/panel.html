@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Panel de Control Telescopio</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <style>
+    .boton_dir {
+        border-radius: 25%;
+    }
+    .boton_dir:hover {
+        background-color: lavender;
+    }
+    .boton_dir:active {
+        background-color: orchid;
+    }
+    .boton_stop {
+        border-radius: 20%;
+    }
+    .boton_stop:hover {
+        background-color: #ffcccc;
+    }
+    .boton_stop:active {
+        background-color: #ff3333;
+    }
+    </style>
+</head>
+<body>
+<div class="container-fluid mb-3">
+    <nav class="navbar bg-light">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Telescopio</span>
+        </div>
+    </nav>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- COL -->
+        <div class="col-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Avance manual
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col-4">
+                        </div>
+                        <div class="boton_dir col-4" id="UP" style="cursor: pointer;">
+                            <i class="display-1 fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="col-4">
+                        </div>
+                    </div>
+                    <div class="row text-center mb-3">
+                        <div class="boton_dir col-4" id="LEFT" style="cursor: pointer;">
+                            <i class="display-1 fa-solid fa-chevron-left"></i>
+                        </div>
+                        <div class="boton_stop col-4" id="STOP" style="cursor: pointer;">
+                            <i class="display-1 fa-regular fa-hand"></i>
+                        </div>
+                        <div class="boton_dir col-4" id="RIGHT" style="cursor: pointer;">
+                            <i class="display-1 fa-solid fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-4">
+                        </div>
+                        <div class="boton_dir col-4" id="DOWN" style="cursor: pointer;">
+                            <i class="display-1 fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="col-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Distancia avance manual
+                </div>
+
+                <div class="card-body">
+
+
+                    <!-- TODO cambiar ids a MAYUSCULA y nombre a AM-->
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="distancia" id="d01" value="0.1" checked>
+                    <label class="form-check-label" for="d01">0.1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="distancia" id="d05" value="0.5">
+                    <label class="form-check-label" for="d05">0.5</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="distancia" id="d1" value="1" >
+                    <label class="form-check-label" for="d1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="distancia" id="d5" value="5" >
+                    <label class="form-check-label" for="d5">5</label>
+                </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- COL -->
+        <div class="col-3">
+            <div class="card mb-3">
+                <div class="card-header">
+                    GO-TO
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="AZIMUT">AZ</span>
+                                <input type="number" class="form-control" placeholder="N=0 E=90 S=180 O=270" aria-label="Azimut" aria-describedby="Azimut">
+                            </div>
+
+                            <div class="input-group mb-1">
+                                <span class="input-group-text" id="ELEVACION">EL</span>
+                                <input type="number" class="form-control" placeholder="Hor=0 Cenit=90" aria-label="Elevacion" aria-describedby="Elevacion">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="boton_dir col" id="GOTO" style="cursor: pointer;">
+                            <i class="fs-3 fa-solid fa-shuttle-space"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                   SEGUIMIENTO 
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col">
+                            <div class="input-group mb-1">
+                                <span class="input-group-text" id="OBJETO">Objeto</span>
+                                <input type="text" class="form-control" placeholder="Objeto Celeste" aria-label="Objeto" aria-describedby="Objeto">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="boton_dir col" id="SEGUIMIENTO" style="cursor: pointer;">
+                            <i class="fs-3 fa-solid fa-shuttle-space"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COL -->
+        <div class="col-5">
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    Configuraciones
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col-5">
+                            <select class="form-select" aria-label="Tipo de Objeto Celeste">
+                            <option selected>tipo objeto celeste</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                        </div>
+                    </div>
+                    <div class="row text-center mb-3">
+                        <div class="col-3">
+                        </div>
+                        <div class="col-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
