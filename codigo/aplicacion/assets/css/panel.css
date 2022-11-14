@@ -1,0 +1,28 @@
+.modo_noche {
+  filter: invert(80%);
+}
+
+/*Botonería*/
+.boton,
+.boton_dir,
+.boton_stop {
+  border-radius: 25%;
+}
+.boton:hover {
+  background-color: lightsteelblue;
+}
+.boton:active {
+  background-color: mediumslateblue;
+}
+.boton_dir:hover {
+  background-color: lavender;
+}
+.boton_dir:active {
+  background-color: orchid;
+}
+.boton_stop:hover {
+  background-color: pink;
+}
+.boton_stop:active {
+  background-color: red;
+}
