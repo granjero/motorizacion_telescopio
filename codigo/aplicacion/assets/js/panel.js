@@ -13,7 +13,6 @@ let PANEL = {
     },
 };
 
-let listaTipoObjetosCelestes = [];
 
 // FUNCIONES STELLARIUM
 // esta funcion chequea que el servidor de stellarium esté andando
@@ -32,7 +31,7 @@ async function conectar() {
 }
 
 // listado de tipos de objeto
-async function getListaTiposObjetosCelestes() {
+async function listaTiposObjetosCelestes() {
     const url = "http://localhost:8090/api/objects/listobjecttypes";
 
     let listaTipoObjetosCelestes =
@@ -51,6 +50,31 @@ async function getListaTiposObjetosCelestes() {
                 ? (opcion.selected = true)
                 : (opcion.selected = false);
             listaTipoObjetosCelestes.appendChild(opcion);
+        });
+    } catch (error) {
+        //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
+        console.log("error");
+    }
+	this.listaObjetosCelestes("Solarsystem:Planets");
+}
+
+// listado de objeto segun tipo 
+async function listaObjetosCelestes(tipo) {
+    const url = "http://localhost:8090/api/objects/listobjectsbytype?type="+tipo;
+
+    let listaObjetosCelestes =
+        document.getElementById("LISTA_OBJETOS");
+    try {
+        const respuesta = await fetch(url);
+        const datos = await respuesta.json();
+
+            console.log(datos);
+        datos.forEach(function (elemento) {
+            //console.log(elemento.key);
+            var opcion = document.createElement("option");
+            opcion.text = elemento;
+            opcion.value = elemento;
+            listaObjetosCelestes.appendChild(opcion);
         });
     } catch (error) {
         //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
