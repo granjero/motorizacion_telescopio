@@ -1,33 +1,35 @@
 // El objeto PANEL va a tener los datos del panel.
 let PANEL = {
-  locacion: {
+  telescopio: {
     latitud: 0,
     longitud: 0,
     altitud: 0,
     pais: "",
+    angulo: 1,
+    velocidad: 0,
   },
-  objetoCeleste: {
+  objeto: {
     tipo: "SolarSystem:planet",
     nombre: "Earth",
     azimut: 0,
     elevacion: 0,
+    seguimiento: 0,
   },
 };
 
 // FUNCIONES STELLARIUM
-// esta funcion chequea que el servidor de stellarium esté andando
-// toma los datos de LAT LONG y ALT y los pone en el formulario
+// chequea que el servidor de stellarium esté andando
+// toma los datos de LAT LONG ALT etc y los pone en PANEL y en el DOM
 async function conectar() {
   const url = "http://localhost:8090/api/main/status";
   try {
     const respuesta = await fetch(url);
     const datos = await respuesta.json();
-    // TODO modificar objeto PANEL con los datos que vienen de acá
-    console.log(datos);
-    PANEL.locacion.latitud = datos.location.latitude;
-    PANEL.locacion.longitud = datos.location.longitude;
-    PANEL.locacion.altitud = datos.location.altitude;
-    PANEL.locacion.pais = datos.location.country;
+    //console.log(datos);
+    PANEL.telescopio.latitud = datos.location.latitude;
+    PANEL.telescopio.longitud = datos.location.longitude;
+    PANEL.telescopio.altitud = datos.location.altitude;
+    PANEL.telescopio.pais = datos.location.country;
 
     document.getElementById("LATITUD").setAttribute("value", datos.location.latitude);
     document.getElementById("LONGITUD").setAttribute("value", datos.location.longitude);
@@ -41,8 +43,6 @@ async function conectar() {
 
 // listado de TIPOS de objeto
 async function listaTiposObjetosCelestes() {
-  listaObjetosCelestes(PANEL.objetoCeleste.tipo);
-
   const url = "http://localhost:8090/api/objects/listobjecttypes";
 
   let listaTipoObjetosCelestes = document.getElementById("LISTA_TIPO_OBJETOS");
@@ -68,11 +68,12 @@ async function listaTiposObjetosCelestes() {
     //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
     console.log("error");
   }
+  listaObjetosCelestes(PANEL.objeto.tipo);
 }
 
 // listado de OBJETO segun tipo
 async function listaObjetosCelestes() {
-  const url = "http://localhost:8090/api/objects/listobjectsbytype?type=" + PANEL.objetoCeleste.tipo;
+  const url = "http://localhost:8090/api/objects/listobjectsbytype?type=" + PANEL.objeto.tipo;
 
   let listaObjetosCelestes = document.getElementById("LISTA_OBJETOS");
   listaObjetosCelestes.innerText = "";
@@ -98,37 +99,50 @@ async function listaObjetosCelestes() {
   }
 }
 
-// selecciona objeto de la lista
-
 // obtiene coordenadas del objeto
 // @param string nombre del objeto
 //
-async function coordenadasObjeto(objeto) {
-  const url = "http://localhost:8090/api/objects/info?name=" + objeto + "&format=json";
+async function datosObjeto() {
+  const url = "http://localhost:8090/api/objects/info?name=" + PANEL.objeto.nombre + "&format=json";
   try {
     const respuesta = await fetch(url);
     const datos = await respuesta.json();
 
+    // Si el objeto está debajo del horizonte pone la elevación en 0
+    //console.log(datos);
     if (datos.altitude <= 0) {
-      PANEL.objetoCeleste.azimut = 0;
-      PANEL.objetoCeleste.elevacion = 0;
-      PANEL.objetoCeleste.nombre = 0;
-      PANEL.objetoCeleste.tipo = 0;
+      PANEL.objeto.azimut = datos.azimuth;
+      PANEL.objeto.elevacion = 0;
     } else {
-      PANEL.objetoCeleste.azimut = datos.azimuth;
-      PANEL.objetoCeleste.elevacion = datos.altitude;
-      PANEL.objetoCeleste.nombre = datos.name;
-      PANEL.objetoCeleste.tipo = datos.type;
+      PANEL.objeto.azimut = datos.azimuth;
+      PANEL.objeto.elevacion = datos.altitude;
     }
+
+    var distKM = datos.distance * 149597870.7;
+    var visible = datos.altitude > 0 ? "SI" : "NO";
+    var info = '<dl class="row">';
+    info += '<dt class="col-4">Visible</dt> <dd class="col-8">' + visible + "</dd>";
+    info += '<dt class="col-4">AZ</dt> <dd class="col-8">' + datos.azimuth.toFixed(5) + "&#176;</dd>";
+    info += '<dt class="col-4">EL</dt> <dd class="col-8">' + datos.altitude.toFixed(5) + "&#176;</dd>";
+    info += '<dt class="col-4">Iluminado</dt> <dd class="col-8">' + datos.illumination.toFixed(2) + " %</dd>";
+    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + datos.distance.toFixed(5) + " AU</dd>";
+    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + distKM.toLocaleString() + " km</dd>";
+    info += "</dl>";
+
+    let objetoInfo = document.getElementById("OBJETO_INFO");
+    objetoInfo.innerHTML = info;
     //console.log(datos);
   } catch (error) {
     //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
-    console.log("error");
+    console.log("error caca");
   }
 }
 
-// obtiene coordenadas
-async function getCoordenadas() {}
+function angulo() {
+  PANEL.telescopio.angulo = document.querySelector('input[name="ANGULO"]:checked').value;
+  console.log(PANEL.telescopio.angulo);
+}
+
 // FUNCIONES PANTALLA
 // TODO agregar boton para activar/desactivar
 function modoNoche() {
@@ -139,14 +153,14 @@ function modoNoche() {
 
 // setea el nombre del objeto seleccionado en PANEL
 function setNombreObjetoPanel(evento) {
-  PANEL.objetoCeleste.nombre = evento.target.value;
+  PANEL.objeto.nombre = evento.target.value;
   const objeto = document.getElementById("OBJETO");
   objeto.innerHTML = evento.target.value;
 }
 
 // setea el tipo del objeto seleccionado en PANEL
 function setTipoObjetoPanel(evento) {
-  PANEL.objetoCeleste.tipo = evento.target.value;
+  PANEL.objeto.tipo = evento.target.value;
 }
 
 // EVENT LISTENERS
@@ -158,7 +172,22 @@ STELLARIUM.addEventListener("click", conectar);
 
 const LISTA_OBJETOS = document.querySelector("#LISTA_OBJETOS");
 LISTA_OBJETOS.addEventListener("change", setNombreObjetoPanel);
+LISTA_OBJETOS.addEventListener("change", datosObjeto);
 
 const LISTA_TIPO_OBJETOS = document.querySelector("#LISTA_TIPO_OBJETOS");
 LISTA_TIPO_OBJETOS.addEventListener("change", setTipoObjetoPanel);
 LISTA_TIPO_OBJETOS.addEventListener("change", listaObjetosCelestes);
+
+const SEGUIMIENTO = document.querySelector("#SEGUIMIENTO");
+SEGUIMIENTO.addEventListener("click", () => {
+  PANEL.objeto.seguimiento = setInterval(datosObjeto, 200);
+});
+
+const STOP = document.querySelector("#STOP");
+STOP.addEventListener("click", () => {
+  clearInterval(PANEL.objeto.seguimiento);
+  PANEL.objeto.seguimiento = 0;
+});
+
+const ANGULO = document.querySelector("#ANGULO");
+ANGULO.addEventListener("click", angulo);
