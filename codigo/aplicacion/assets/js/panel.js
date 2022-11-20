@@ -118,17 +118,19 @@ async function datosObjeto() {
       PANEL.objeto.elevacion = datos.altitude;
     }
 
-    var distKM = datos.distance * 149597870.7;
+    var distKM = parseFloat(datos.distance) * 149597870.7;
+    distKM = distKM.toFixed(0);
     var visible = datos.altitude > 0 ? "SI" : "NO";
     var info = '<dl class="row">';
     info += '<dt class="col-4">Visible</dt> <dd class="col-8">' + visible + "</dd>";
-    info += '<dt class="col-4">AZ</dt> <dd class="col-8">' + datos.azimuth.toFixed(5) + "&#176;</dd>";
-    info += '<dt class="col-4">EL</dt> <dd class="col-8">' + datos.altitude.toFixed(5) + "&#176;</dd>";
+    info += '<dt class="col-4">AZ</dt> <dd class="col-8">' + datos.azimuth.toFixed(3) + "&#176;</dd>";
+    info += '<dt class="col-4">EL</dt> <dd class="col-8">' + datos.altitude.toFixed(3) + "&#176;</dd>";
     info += '<dt class="col-4">Iluminado</dt> <dd class="col-8">' + datos.illumination.toFixed(2) + " %</dd>";
-    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + datos.distance.toFixed(5) + " AU</dd>";
-    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + distKM.toLocaleString() + " km</dd>";
+    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + datos.distance.toFixed(4) + " AU</dd>";
+    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + commify(distKM) + " km</dd>";
     info += "</dl>";
 
+    //console.log(info);
     let objetoInfo = document.getElementById("OBJETO_INFO");
     objetoInfo.innerHTML = info;
     //console.log(datos);
@@ -156,6 +158,17 @@ function setNombreObjetoPanel(evento) {
   PANEL.objeto.nombre = evento.target.value;
   const objeto = document.getElementById("OBJETO");
   objeto.innerHTML = evento.target.value;
+}
+
+// https://www.codingem.com/comma-thousand-separator-in-javascript/
+function commify(n) {
+  var parts = n.toString().split(".");
+
+  const numberPart = parts[0];
+  const decimalPart = parts[1];
+  const thousands = /\B(?=(\d{3})+(?!\d))/g;
+
+  return numberPart.replace(thousands, ".") + (decimalPart ? "," + decimalPart : "");
 }
 
 // setea el tipo del objeto seleccionado en PANEL
