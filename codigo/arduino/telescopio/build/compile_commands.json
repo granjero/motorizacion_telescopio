@@ -57,11 +57,11 @@
    "-I/Users/juanmiguel/Library/Arduino15/packages/arduino/hardware/avr/1.8.4/variants/standard",
    "-I/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src",
    "-I/Users/juanmiguel/Documents/Arduino/libraries/SerialCommands/src",
-   "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/MultiStepper.cpp",
+   "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/AccelStepper.cpp",
    "-o",
-   "/Users/juanmiguel/telesy/codigo/arduino/telescopio/build/libraries/AccelStepper/MultiStepper.cpp.o"
+   "/Users/juanmiguel/telesy/codigo/arduino/telescopio/build/libraries/AccelStepper/AccelStepper.cpp.o"
   ],
-  "file": "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/MultiStepper.cpp"
+  "file": "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/AccelStepper.cpp"
  },
  {
   "directory": "/Users/juanmiguel/telesy",
@@ -89,11 +89,11 @@
    "-I/Users/juanmiguel/Library/Arduino15/packages/arduino/hardware/avr/1.8.4/variants/standard",
    "-I/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src",
    "-I/Users/juanmiguel/Documents/Arduino/libraries/SerialCommands/src",
-   "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/AccelStepper.cpp",
+   "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/MultiStepper.cpp",
    "-o",
-   "/Users/juanmiguel/telesy/codigo/arduino/telescopio/build/libraries/AccelStepper/AccelStepper.cpp.o"
+   "/Users/juanmiguel/telesy/codigo/arduino/telescopio/build/libraries/AccelStepper/MultiStepper.cpp.o"
   ],
-  "file": "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/AccelStepper.cpp"
+  "file": "/Users/juanmiguel/Documents/Arduino/libraries/AccelStepper/src/MultiStepper.cpp"
  },
  {
   "directory": "/Users/juanmiguel/telesy",

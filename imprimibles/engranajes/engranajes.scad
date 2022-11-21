@@ -8,29 +8,57 @@ Softare libre.
 ***********************************************/
 
 include <gears.scad> // https://github.com/chrisspen/gears
-
+// definicion
 $fn = 200;
+// CORONA 3D
+CORONA_PARA_IMPRIMIR_3D = false;
+// CORONA COMPLETA
+CORONA_COMPLETA = false;
+// PINON 3D
+PINON_PARA_IMPRIMIR_3D = false;
+// ver base 
+BASE_MONTURA = false;
+
+
+
+
+// Diametro de la base de la montura
 DIAMETRO_BASE_MONTURA = 480; // medida de la base de la montura en milimetros.
 
-MODULO = 1.1185; // modificar este valor segun corresponda para que el valor de "Ring Gear Outer Diamater" que se lee al ejecutar el programa sea lo más cercano al diametro de la base de la montura en milimetros.  
+// modulo del engranaje
+// modificar este valor segun corresponda para que el valor de "Ring Gear Outer Diamater" que se lee al ejecutar el programa sea lo más cercano al diametro de la base de la montura en milimetros.  
 
+// Modulo del engranaje 
+MODULO = 1.1185; // [0.1:0.001:2]
 
-// En teoría no haría falta modificar las variables de más abajo
 
 // PARAMETROS CORONA
 DIAMETRO_CORONA = DIAMETRO_BASE_MONTURA; 
+// AZIMUT Cantidad de dientes de la corona 
 CANT_DIENTES_CORONA = 400;
+// AZIMUT para impresion 3D
 ALTO_CORONA = 15;
+// AZIMUT para impresion 3D
 ANCHO_CORONA = 15; // esta variable modifica el valor de "Ring Gear Outer Diamater" 
+// AZIMUT cantidad porciones de la corona para impresion 3D
 PARTES = 8; // CANTIDAD DE PARTES EN LA QUE SE DIVIDIRA LA CORONA PARA IMPRIMIR 3D
+// AZIMUT cantidad de orificios
 TORNILLOS = 8; // CANTIDAD DE ORIFICIOS EN LA CORONA PARTIDA PARA IMPRIMIR
 
 // PARAMETROS PIÑON
+// AZIMUT Cantidad de dientes del piñon
 CANT_DIENTES_PINON = 20;
+// para impresion 3D
 ALTO_PINON = 17;
 ALTO_ANCLAJE_PINION = 7;
 ANCHO_EJE_MOTOR = 5.35;
 DIAMETRO_ANCLAJE_PINON = 25;
+
+
+module esconde_variables_del_customizer (){}
+
+// En teoría no haría falta modificar las variables de más abajo
+
 
 // PARAMETROS REDUCCION
 CANT_DIENTES_REDUCCION_CORONA = 100;
@@ -41,15 +69,20 @@ ANCHO_EJE_REDUCCION = 5;
 
 
 // COMENTAR O DESCOMENTAR SEGUN CORRESPONDA
-/*baseMontura(); // comentar al hacer el render para imprimir*/
-
-//coronaCompleta(); // comentar al hacer el render para imprimir  
+if(BASE_MONTURA){
+  baseMontura(); // comentar al hacer el render para imprimir
+}
+if (CORONA_COMPLETA){
+  coronaCompleta(); // comentar al hacer el render para imprimir  
+}
 //coronaDivididaEnPartes(); // comentar al hacer el render para imprimir
 //orificiosParaTornillos (); // comentar al hacer el render para imprimir
-
-/*coronaPara3D();*/
-
-pinonPara3D();
+if(CORONA_PARA_IMPRIMIR_3D){
+  coronaPara3D();
+}
+if(PINON_PARA_IMPRIMIR_3D){
+  pinonPara3D();
+}
 
 /*reduccionPara3D();*/
 

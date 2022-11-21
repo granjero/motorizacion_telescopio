@@ -22,6 +22,7 @@ bool constante = false;
 // inicializacion de los motores
 AccelStepper azimut(AccelStepper::DRIVER, 2, 5);
 AccelStepper elevacion(AccelStepper::DRIVER, 3, 6);
+
 // SerialCommands
 char serial_command_buffer_[32];
 SerialCommands serial_commands_(&Serial, serial_command_buffer_, sizeof(serial_command_buffer_), "\r\n", " ");
@@ -29,33 +30,37 @@ SerialCommands serial_commands_(&Serial, serial_command_buffer_, sizeof(serial_c
 // funciones serial
 // ****************
 //This is the default handler, and gets called when no other command matches. 
-#line 31 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 32 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_unrecognized(SerialCommands* sender, const char* cmd);
-#line 42 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 43 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_azimut_vel_cte(SerialCommands* sender);
-#line 57 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 58 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_azimut_pos(SerialCommands* sender);
-#line 76 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 77 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_azimut_avanza(SerialCommands* sender);
-#line 95 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 96 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_elevacion_vel_cte(SerialCommands* sender);
-#line 110 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 111 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_elevacion_pos(SerialCommands* sender);
-#line 130 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 131 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_elevacion_avanza(SerialCommands* sender);
-#line 148 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
-void cmd_go_home(SerialCommands* sender);
+#line 149 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_set_home(SerialCommands* sender);
 #line 164 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_set_new_home(SerialCommands* sender);
+#line 183 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+void cmd_go_home(SerialCommands* sender);
+#line 199 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_off(SerialCommands* sender);
-#line 191 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 229 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 long anguloElevacionAPaso(float angulo);
-#line 197 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 235 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 long anguloAzimutAPaso(float angulo);
-#line 205 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 243 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void setup();
-#line 238 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 278 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void loop();
-#line 31 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 32 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_unrecognized(SerialCommands* sender, const char* cmd)
 {
     sender->GetSerial()->print("Unrecognized command [");
@@ -172,6 +177,40 @@ void cmd_elevacion_avanza(SerialCommands* sender)
 
 }
 
+// SET HOME 
+void cmd_set_home(SerialCommands* sender)
+{
+    andando = false;
+    constante = false;
+
+    azimut.stop();
+    elevacion.stop();
+    azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
+    azimut.setCurrentPosition(0);
+    elevacion.setCurrentPosition(90);
+
+    sender->GetSerial()->print("ELEVACION 90 AZIMUT 360");
+}
+
+// SET NEW HOME 
+void cmd_set_new_home(SerialCommands* sender)
+{
+    andando = true;
+    constante = false;
+
+    char* az = sender->Next();
+    char* el = sender->Next();
+
+    azimut.setCurrentPosition(azimut.currentPosition() + atol(az));
+    elevacion.setCurrentPosition(elevacion.currentPosition() + atol(el));
+    elevacion.setCurrentPosition(90);
+
+    sender->GetSerial()->print("Azimut + ");
+    sender->GetSerial()->println(az);
+    sender->GetSerial()->print("Elevacion + ");
+    sender->GetSerial()->println(el);
+}
+
 // GO HOME (u r drunk)
 void cmd_go_home(SerialCommands* sender)
 {
@@ -202,6 +241,8 @@ void cmd_off(SerialCommands* sender)
     sender->GetSerial()->println("MOTORES OFF");
 }
 
+// funciones serial command
+// ************************
 // declaracion de variables a enviar por serial
 SerialCommand cmd_azimut_vel_cte_("AZ", cmd_azimut_vel_cte);
 SerialCommand cmd_azimut_pos_("AZp", cmd_azimut_pos);
@@ -209,9 +250,10 @@ SerialCommand cmd_azimut_avanza_("AZa", cmd_azimut_avanza);
 SerialCommand cmd_elevacion_vel_cte_("EL", cmd_elevacion_vel_cte);
 SerialCommand cmd_elevacion_pos_("ELp", cmd_elevacion_pos);
 SerialCommand cmd_elevacion_avanza_("ELa", cmd_elevacion_avanza);
-SerialCommand cmd_go_home_("HOME", cmd_go_home);
+SerialCommand cmd_go_home_("GO_HOME", cmd_go_home);
+SerialCommand cmd_set_home_("SET_HOME", cmd_set_home);
+SerialCommand cmd_set_new_home_("NEW_HOME", cmd_set_new_home);
 SerialCommand cmd_off_("OFF", cmd_off);
-
 
 // angulo a nro de paso
 // @param angulo de destino
@@ -242,6 +284,8 @@ void setup() {
     serial_commands_.AddCommand(&cmd_elevacion_pos_);
     serial_commands_.AddCommand(&cmd_elevacion_avanza_);
     serial_commands_.AddCommand(&cmd_go_home_);
+    serial_commands_.AddCommand(&cmd_set_home_);
+    serial_commands_.AddCommand(&cmd_set_new_home_);
     serial_commands_.AddCommand(&cmd_off_);
 
     Serial.println("Motores Telescopio 0.1 -> Ready");

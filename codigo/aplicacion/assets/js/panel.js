@@ -13,7 +13,10 @@ let PANEL = {
     nombre: "Earth",
     azimut: 0,
     elevacion: 0,
+  },
+  serial: {
     seguimiento: 0,
+    intervalo: 0,
   },
 };
 
@@ -176,7 +179,85 @@ function setTipoObjetoPanel(evento) {
   PANEL.objeto.tipo = evento.target.value;
 }
 
+// SERIAL WEB API
+
+async function conectarTelescopio() {
+  port = await navigator.serial.requestPort({});
+  await port.open({ baudRate: 115200 });
+
+  //document.querySelector("input").disabled = false;
+  TELESCOPIO.innerText = "🔌 Desconectar Telescopio";
+
+  const encoder = new TextEncoderStream();
+  outputDone = encoder.readable.pipeTo(port.writable);
+  outputStream = encoder.writable;
+
+  //OBJETO_INFO.addEventListener("change", () => {
+  //if (port && port.writable) {
+  //const value = parseInt(PANEL.objeto.azimut);
+  //const bytes = new Uint8Array([value]);
+  //const writer = port.writable.getWriter();
+
+  //console.log(bytes);
+  //writer.write(bytes);
+  //writer.releaseLock();
+  //}
+  //});
+}
+
+async function enviarComandoTelescopio() {
+  try {
+    if (port) {
+      //const value = parseInt(PANEL.objeto.azimut);
+      let comando = "AZp ";
+      comando += PANEL.objeto.azimut;
+      comando += " 5000 \r\n";
+      //const encoder = new TextEncoderStream();
+      //const writer = port.writable.getWriter();
+      //await writer.write(encoder.encode(comando));
+      //writer.releaseLock();
+
+      //const bytes = new Uint8Array([value]);
+      //const writer = port.writable.getWriter();
+      //const encoder = new TextEncoder();
+      //writer.write(encoder.encode(comando));
+      //writer.releaseLock();
+
+      //console.log(encoder.encode(comando));
+      //const textEncoder = new TextEncoderStream();
+      //const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+      //const writer = textEncoder.writable.getWriter();
+      //await writer.write(comando);
+      //await writableStreamClosed;
+
+      //writer.releaseLock();
+      const writer = outputStream.getWriter();
+      console.log("[SEND]", comando);
+      writer.write(comando);
+      writer.releaseLock();
+    } else {
+      console.log("ERROR PORT");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 // EVENT LISTENERS
+
+//const OBJETO_INFO = document.querySelector("#OBJETO_INFO");
+
+const TELESCOPIO = document.getElementById("TELESCOPIO");
+let port;
+TELESCOPIO.addEventListener("click", function () {
+  if (port) {
+    port.close();
+    port = undefined;
+    TELESCOPIO.innerText = "🔌 Conectar con el Telescopio";
+  } else {
+    conectarTelescopio();
+  }
+});
+
 const NOCHE = document.querySelector("#NOCHE");
 NOCHE.addEventListener("click", modoNoche);
 
@@ -193,13 +274,15 @@ LISTA_TIPO_OBJETOS.addEventListener("change", listaObjetosCelestes);
 
 const SEGUIMIENTO = document.querySelector("#SEGUIMIENTO");
 SEGUIMIENTO.addEventListener("click", () => {
-  PANEL.objeto.seguimiento = setInterval(datosObjeto, 200);
+  PANEL.serial.seguimiento = setInterval(datosObjeto, 200);
+  PANEL.serial.intervalo = setInterval(enviarComandoTelescopio, 200);
 });
 
 const STOP = document.querySelector("#STOP");
 STOP.addEventListener("click", () => {
-  clearInterval(PANEL.objeto.seguimiento);
-  PANEL.objeto.seguimiento = 0;
+  clearInterval(PANEL.serial.seguimiento);
+  clearInterval(PANEL.serial.intervalo);
+  console.log("STOP");
 });
 
 const ANGULO = document.querySelector("#ANGULO");
