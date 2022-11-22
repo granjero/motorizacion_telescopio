@@ -35,29 +35,69 @@
         <!-- COL -->
         <div class="col-4">
           <div class="card mb-3">
-            <div class="card-header">Avance Manual</div>
+            <div class="card-header">Control Manual</div>
             <div class="card-body">
               <div class="row text-center mb-3">
                 <div class="col-4"></div>
-                <div class="boton_dir col-4" id="UP" style="cursor: pointer">
+                <div
+                  class="boton_dir col-4"
+                  id="UP"
+                  style="cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-placement="top"
+                  data-bs-title="ELEVACION +"
+                >
                   <i class="display-1 fa-solid fa-chevron-up"></i>
                 </div>
                 <div class="col-4"></div>
               </div>
               <div class="row text-center mb-3">
-                <div class="boton_dir col-4" id="LEFT" style="cursor: pointer">
+                <div
+                  class="boton_dir col-4"
+                  id="LEFT"
+                  style="cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-title="AZIMUT -"
+                >
                   <i class="display-1 fa-solid fa-chevron-left"></i>
                 </div>
-                <div class="boton_stop col-4" id="STOP" style="cursor: pointer">
+                <div
+                  class="boton_stop col-4"
+                  id="STOP"
+                  style="cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-title="DETIENE LOS MOTORES"
+                >
                   <i class="display-1 fa-regular fa-hand"></i>
                 </div>
-                <div class="boton_dir col-4" id="RIGHT" style="cursor: pointer">
+                <div
+                  class="boton_dir col-4"
+                  id="RIGHT"
+                  style="cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-title="AZIMUT +"
+                >
                   <i class="display-1 fa-solid fa-chevron-right"></i>
                 </div>
               </div>
               <div class="row text-center">
                 <div class="col-4"></div>
-                <div class="boton_dir col-4" id="DOWN" style="cursor: pointer">
+                <div
+                  class="boton_dir col-4"
+                  id="DOWN"
+                  style="cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-title="ELEVACION -"
+                >
                   <i class="display-1 fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="col-4"></div>
@@ -164,8 +204,20 @@
                   </div>
                 </div>
                 <div class="col-6">
+                  <div class="card mb-3">
+                    <div class="card-header">Setear Ceros</div>
+
+                    <div class="card-body">
+                      <div class="row text-center">
+                        <div class="boton col" id="SET_HOME" style="cursor: pointer">
+                          <i class="fs-3 fa-solid fa-gauge"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="card">
-                    <div class="card-header">Setear Locacion</div>
+                    <div class="card-header">Locacion</div>
 
                     <div class="card-body">
                       <div class="row text-center mb-3">
@@ -224,5 +276,9 @@
     </div>
     <script src="assets/js/panel.js"></script>
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
+    </script>
   </body>
 </html>

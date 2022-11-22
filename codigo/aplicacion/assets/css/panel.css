@@ -26,3 +26,8 @@
 .boton_stop:active {
   background-color: red;
 }
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-light);
+  --bs-tooltip-color: gray;
+}

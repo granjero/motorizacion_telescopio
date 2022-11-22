@@ -14,11 +14,35 @@ let PANEL = {
     azimut: 0,
     elevacion: 0,
   },
+  // TODO rever nombres variables serial
   serial: {
     seguimiento: 0,
     intervalo: 0,
   },
 };
+
+// FUNCIONES STELLARIUM
+// API main status
+async function stellarium_main_status() {
+  const url = "http://localhost:8090/api/main/status";
+  try {
+    const respuesta = await fetch(url);
+    const datos = await respuesta.json();
+    return datos;
+  } catch (error) {
+    //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
+    console.log("error");
+  }
+}
+
+function set_PANEL(datos) {
+  PANEL.telescopio.latitud = datos.location.latitude;
+  PANEL.telescopio.longitud = datos.location.longitude;
+  PANEL.telescopio.altitud = datos.location.altitude;
+  PANEL.telescopio.pais = datos.location.country;
+}
+
+/* ->->->->->->->->->->->-> */
 
 // FUNCIONES STELLARIUM
 // chequea que el servidor de stellarium esté andando
@@ -121,16 +145,18 @@ async function datosObjeto() {
       PANEL.objeto.elevacion = datos.altitude;
     }
 
-    var distKM = parseFloat(datos.distance) * 149597870.7;
-    distKM = distKM.toFixed(0);
     var visible = datos.altitude > 0 ? "SI" : "NO";
     var info = '<dl class="row">';
     info += '<dt class="col-4">Visible</dt> <dd class="col-8">' + visible + "</dd>";
     info += '<dt class="col-4">AZ</dt> <dd class="col-8">' + datos.azimuth.toFixed(3) + "&#176;</dd>";
     info += '<dt class="col-4">EL</dt> <dd class="col-8">' + datos.altitude.toFixed(3) + "&#176;</dd>";
-    info += '<dt class="col-4">Iluminado</dt> <dd class="col-8">' + datos.illumination.toFixed(2) + " %</dd>";
-    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + datos.distance.toFixed(4) + " AU</dd>";
-    info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + commify(distKM) + " km</dd>";
+    if ("illumination" in datos) info += '<dt class="col-4">Iluminado</dt> <dd class="col-8">' + datos.illumination.toFixed(2) + " %</dd>";
+    if ("distance" in datos) info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + datos.distance.toFixed(4) + " AU</dd>";
+    if ("distance" in datos) {
+      var distKM = parseFloat(datos.distance) * 149597870.7;
+      distKM = distKM.toFixed(0);
+      info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + commify(distKM) + " km</dd>";
+    }
     info += "</dl>";
 
     //console.log(info);
@@ -139,7 +165,7 @@ async function datosObjeto() {
     //console.log(datos);
   } catch (error) {
     //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
-    console.log("error caca");
+    console.log(error);
   }
 }
 
@@ -274,14 +300,16 @@ LISTA_TIPO_OBJETOS.addEventListener("change", listaObjetosCelestes);
 
 const SEGUIMIENTO = document.querySelector("#SEGUIMIENTO");
 SEGUIMIENTO.addEventListener("click", () => {
-  PANEL.serial.seguimiento = setInterval(datosObjeto, 200);
-  PANEL.serial.intervalo = setInterval(enviarComandoTelescopio, 200);
+  PANEL.serial.seguimiento = PANEL.serial.seguimiento == 0 ? setInterval(datosObjeto, 200) : PANEL.serial.seguimiento;
+  PANEL.serial.intervalo = PANEL.serial.intervalo == 0 ? setInterval(enviarComandoTelescopio, 200) : PANEL.serial.intervalo;
 });
 
 const STOP = document.querySelector("#STOP");
 STOP.addEventListener("click", () => {
   clearInterval(PANEL.serial.seguimiento);
+  PANEL.serial.seguimiento = 0;
   clearInterval(PANEL.serial.intervalo);
+  PANEL.serial.intervalo = 0;
   console.log("STOP");
 });
 
