@@ -21,18 +21,17 @@ let PANEL = {
   },
 };
 
+/* ->->->->->->->->->->->-> */
+/* ->->->->->->->->->->->-> */
+/* ->->->->->->->->->->->-> */
+
 // FUNCIONES STELLARIUM
 // API main status
 async function stellarium_main_status() {
   const url = "http://localhost:8090/api/main/status";
-  try {
-    const respuesta = await fetch(url);
-    const datos = await respuesta.json();
-    return datos;
-  } catch (error) {
-    //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
-    console.log("error");
-  }
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
 }
 
 function set_PANEL(datos) {
@@ -42,6 +41,8 @@ function set_PANEL(datos) {
   PANEL.telescopio.pais = datos.location.country;
 }
 
+/* ->->->->->->->->->->->-> */
+/* ->->->->->->->->->->->-> */
 /* ->->->->->->->->->->->-> */
 
 // FUNCIONES STELLARIUM
