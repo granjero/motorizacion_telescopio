@@ -43,11 +43,12 @@ async function stellarium_main_status() {
     PANEL.telescopio.altitud = datos.location.altitude;
     PANEL.telescopio.pais = datos.location.country;
     PANEL.stellarium.online = true;
+    return true;
   } catch (error) {
     //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
     console.log("error stellarium_main_status");
+    return false;
   }
-  return true;
 }
 
 // obtiene los datos del objeto seleccionado y los pone en PANEL
@@ -78,6 +79,7 @@ function panel_imprime_locacion() {
   document.getElementById("LATITUD").setAttribute("value", PANEL.telescopio.latitud);
   document.getElementById("LONGITUD").setAttribute("value", PANEL.telescopio.longitud);
   document.getElementById("ALTITUD").setAttribute("value", PANEL.telescopio.altitud);
+  return true;
 }
 
 // actualiza la lista de tipos de elementos celeste
@@ -282,8 +284,13 @@ const LISTA_OBJETOS = document.querySelector("#LISTA_OBJETOS");
 LISTA_OBJETOS.addEventListener("change", stellarium_object_info);
 LISTA_OBJETOS.addEventListener("change", panel_imprime_objeto_seleccionado);
 
-function boton_STELLARIUM() {
-  stellarium_main_status().then(() => panel_imprime_lista_tipos_objetos_celestes);
+async function boton_STELLARIUM() {
+  //stellarium_main_status().then(() => panel_imprime_lista_tipos_objetos_celestes);
+  await stellarium_main_status();
+  panel_imprime_locacion();
+  await panel_imprime_lista_tipos_objetos_celestes();
+  await panel_imprime_lista_objetos_celestes();
+  return "CACA";
 }
 
 /*
