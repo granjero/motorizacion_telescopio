@@ -6,13 +6,19 @@
 
 // constantes
 #define ENABLE_PIN 8 // pin del Arduino conectado al enable de los drivers de los motores
-#define PASOS_MOTOR 200L //  cant de pasos del motor
-#define RELACION_AZ 20 // relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)
-#define MICROSTEPS_AZ 16 // microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]
-#define RELACION_EL 20 // relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)
-#define MICROSTEPS_EL 16 // microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]
 #define VEL_MAX 1000
 #define ACELERACION 500
+// AZIMUT
+#define PASOS_MOTOR_AZ 200L //  cant de pasos del motor (Dejar la L al final del numero)
+#define MICROSTEPS_AZ 16 // microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]
+#define DIENTES_CORONA_AZ 400
+#define DIENTES_PINON_AZ 20
+// ELEVACION
+#define PASOS_MOTOR_EL 200L //  cant de pasos del motor (Dejar la L al final del numero)
+#define MICROSTEPS_EL 16 // microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]
+#define DIENTES_CORONA_EL 400
+#define DIENTES_PINON_EL 20
+
 
 // variables
 bool andando = true;
@@ -228,13 +234,13 @@ SerialCommand cmd_off_("OFF", cmd_off);
 // @return numero de paso correspondiente al angulo
 long anguloElevacionAPaso(float angulo)
 {
-    return round((angulo * PASOS_MOTOR * MICROSTEPS_EL * RELACION_EL) / 360);
+    return round((angulo * PASOS_MOTOR_EL * MICROSTEPS_EL * (DIENTES_CORONA_EL / DIENTES_PINON_EL)) / 360);
 }
 // @param angulo de destino
 // @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * PASOS_MOTOR * MICROSTEPS_AZ * RELACION_AZ) / 360);
+    return round((angulo * PASOS_MOTOR_AZ * MICROSTEPS_AZ * (DIENTES_CORONA_AZ / DIENTES_PINON_AZ)) / 360);
 }
 
 // ************

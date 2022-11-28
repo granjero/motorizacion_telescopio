@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="HTML" lang="en">
+<html id="HTML" lang="en" class="modo_noche">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,7 +33,7 @@
     <div class="container-fluid">
       <div class="row">
         <!-- COL -->
-        <div class="col-4">
+        <div class="col-3">
           <div class="card mb-3">
             <div class="card-header">Control Manual</div>
             <div class="card-body">
@@ -88,7 +88,17 @@
                 </div>
               </div>
               <div class="row text-center">
-                <div class="col-4"></div>
+                <div
+                  class="my-auto boton_dir col-4"
+                  id="DOWN"
+                  style="cursor: pointer"
+                  data-bs-toggle="tooltip"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-title="GO HOME"
+                >
+                  <i class="display-6 fa-solid fa-house-flag"></i>
+                </div>
                 <div
                   class="boton_dir col-4"
                   id="DOWN"
@@ -102,38 +112,41 @@
                 </div>
                 <div class="col-4"></div>
               </div>
-            </div>
-          </div>
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <div class="card-header">Distancia Angular</div>
 
-          <div class="card">
-            <div class="card-header">Distancia Angular</div>
+                    <div class="card-body" id="ANGULO">
+                      <!-- TODO cambiar ids a MAYUSCULA y nombre a AM-->
 
-            <div class="card-body" id="ANGULO">
-              <!-- TODO cambiar ids a MAYUSCULA y nombre a AM-->
-
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ANGULO" id="d001" value="0.01" />
-                <label class="form-check-label" for="d001">0.01&#176;</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ANGULO" id="d005" value="0.05" />
-                <label class="form-check-label" for="d005">0.05&#176;</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ANGULO" id="d01" value="0.1" />
-                <label class="form-check-label" for="d01">0.1&#176;</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ANGULO" id="d05" value="0.5" />
-                <label class="form-check-label" for="d05">0.5&#176; </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ANGULO" id="d1" value="1" checked />
-                <label class="form-check-label" for="d1">1&#176;</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ANGULO" id="d5" value="5" />
-                <label class="form-check-label" for="d5">5&#176;</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ANGULO" id="d001" value="0.01" />
+                        <label class="form-check-label" for="d001">0.01&#176;</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ANGULO" id="d005" value="0.05" />
+                        <label class="form-check-label" for="d005">0.05&#176;</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ANGULO" id="d01" value="0.1" />
+                        <label class="form-check-label" for="d01">0.1&#176;</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ANGULO" id="d05" value="0.5" />
+                        <label class="form-check-label" for="d05">0.5&#176; </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ANGULO" id="d1" value="1" checked />
+                        <label class="form-check-label" for="d1">1&#176;</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="ANGULO" id="d5" value="5" />
+                        <label class="form-check-label" for="d5">5&#176;</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -159,34 +172,62 @@
 
           <div class="card mb-3">
             <div class="card-header">GO-TO</div>
-            <div class="card-body">
-              <div class="row text-center mb-3">
-                <div class="col">
-                  <div class="input-group mb-3">
-                    <span class="input-group-text" id="AZIMUT">AZ</span>
-                    <input type="number" class="form-control" placeholder="N=0 E=90 S=180 O=270" aria-label="Azimut" aria-describedby="Azimut" />
-                  </div>
+            <form action="#">
+              <div class="card-body">
+                <div class="row text-center mb-3">
+                  <div class="col">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">AZ</span>
+                      <input
+                        type="number"
+                        id="AZIMUT"
+                        min="0"
+                        max="360"
+                        step="0.0001"
+                        class="form-control"
+                        placeholder="N=0° E=90° S=180° O=270°"
+                        aria-label="Azimut"
+                        aria-describedby="Azimut"
+                        data-bs-toggle="tooltip"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-placement="top"
+                        data-bs-title="MIN:0 - MAX:360"
+                      />
+                    </div>
 
-                  <div class="input-group mb-1">
-                    <span class="input-group-text" id="ELEVACION">EL</span>
-                    <input type="number" class="form-control" placeholder="Hor=0 Cenit=90" aria-label="Elevacion" aria-describedby="Elevacion" />
+                    <div class="input-group mb-1">
+                      <span class="input-group-text">EL</span>
+                      <input
+                        type="number"
+                        id="ELEVACION"
+                        min="0"
+                        max="90"
+                        step="0.0001"
+                        class="form-control"
+                        placeholder="Hor=0° Cenit=90°"
+                        aria-label="Elevacion"
+                        aria-describedby="Elevacion"
+                        data-bs-toggle="tooltip"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-placement="bottom"
+                        data-bs-title="MIN:0 - MAX:90"
+                      />
+                    </div>
+                    <div class="form-text text-start">Ingresar coordenadas para Azimut y Elevacion. Valor predeterminado: AZ 0° | EL 90°</div>
                   </div>
-                  <div id="passwordHelpBlock" class="form-text text-start">
-                    Ingresar coordenadas para Azimut y Elevacion: AZ 146.4212 | EL 45.6452
+                </div>
+                <div class="row text-center">
+                  <div class="boton col" id="GOTO" style="cursor: pointer">
+                    <i class="fs-3 fa-solid fa-shuttle-space"></i>
                   </div>
                 </div>
               </div>
-              <div class="row text-center">
-                <div class="boton col" id="GOTO" style="cursor: pointer">
-                  <i class="fs-3 fa-solid fa-shuttle-space"></i>
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
 
         <!-- COL -->
-        <div class="col-5">
+        <div class="col-6">
           <div class="card mb-3">
             <div class="card-header">Configuraciones</div>
             <div class="card-body">
@@ -199,7 +240,7 @@
                       <select class="form-select mb-3" aria-label="Tipo de Objeto Celeste" id="LISTA_TIPO_OBJETOS"></select>
 
                       <label for="LISTA_OBJETOS" class="form-label">Objeto Celeste</label>
-                      <select class="form-select" aria-label="Objeto Celeste" id="LISTA_OBJETOS"></select>
+                      <select class="form-select" aria-label="Objeto Celeste" name="LISTA_OBJETOS" id="LISTA_OBJETOS"></select>
                     </div>
                   </div>
                 </div>

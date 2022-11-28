@@ -6,7 +6,14 @@
 # 6 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino" 2
 
 // constantes
-# 17 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+
+// AZIMUT
+
+
+
+
+// ELEVACION
+# 23 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 // variables
 bool andando = true;
 bool constante = false;
@@ -221,13 +228,13 @@ SerialCommand cmd_off_("OFF", cmd_off);
 // @return numero de paso correspondiente al angulo
 long anguloElevacionAPaso(float angulo)
 {
-    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * 20 /* relacion entre la cant de dientes del piñon y la corona elevacion (en mi caso 400 / 20)*/) / 360);
+    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
 }
 // @param angulo de destino
 // @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * 20 /* relacion entre la cant de dientes del piñon y la corona azimutales (en mi caso 400 / 20)*/) / 360);
+    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
 }
 
 // ************
