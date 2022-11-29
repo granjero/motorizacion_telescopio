@@ -5,7 +5,7 @@ let PANEL = {
     longitud: 0,
     altitud: 0,
     pais: "",
-    angulo: 1,
+    distancia_angular: 1,
     velocidad: 0,
   },
   stellarium: {
@@ -21,9 +21,9 @@ let PANEL = {
     distancia: 0,
   },
   // TODO rever nombres variables serial
-  serial: {
-    seguimiento: 0,
-    intervalo: 0,
+  intervalos: {
+    id_seguimiento: 0,
+    id_enviar_comando: 0,
   },
 };
 
@@ -45,7 +45,12 @@ async function stellarium_main_status() {
     PANEL.stellarium.online = true;
     return true;
   } catch (error) {
-    //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
+    //TODO  link a instrucciones para setear stellarium
+    let mensaje = '<div class="alert alert-info alert-dismissible fade show" role="alert">';
+    mensaje += '<strong>No se pudo conectar con STELLARIUM!</strong> Iniciar Stellarium y Activar el Plugin "Remote Control".';
+    mensaje += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+    let MENSAJE = document.getElementById("MENSAJE");
+    MENSAJE.innerHTML = mensaje;
     console.log("error stellarium_main_status");
     return false;
   }
@@ -85,7 +90,6 @@ function panel_imprime_locacion() {
 // actualiza la lista de tipos de elementos celeste
 async function panel_imprime_lista_tipos_objetos_celestes() {
   const url = "http://localhost:8090/api/objects/listobjecttypes";
-
   let listaTipoObjetosCelestes = document.getElementById("LISTA_TIPO_OBJETOS");
   try {
     const respuesta = await fetch(url);
@@ -153,14 +157,19 @@ function panel_imprime_objeto_seleccionado() {
     console.log(error);
   }
 }
-function panel_get_nombre_objeto() {
+
+function panel_get_tipo_objeto_seleccionado() {
+  PANEL.objeto.tipo = document.querySelector("#LISTA_TIPO_OBJETOS option:checked").value;
+}
+
+function panel_get_nombre_objeto_seleccionado() {
   //PANEL.objeto.nombre = document.getElementById("LISTA_OBJETOS");
   PANEL.objeto.nombre = document.querySelector("#LISTA_OBJETOS option:checked").value;
 }
 
 // setea la distancia angular en PANEL
 function panel_get_distancia_angular() {
-  PANEL.telescopio.angulo = document.querySelector('input[name="ANGULO"]:checked').value;
+  PANEL.telescopio.distancia_angular = document.querySelector('input[name="ANGULO"]:checked').value;
 }
 
 // agrega la clase modo noche al tag html
@@ -173,9 +182,8 @@ function panel_modo_noche() {
 function panel_stellarium_online() {
   let STELLARIUM = document.getElementById("STELLARIUM");
   if (PANEL.stellarium.online) {
-    STELLARIUM.innerHTML = '<i class="me-2 fa-solid fa-star"></i>STELLARIUM conectado';
+    STELLARIUM.innerHTML = '<i class="me-2 fa-solid fa-star"></i>STELLARIUM conectado<i class="mx-2 fa-solid fa-thumbs-up"></i>';
     STELLARIUM.classList.add("disabled");
-    //clearInterval(intervalo_stellarium_online);
   }
 }
 
@@ -223,7 +231,7 @@ function panel_get_go_to() {
 // SERIAL WEB API
 // ->->->->->->->
 
-async function conectarTelescopio() {
+async function serial_conectar_telescopio() {
   port = await navigator.serial.requestPort({});
   await port.open({ baudRate: 115200 });
 
@@ -235,12 +243,26 @@ async function conectarTelescopio() {
   outputStream = encoder.writable;
 }
 
-async function enviarComandoTelescopio() {
+//async function conectarTelescopio() {
+//port = await navigator.serial.requestPort({});
+//await port.open({ baudRate: 115200 });
+
+////document.querySelector("input").disabled = false;
+//TELESCOPIO.innerText = "🔌 Desconectar Telescopio";
+
+//const encoder = new TextEncoderStream();
+//outputDone = encoder.readable.pipeTo(port.writable);
+//outputStream = encoder.writable;
+//}
+
+async function serial_comando_seguimiento() {
   try {
     if (port) {
-      let comando = "AZp ";
+      let comando = "SEG ";
       comando += PANEL.objeto.azimut;
-      comando += " 5000 \r\n";
+      comando += " ";
+      comando += PANEL.objeto.elevacion;
+      comando += " \r\n";
 
       const writer = outputStream.getWriter();
       console.log("[SEND]", comando);
@@ -253,6 +275,42 @@ async function enviarComandoTelescopio() {
     console.log(error);
   }
 }
+async function serial_enviar_comando(comando) {
+  try {
+    if (port) {
+      //let comando = "AZp ";
+      //comando += PANEL.objeto.azimut;
+      //comando += " 5000 \r\n";
+
+      const writer = outputStream.getWriter();
+      console.log("[SEND]", comando);
+      writer.write(comando);
+      writer.releaseLock();
+    } else {
+      console.log("ERROR PORT");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+//async function enviarComandoTelescopio() {
+//try {
+//if (port) {
+//let comando = "AZp ";
+//comando += PANEL.objeto.azimut;
+//comando += " 5000 \r\n";
+
+//const writer = outputStream.getWriter();
+//console.log("[SEND]", comando);
+//writer.write(comando);
+//writer.releaseLock();
+//} else {
+//console.log("ERROR PORT");
+//}
+//} catch (error) {
+//console.log(error);
+//}
+//}
 
 // EVENT LISTENERS
 
@@ -273,49 +331,56 @@ TELESCOPIO.addEventListener("click", function () {
 const NOCHE = document.querySelector("#NOCHE");
 NOCHE.addEventListener("click", panel_modo_noche);
 
+// Click en el botón de conectar a STELLARIUM
 const STELLARIUM = document.querySelector("#STELLARIUM");
 STELLARIUM.addEventListener("click", boton_STELLARIUM);
-//STELLARIUM.addEventListener("click", stellarium_main_status);
-//STELLARIUM.addEventListener("click", panel_imprime_lista_tipos_objetos_celestes);
-//STELLARIUM.addEventListener("click", panel_imprime_lista_objetos_celestes);
-
-const LISTA_OBJETOS = document.querySelector("#LISTA_OBJETOS");
-//LISTA_OBJETOS.addEventListener("change", panel_imprime_objeto);
-LISTA_OBJETOS.addEventListener("change", stellarium_object_info);
-LISTA_OBJETOS.addEventListener("change", panel_imprime_objeto_seleccionado);
-
 async function boton_STELLARIUM() {
-  //stellarium_main_status().then(() => panel_imprime_lista_tipos_objetos_celestes);
   await stellarium_main_status();
+  panel_stellarium_online();
   panel_imprime_locacion();
   await panel_imprime_lista_tipos_objetos_celestes();
   await panel_imprime_lista_objetos_celestes();
-  return "CACA";
 }
 
-/*
+// seleccion de objeto
+const LISTA_OBJETOS = document.querySelector("#LISTA_OBJETOS");
+LISTA_OBJETOS.addEventListener("change", seleccion_lista_objetos);
+async function seleccion_lista_objetos() {
+  panel_get_nombre_objeto_seleccionado();
+  await stellarium_object_info();
+  panel_imprime_objeto_seleccionado();
+}
+// seleccion tipo de objeto
 const LISTA_TIPO_OBJETOS = document.querySelector("#LISTA_TIPO_OBJETOS");
-LISTA_TIPO_OBJETOS.addEventListener("change", setTipoObjetoPanel);
-LISTA_TIPO_OBJETOS.addEventListener("change", listaObjetosCelestes);
+LISTA_TIPO_OBJETOS.addEventListener("change", seleccion_lista_tipo_objetos);
+async function seleccion_lista_tipo_objetos() {
+  panel_get_tipo_objeto_seleccionado();
+  await panel_imprime_lista_objetos_celestes();
+}
 
+// click en la navecita de seguimiento
 const SEGUIMIENTO = document.querySelector("#SEGUIMIENTO");
-SEGUIMIENTO.addEventListener("click", () => {
-  PANEL.serial.seguimiento = PANEL.serial.seguimiento == 0 ? setInterval(datosObjeto, 200) : PANEL.serial.seguimiento;
-  PANEL.serial.intervalo = PANEL.serial.intervalo == 0 ? setInterval(enviarComandoTelescopio, 200) : PANEL.serial.intervalo;
-});
+SEGUIMIENTO.addEventListener("click", boton_seguimiento);
+async function boton_seguimiento() {
+  PANEL.intervalos.id_seguimiento =
+    PANEL.intervalos.id_seguimiento == 0
+      ? setInterval(async function i() {
+          await stellarium_object_info(), panel_imprime_objeto_seleccionado();
+        }, 200)
+      : PANEL.intervalos.id_seguimiento;
+}
 
+// TODO hacer funcion
 const STOP = document.querySelector("#STOP");
-STOP.addEventListener("click", () => {
-  clearInterval(PANEL.serial.seguimiento);
-  PANEL.serial.seguimiento = 0;
-  clearInterval(PANEL.serial.intervalo);
-  PANEL.serial.intervalo = 0;
-  console.log("STOP");
-});
+STOP.addEventListener("click", boton_stop);
+function boton_stop() {
+  clearInterval(PANEL.intervalos.id_seguimiento);
+  PANEL.intervalos.id_seguimiento = 0;
+}
+console.log("STOP");
 
 const ANGULO = document.querySelector("#ANGULO");
-ANGULO.addEventListener("click", angulo);
-*/
+ANGULO.addEventListener("click", panel_get_distancia_angular);
 
-// corre panel_stellarium_online hasta que conecta
-//const intervalo_stellarium_online = setInterva(panel_stellarium_online, 200);
+const GOTO = document.querySelector("#GOTO");
+GOTO.addEventListener("click", panel_get_distancia_angular);

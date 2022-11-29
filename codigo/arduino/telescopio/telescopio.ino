@@ -42,6 +42,29 @@ void cmd_unrecognized(SerialCommands* sender, const char* cmd)
     sender->GetSerial()->println("]");
 }
 
+// SEGUIMIENTO
+// comando serial: SEG azimut elevacion
+void cmd_seguimiento(SerialCommands* sender)
+{
+    char* AZ = sender->Next();
+    char* EL = sender->Next();
+
+    andando = true;
+    constante = false;
+
+    azimut.enableOutputs(); 
+    azimut.setMaxSpeed(VEL_MAX);
+    azimut.moveTo(anguloElevacionAPaso(atof(AZ)));
+
+    elevacion.enableOutputs(); 
+    elevacion.setMaxSpeed(VEL_MAX);
+    elevacion.moveTo(anguloElevacionAPaso(atof(EL)));
+
+    sender->GetSerial()->print("AZ EL: ");
+    sender->GetSerial()->print(AZ);
+    sender->GetSerial()->println(EL);
+}
+
 /*MOTOR AZIMUT*/
 /*------------*/
 // MOTOR AZIMUT VELOCIDAD CONSTANTE
@@ -218,6 +241,7 @@ void cmd_off(SerialCommands* sender)
 // funciones serial command
 // ************************
 // declaracion de variables a enviar por serial
+SerialCommand cmd_seguimiento_("SEG", cmd_seguimiento);
 SerialCommand cmd_azimut_vel_cte_("AZ", cmd_azimut_vel_cte);
 SerialCommand cmd_azimut_pos_("AZp", cmd_azimut_pos);
 SerialCommand cmd_azimut_avanza_("AZa", cmd_azimut_avanza);
@@ -251,6 +275,7 @@ void setup() {
 
     // inicializacion de los comandos definidos
     serial_commands_.SetDefaultHandler(&cmd_unrecognized);
+    serial_commands_.AddCommand(&cmd_seguimiento_);
     serial_commands_.AddCommand(&cmd_azimut_vel_cte_);
     serial_commands_.AddCommand(&cmd_azimut_pos_);
     serial_commands_.AddCommand(&cmd_azimut_avanza_);

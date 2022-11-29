@@ -7,13 +7,20 @@
 
 // constantes
 
+
+
 // AZIMUT
 
 
 
 
 // ELEVACION
-# 23 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+
+
+
+
+
+
 // variables
 bool andando = true;
 bool constante = false;
@@ -34,6 +41,29 @@ void cmd_unrecognized(SerialCommands* sender, const char* cmd)
     sender->GetSerial()->print("Unrecognized command [");
     sender->GetSerial()->print(cmd);
     sender->GetSerial()->println("]");
+}
+
+// SEGUIMIENTO
+// comando serial: SEG azimut elevacion
+void cmd_seguimiento(SerialCommands* sender)
+{
+    char* AZ = sender->Next();
+    char* EL = sender->Next();
+
+    andando = true;
+    constante = false;
+
+    azimut.enableOutputs();
+    azimut.setMaxSpeed(1000);
+    azimut.moveTo(anguloElevacionAPaso(atof(AZ)));
+
+    elevacion.enableOutputs();
+    elevacion.setMaxSpeed(1000);
+    elevacion.moveTo(anguloElevacionAPaso(atof(EL)));
+
+    sender->GetSerial()->print("AZ EL: ");
+    sender->GetSerial()->print(AZ);
+    sender->GetSerial()->println(EL);
 }
 
 /*MOTOR AZIMUT*/
@@ -212,6 +242,7 @@ void cmd_off(SerialCommands* sender)
 // funciones serial command
 // ************************
 // declaracion de variables a enviar por serial
+SerialCommand cmd_seguimiento_("SEG", cmd_seguimiento);
 SerialCommand cmd_azimut_vel_cte_("AZ", cmd_azimut_vel_cte);
 SerialCommand cmd_azimut_pos_("AZp", cmd_azimut_pos);
 SerialCommand cmd_azimut_avanza_("AZa", cmd_azimut_avanza);
@@ -228,13 +259,13 @@ SerialCommand cmd_off_("OFF", cmd_off);
 // @return numero de paso correspondiente al angulo
 long anguloElevacionAPaso(float angulo)
 {
-    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
+    return round((angulo * 200L /*  cant de pasos del motor (Dejar la L al final del numero)*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
 }
 // @param angulo de destino
 // @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * 200L /*  cant de pasos del motor*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
+    return round((angulo * 200L /*  cant de pasos del motor (Dejar la L al final del numero)*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
 }
 
 // ************
@@ -245,6 +276,7 @@ void setup() {
 
     // inicializacion de los comandos definidos
     serial_commands_.SetDefaultHandler(&cmd_unrecognized);
+    serial_commands_.AddCommand(&cmd_seguimiento_);
     serial_commands_.AddCommand(&cmd_azimut_vel_cte_);
     serial_commands_.AddCommand(&cmd_azimut_pos_);
     serial_commands_.AddCommand(&cmd_azimut_avanza_);
