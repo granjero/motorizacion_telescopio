@@ -61,8 +61,9 @@ void cmd_seguimiento(SerialCommands* sender)
     elevacion.setMaxSpeed(1000);
     elevacion.moveTo(anguloElevacionAPaso(atof(EL)));
 
-    sender->GetSerial()->print("AZ EL: ");
-    sender->GetSerial()->print(AZ);
+    sender->GetSerial()->print("AZ: ");
+    sender->GetSerial()->println(AZ);
+    sender->GetSerial()->print("EL: ");
     sender->GetSerial()->println(EL);
 }
 
@@ -186,6 +187,7 @@ void cmd_set_home(SerialCommands* sender)
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
     azimut.setCurrentPosition(0);
     elevacion.setCurrentPosition(90);
+    azimut.enableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
 
     sender->GetSerial()->print("ELEVACION 90 AZIMUT 360");
 }
@@ -201,7 +203,7 @@ void cmd_set_new_home(SerialCommands* sender)
 
     azimut.setCurrentPosition(azimut.currentPosition() + atol(az));
     elevacion.setCurrentPosition(elevacion.currentPosition() + atol(el));
-    elevacion.setCurrentPosition(90);
+    // elevacion.setCurrentPosition(90);
 
     sender->GetSerial()->print("Azimut + ");
     sender->GetSerial()->println(az);
@@ -228,17 +230,26 @@ void cmd_go_home(SerialCommands* sender)
 // OFF apaga los motores
 void cmd_off(SerialCommands* sender)
 {
-    andando = false; // para que deje de contar pasos.
+    andando = true; // para que deje de contar pasos.
     constante = false;
-    /*motorAZ = false;*/
-    /*motorEL = false;*/
 
-    azimut.stop();
-    elevacion.stop();
+    /*azimut.stop();*/
+    /*elevacion.stop();*/
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
     sender->GetSerial()->println("MOTORES OFF");
 }
 
+// STOP detiene los motores
+void cmd_stop(SerialCommands* sender)
+{
+    andando = true; // para que deje de contar pasos.
+    constante = false;
+
+    azimut.stop();
+    elevacion.stop();
+    /*azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin*/
+    sender->GetSerial()->println("MOTORES STOP");
+}
 // funciones serial command
 // ************************
 // declaracion de variables a enviar por serial
@@ -253,6 +264,7 @@ SerialCommand cmd_go_home_("GO_HOME", cmd_go_home);
 SerialCommand cmd_set_home_("SET_HOME", cmd_set_home);
 SerialCommand cmd_set_new_home_("NEW_HOME", cmd_set_new_home);
 SerialCommand cmd_off_("OFF", cmd_off);
+SerialCommand cmd_stop_("STOP", cmd_stop);
 
 // angulo a nro de paso
 // @param angulo de destino
@@ -287,6 +299,7 @@ void setup() {
     serial_commands_.AddCommand(&cmd_set_home_);
     serial_commands_.AddCommand(&cmd_set_new_home_);
     serial_commands_.AddCommand(&cmd_off_);
+    serial_commands_.AddCommand(&cmd_stop_);
 
     Serial.println("Motores Telescopio 0.1 -> Ready");
 

@@ -46,11 +46,7 @@ async function stellarium_main_status() {
     return true;
   } catch (error) {
     //TODO  link a instrucciones para setear stellarium
-    let mensaje = '<div class="alert alert-info alert-dismissible fade show" role="alert">';
-    mensaje += '<strong>No se pudo conectar con STELLARIUM!</strong> Iniciar Stellarium y Activar el Plugin "Remote Control".';
-    mensaje += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-    let MENSAJE = document.getElementById("MENSAJE");
-    MENSAJE.innerHTML = mensaje;
+    panel_mensaje("No se pudo conectar con STELLARIUM!", "Iniciar Stellarium y Activar el Plugin Remote Control");
     console.log("error stellarium_main_status");
     return false;
   }
@@ -69,13 +65,38 @@ async function stellarium_object_info() {
     } else {
       PANEL.objeto.visible = true;
     }
-    PANEL.objeto.azimut = datos.azimuth;
-    PANEL.objeto.elevacion = datos.altitude;
+    PANEL.objeto.azimut = datos.azimuth.toFixed(4);
+    PANEL.objeto.elevacion = datos.altitude.toFixed(4);
     PANEL.objeto.iluminado = "illumination" in datos ? datos.illumination.toFixed(2) : false;
     PANEL.objeto.distancia = "distance" in datos ? datos.distance.toFixed(4) : false;
+    //console.log(PANEL.objeto.azimut);
   } catch (error) {
     //TODO mostrar el error en pantalla y link a instrucciones para setear stellarium
     console.log(error);
+  }
+}
+
+// setea la locación
+async function stellarium_set_locacion() {
+  //let latitud = document.getElementById("LATITUD").value;
+  //let longitud = document.getElementById("LONGITUD").value;
+  //let altitud = document.getElementById("ALTITUD").value;
+  const locacion = panel_get_locacion();
+  console.log(locacion);
+  const url =
+    "http://localhost:8090/api/location/setlocationfields?latitude=" +
+    locacion.latitud +
+    "&longitude=" +
+    locacion.longitud +
+    "&altitude=" +
+    locacion.altitud;
+  console.log(url);
+  try {
+    fetch(url, {
+      method: "POST",
+    });
+  } catch (error) {
+    console.log("Error set locacion");
   }
 }
 
@@ -138,8 +159,8 @@ function panel_imprime_objeto_seleccionado() {
     var visible = PANEL.objeto.visible ? "SI" : "NO";
     var info = '<dl class="row">';
     info += '<dt class="col-4">Visible</dt> <dd class="col-8">' + visible + "</dd>";
-    info += '<dt class="col-4">AZ</dt> <dd class="col-8">' + PANEL.objeto.azimut.toFixed(4) + "&#176;</dd>";
-    info += '<dt class="col-4">EL</dt> <dd class="col-8">' + PANEL.objeto.elevacion.toFixed(4) + "&#176;</dd>";
+    info += '<dt class="col-4">AZ</dt> <dd class="col-8">' + PANEL.objeto.azimut + "&#176;</dd>";
+    info += '<dt class="col-4">EL</dt> <dd class="col-8">' + PANEL.objeto.elevacion + "&#176;</dd>";
     if (PANEL.objeto.iluminado) info += '<dt class="col-4">Iluminado</dt> <dd class="col-8">' + PANEL.objeto.iluminado + " %</dd>";
     if (PANEL.objeto.distancia) info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + PANEL.objeto.distancia + " AU</dd>";
     if (PANEL.objeto.distancia) info += '<dt class="col-4">Distancia</dt> <dd class="col-8">' + commify(ua_a_km()) + " km</dd>";
@@ -204,6 +225,7 @@ function commify(n) {
 }
 
 // Locacion
+// TODO pasar valore a PANEL
 function panel_get_locacion() {
   let latitud = document.getElementById("LATITUD").value;
   let longitud = document.getElementById("LONGITUD").value;
@@ -211,9 +233,9 @@ function panel_get_locacion() {
 
   longitud = longitud < -180 || longitud > 180 ? 0 : longitud;
   latitud = latitud < -90 || latitud > 90 ? 0 : latitud;
-  altitud = altitud < -400 || altitud > 5000 ? 0 : latitud;
+  altitud = altitud < -400 || altitud > 5000 ? 0 : altitud;
 
-  return [latitud, longitud, altitud];
+  return { latitud: latitud, longitud: longitud, altitud: altitud };
 }
 
 // GOTO
@@ -221,10 +243,26 @@ function panel_get_go_to() {
   let azimut = document.getElementById("AZIMUT").value;
   let elevacion = document.getElementById("ELEVACION").value;
 
-  azimut = azimut < 0 || azimut > 360 ? 0 : azimut;
-  elevacion = elevacion < 0 || elevacion > 90 ? 90 : elevacion;
+  azimut = azimut <= 0 || azimut >= 360 ? 0 : azimut;
+  elevacion = elevacion <= 0 || elevacion >= 90 ? 90 : elevacion;
 
-  return [azimut, elevacion];
+  PANEL.objeto.azimut = azimut;
+  PANEL.objeto.elevacion = elevacion;
+}
+
+function panel_mensaje(negrita, normal) {
+  let mensaje = '<div class="alert alert-info alert-dismissible fade show" role="alert">';
+  mensaje += "<strong>";
+  mensaje += negrita;
+  mensaje += "</strong>";
+  mensaje += normal;
+  mensaje += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+  let MENSAJE = document.getElementById("MENSAJE");
+  MENSAJE.innerHTML = mensaje;
+}
+// setear home ceros
+function telescopio_set_home() {
+  serial_enviar_comando("SET_HOME");
 }
 
 // ->->->->->->->
@@ -243,19 +281,7 @@ async function serial_conectar_telescopio() {
   outputStream = encoder.writable;
 }
 
-//async function conectarTelescopio() {
-//port = await navigator.serial.requestPort({});
-//await port.open({ baudRate: 115200 });
-
-////document.querySelector("input").disabled = false;
-//TELESCOPIO.innerText = "🔌 Desconectar Telescopio";
-
-//const encoder = new TextEncoderStream();
-//outputDone = encoder.readable.pipeTo(port.writable);
-//outputStream = encoder.writable;
-//}
-
-async function serial_comando_seguimiento() {
+async function serial_go_to() {
   try {
     if (port) {
       let comando = "SEG ";
@@ -269,7 +295,9 @@ async function serial_comando_seguimiento() {
       writer.write(comando);
       writer.releaseLock();
     } else {
-      console.log("ERROR PORT");
+      console.log("ERROR PORT GOTO");
+      panel_mensaje("No se pudo conectar con el TELESCOPIO!", "Error en GO_TO");
+      boton_stop();
     }
   } catch (error) {
     console.log(error);
@@ -278,43 +306,20 @@ async function serial_comando_seguimiento() {
 async function serial_enviar_comando(comando) {
   try {
     if (port) {
-      //let comando = "AZp ";
-      //comando += PANEL.objeto.azimut;
-      //comando += " 5000 \r\n";
-
       const writer = outputStream.getWriter();
       console.log("[SEND]", comando);
       writer.write(comando);
       writer.releaseLock();
     } else {
-      console.log("ERROR PORT");
+      console.log("ERROR PORT SERIAL ENVIAR COMANDO");
+      panel_mensaje("No se pudo conectar con el TELESCOPIO!  ", "Error al enviar el comando [" + comando + "]");
     }
   } catch (error) {
     console.log(error);
   }
 }
-//async function enviarComandoTelescopio() {
-//try {
-//if (port) {
-//let comando = "AZp ";
-//comando += PANEL.objeto.azimut;
-//comando += " 5000 \r\n";
-
-//const writer = outputStream.getWriter();
-//console.log("[SEND]", comando);
-//writer.write(comando);
-//writer.releaseLock();
-//} else {
-//console.log("ERROR PORT");
-//}
-//} catch (error) {
-//console.log(error);
-//}
-//}
 
 // EVENT LISTENERS
-
-//const OBJETO_INFO = document.querySelector("#OBJETO_INFO");
 
 const TELESCOPIO = document.getElementById("TELESCOPIO");
 let port;
@@ -324,7 +329,7 @@ TELESCOPIO.addEventListener("click", function () {
     port = undefined;
     TELESCOPIO.innerText = "🔌 Conectar con el Telescopio";
   } else {
-    conectarTelescopio();
+    serial_conectar_telescopio();
   }
 });
 
@@ -365,22 +370,89 @@ async function boton_seguimiento() {
   PANEL.intervalos.id_seguimiento =
     PANEL.intervalos.id_seguimiento == 0
       ? setInterval(async function i() {
-          await stellarium_object_info(), panel_imprime_objeto_seleccionado();
-        }, 200)
+          await stellarium_object_info(), panel_imprime_objeto_seleccionado(), serial_go_to();
+        }, 300)
       : PANEL.intervalos.id_seguimiento;
 }
 
-// TODO hacer funcion
+// click en la mano
 const STOP = document.querySelector("#STOP");
 STOP.addEventListener("click", boton_stop);
 function boton_stop() {
   clearInterval(PANEL.intervalos.id_seguimiento);
   PANEL.intervalos.id_seguimiento = 0;
+  serial_enviar_comando("STOP \r\n");
 }
-console.log("STOP");
+
+// click en la casita GO HOME
+const GO_HOME = document.querySelector("#GO_HOME");
+GO_HOME.addEventListener("click", boton_go_home);
+function boton_go_home() {
+  serial_enviar_comando("GO_HOME \r\n");
+}
+
+// click en el boton de apagado
+const OFF = document.querySelector("#OFF");
+OFF.addEventListener("click", boton_off);
+function boton_off() {
+  clearInterval(PANEL.intervalos.id_seguimiento);
+  PANEL.intervalos.id_seguimiento = 0;
+  serial_enviar_comando("OFF \r\n");
+}
+
+// click en el mundito de setear ceros
+const SET_HOME = document.querySelector("#SET_HOME");
+SET_HOME.addEventListener("click", boton_set_home);
+function boton_set_home() {
+  serial_enviar_comando("SET_HOME \r\n");
+}
 
 const ANGULO = document.querySelector("#ANGULO");
 ANGULO.addEventListener("click", panel_get_distancia_angular);
 
+// click en el boton UP
+const UP = document.querySelector("#UP");
+UP.addEventListener("click", boton_up);
+function boton_up() {
+  let comando = "ELa ";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " \r\n";
+  serial_enviar_comando(comando);
+}
+
+// click en el boton DOWN
+const DOWN = document.querySelector("#DOWN");
+DOWN.addEventListener("click", boton_down);
+function boton_down() {
+  let comando = "ELa -";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " \r\n";
+  serial_enviar_comando(comando);
+}
+
+// click en el boton LEFT
+const LEFT = document.querySelector("#LEFT");
+LEFT.addEventListener("click", boton_left);
+function boton_left() {
+  let comando = "AZa -";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " \r\n";
+  serial_enviar_comando(comando);
+}
+
+// click en el boton RIGHT
+const RIGHT = document.querySelector("#RIGHT");
+RIGHT.addEventListener("click", boton_right);
+function boton_right() {
+  let comando = "AZa ";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " \r\n";
+  serial_enviar_comando(comando);
+}
+
 const GOTO = document.querySelector("#GOTO");
-GOTO.addEventListener("click", panel_get_distancia_angular);
+GOTO.addEventListener("click", boton_go_to);
+function boton_go_to() {
+  panel_get_go_to();
+  serial_go_to();
+}
