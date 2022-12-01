@@ -55,7 +55,7 @@ void cmd_seguimiento(SerialCommands* sender)
 
     azimut.enableOutputs();
     azimut.setMaxSpeed(1000);
-    azimut.moveTo(anguloElevacionAPaso(atof(AZ)));
+    azimut.moveTo(anguloAzimutAPaso(atof(AZ)));
 
     elevacion.enableOutputs();
     elevacion.setMaxSpeed(1000);
@@ -219,7 +219,7 @@ void cmd_go_home(SerialCommands* sender)
 
     elevacion.enableOutputs();
     elevacion.setMaxSpeed(1000);
-    elevacion.moveTo(0);
+    elevacion.moveTo(90);
     azimut.enableOutputs();
     azimut.setMaxSpeed(1000);
     azimut.moveTo(0);
@@ -277,7 +277,14 @@ long anguloElevacionAPaso(float angulo)
 // @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * 200L /*  cant de pasos del motor (Dejar la L al final del numero)*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/ * (400 / 20)) / 360);
+
+    long pasosUnaVueltaMotor = 200L /*  cant de pasos del motor (Dejar la L al final del numero)*/ * 16 /* microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]*/;
+    long relacionEngranajes = 400 / 20;
+    long pasosUnaVuelta360 = pasosUnaVueltaMotor * relacionEngranajes;
+    long pasosUnGrado = pasosUnaVuelta360 / 360;
+    long pasosAngulo = round(angulo * pasosUnGrado);
+
+    return pasosAngulo;
 }
 
 // ************

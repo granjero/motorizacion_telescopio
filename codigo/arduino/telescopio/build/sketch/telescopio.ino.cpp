@@ -66,9 +66,9 @@ void cmd_stop(SerialCommands* sender);
 long anguloElevacionAPaso(float angulo);
 #line 277 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 long anguloAzimutAPaso(float angulo);
-#line 285 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 292 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void setup();
-#line 322 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
+#line 329 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void loop();
 #line 38 "/Users/juanmiguel/telesy/codigo/arduino/telescopio/telescopio.ino"
 void cmd_unrecognized(SerialCommands* sender, const char* cmd)
@@ -90,7 +90,7 @@ void cmd_seguimiento(SerialCommands* sender)
 
     azimut.enableOutputs(); 
     azimut.setMaxSpeed(VEL_MAX);
-    azimut.moveTo(anguloElevacionAPaso(atof(AZ)));
+    azimut.moveTo(anguloAzimutAPaso(atof(AZ)));
 
     elevacion.enableOutputs(); 
     elevacion.setMaxSpeed(VEL_MAX);
@@ -254,7 +254,7 @@ void cmd_go_home(SerialCommands* sender)
 
     elevacion.enableOutputs(); 
     elevacion.setMaxSpeed(VEL_MAX);
-    elevacion.moveTo(0);
+    elevacion.moveTo(90);
     azimut.enableOutputs();
     azimut.setMaxSpeed(VEL_MAX);
     azimut.moveTo(0);
@@ -312,7 +312,14 @@ long anguloElevacionAPaso(float angulo)
 // @return numero de paso correspondiente al angulo
 long anguloAzimutAPaso(float angulo)
 {
-    return round((angulo * PASOS_MOTOR_AZ * MICROSTEPS_AZ * (DIENTES_CORONA_AZ / DIENTES_PINON_AZ)) / 360);
+
+    long pasosUnaVueltaMotor = PASOS_MOTOR_AZ * MICROSTEPS_AZ;
+    long relacionEngranajes = DIENTES_CORONA_AZ / DIENTES_PINON_AZ;
+    long pasosUnaVuelta360 = pasosUnaVueltaMotor * relacionEngranajes;
+    long pasosUnGrado = pasosUnaVuelta360 / 360;
+    long pasosAngulo = round(angulo * pasosUnGrado);
+
+    return pasosAngulo;
 }
 
 // ************
