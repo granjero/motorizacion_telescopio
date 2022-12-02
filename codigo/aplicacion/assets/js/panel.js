@@ -312,7 +312,7 @@ async function serial_enviar_comando(comando) {
       writer.releaseLock();
     } else {
       console.log("ERROR PORT SERIAL ENVIAR COMANDO");
-      panel_mensaje("No se pudo conectar con el TELESCOPIO!  ", "Error al enviar el comando [" + comando + "]");
+      panel_mensaje("No se pudo conectar con el TELESCOPIO!  ", "Error al enviar el comando [ " + comando + "]");
     }
   } catch (error) {
     console.log(error);
@@ -456,3 +456,19 @@ function boton_go_to() {
   panel_get_go_to();
   serial_go_to();
 }
+
+const CORRECCION_AZ_UP = document.querySelector("#CORRECCION_AZ_UP");
+CORRECCION_AZ_UP.addEventListener("click", function () {
+  let comando = "NEW_HOME ";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " 0 \r\n";
+  serial_enviar_comando(comando);
+});
+
+const CORRECCION_AZ_DOWN = document.querySelector("#CORRECCION_AZ_DOWN");
+CORRECCION_AZ_DOWN.addEventListener("click", function () {
+  let comando = "NEW_HOME -";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " 0 \r\n";
+  serial_enviar_comando(comando);
+});
