@@ -407,6 +407,10 @@ function boton_set_home() {
   serial_enviar_comando("SET_HOME \r\n");
 }
 
+// click en el mundito de setear ceros
+const SET_LOCACION = document.querySelector("#SET_LOCACION");
+SET_LOCACION.addEventListener("click", stellarium_set_locacion);
+
 const ANGULO = document.querySelector("#ANGULO");
 ANGULO.addEventListener("click", panel_get_distancia_angular);
 
@@ -470,5 +474,23 @@ CORRECCION_AZ_DOWN.addEventListener("click", function () {
   let comando = "NEW_HOME -";
   comando += PANEL.telescopio.distancia_angular;
   comando += " 0 \r\n";
+  serial_enviar_comando(comando);
+});
+
+const CORRECCION_EL_UP = document.querySelector("#CORRECCION_EL_UP");
+CORRECCION_EL_UP.addEventListener("click", function () {
+  let comando = "NEW_HOME ";
+  comando += " 0 ";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " \r\n";
+  serial_enviar_comando(comando);
+});
+
+const CORRECCION_EL_DOWN = document.querySelector("#CORRECCION_EL_DOWN");
+CORRECCION_EL_DOWN.addEventListener("click", function () {
+  let comando = "NEW_HOME ";
+  comando += " 0 -";
+  comando += PANEL.telescopio.distancia_angular;
+  comando += " \r\n";
   serial_enviar_comando(comando);
 });
