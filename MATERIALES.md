@@ -1,4 +1,4 @@
-### Materiales
+## Materiales
 
 - Telescopio
 - Montura
