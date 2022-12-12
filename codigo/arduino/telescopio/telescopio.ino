@@ -60,10 +60,10 @@ void cmd_seguimiento(SerialCommands* sender)
     elevacion.setMaxSpeed(VEL_MAX);
     elevacion.moveTo(anguloElevacionAPaso(atof(EL)));
 
-    sender->GetSerial()->print("AZ: ");
-    sender->GetSerial()->println(AZ);
-    sender->GetSerial()->print("EL: ");
-    sender->GetSerial()->println(EL);
+    /*sender->GetSerial()->print("AZ: ");*/
+    /*sender->GetSerial()->println(AZ);*/
+    /*sender->GetSerial()->print("EL: ");*/
+    /*sender->GetSerial()->println(EL);*/
 }
 
 /*MOTOR AZIMUT*/
@@ -200,14 +200,14 @@ void cmd_set_new_home(SerialCommands* sender)
     char* az = sender->Next();
     char* el = sender->Next();
 
-    azimut.setCurrentPosition(azimut.currentPosition() + anguloAzimutAPaso(atol(az)));
-    elevacion.setCurrentPosition(elevacion.currentPosition() + anguloElevacionAPaso(atol(el)));
-    // elevacion.setCurrentPosition(90);
+    azimut.setCurrentPosition(azimut.currentPosition() + anguloAzimutAPaso(atof(az)));
+    elevacion.setCurrentPosition(elevacion.currentPosition() + anguloElevacionAPaso(atof(el)));
+     /*elevacion.setCurrentPosition(90);*/
 
-    sender->GetSerial()->print("Azimut + ");
-    sender->GetSerial()->println(az);
-    sender->GetSerial()->print("Elevacion + ");
-    sender->GetSerial()->println(el);
+    /*sender->GetSerial()->print("Azimut + ");*/
+    /*sender->GetSerial()->println(az);*/
+    /*sender->GetSerial()->print("Elevacion + ");*/
+    /*sender->GetSerial()->println(el);*/
 }
 
 // GO HOME (u r drunk)
