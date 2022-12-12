@@ -19,7 +19,7 @@ Proyecto para robotizar la montura Dobson del telescopio que fabriqué en la ASA
 
 En la ASARAMAS dictan un curso para fabricar un telescopio refractario con una montura Dobson.
 La idea es agregar al telescopio dos motores. Uno para controlar el ángulo del Azimut y otro para controlar el ángulo de Elevación.
-Para controlar el telescopio hay un panel de control que toma los datos de Stellarium (https://stellarium.org/) y los envia al microcontrolador del telescopio.
+Para interactuar con el telescopio programé un panel de control que toma datos de Stellarium (https://stellarium.org/) y los envia al microcontrolador del telescopio para poder hacer seguimiento de objetos celestes.
 
 ### ⚙️ Instrucciones
 
