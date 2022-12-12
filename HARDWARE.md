@@ -1,4 +1,4 @@
-## Instrucciones para el Hardware
+## Instrucciones de ensamblado
 
 ### Azimut
 
