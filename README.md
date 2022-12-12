@@ -19,6 +19,6 @@ Para controlar el telescopio hay un panel de control que toma los datos de Stell
 ### ⚙️ instrucciones
 
 - [Lista de Materiales](MATERIALES.md)
-- [Hardware](HARDWARE.md)
-- [Firmware](FIRMWARE.md)
-- [Software](SOFTWARE.md)
+- [Hardware](/HARDWARE.md)
+- [Firmware](/FIRMWARE.md)
+- [Software](/SOFTWARE.md)
