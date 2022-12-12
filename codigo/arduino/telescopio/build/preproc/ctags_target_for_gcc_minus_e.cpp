@@ -186,7 +186,7 @@ void cmd_set_home(SerialCommands* sender)
     elevacion.stop();
     azimut.disableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
     azimut.setCurrentPosition(0);
-    elevacion.setCurrentPosition(90);
+    elevacion.setCurrentPosition(anguloElevacionAPaso(90));
     azimut.enableOutputs(); // uso azimut pero podría usar elevacion porque compraten el pin
 
     sender->GetSerial()->print("ELEVACION 90 AZIMUT 360");
@@ -201,8 +201,8 @@ void cmd_set_new_home(SerialCommands* sender)
     char* az = sender->Next();
     char* el = sender->Next();
 
-    azimut.setCurrentPosition(azimut.currentPosition() + atol(az));
-    elevacion.setCurrentPosition(elevacion.currentPosition() + atol(el));
+    azimut.setCurrentPosition(azimut.currentPosition() + anguloAzimutAPaso(atol(az)));
+    elevacion.setCurrentPosition(elevacion.currentPosition() + anguloElevacionAPaso(atol(el)));
     // elevacion.setCurrentPosition(90);
 
     sender->GetSerial()->print("Azimut + ");
@@ -219,10 +219,10 @@ void cmd_go_home(SerialCommands* sender)
 
     elevacion.enableOutputs();
     elevacion.setMaxSpeed(1000);
-    elevacion.moveTo(90);
+    elevacion.moveTo(anguloElevacionAPaso(90));
     azimut.enableOutputs();
     azimut.setMaxSpeed(1000);
-    azimut.moveTo(0);
+    azimut.moveTo(anguloElevacionAPaso(0));
 
     sender->GetSerial()->print("Yendo a Casa ");
 
