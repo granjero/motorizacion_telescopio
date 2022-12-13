@@ -18,14 +18,21 @@
 
 ## Azimut
 
-El movimiento en el eje adazimutal se realiza gracias a uno de los dos motores paso a paso.
+El movimiento en el eje azimutal se realiza gracias a uno de los dos motores paso a paso.
 El eje de este motor tiene asociado un _piñón_ de **X** dientes, que se acopla con una _corona_ de **Y** dientes.
-Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados antes son los que se deben volcar al firmware.
+Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados anteriormente son los que se deben volcar al firmware.
 
 #### Piñón AZIMUT
 
 El piñón para el eje del motor azimutal es una pieza impresa en 3D diseñada en [OpenScad](<https://openscad.org/]()>).
 Este es el [piñon](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) estándar, se puede generar una nueva pieza con este [Sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+El piñon estándar tiene 20 dientes.
+
+#### Corona AZIMUT
+
+La coroza azimutal es una pieza también diseñada en OpenScad, pero en este caso es un corte en MDF de 9mm de ancho.
+Esta es la [corona](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) estándar, se puede generar una nueva pieza con este [Sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+La corona estándar tiene 400 dientes y 486mm ± de diámetro.
 
 #### Motor AZIMUT
 
