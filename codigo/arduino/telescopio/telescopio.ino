@@ -4,20 +4,28 @@
 #include <AccelStepper.h>
 #include <SerialCommands.h>
 
-// constantes
-#define ENABLE_PIN 8 // pin del Arduino conectado al enable de los drivers de los motores
-#define VEL_MAX 1000
-#define ACELERACION 500
-// AZIMUT
+/* VALORES AZIMUT
+ ***************/
 #define PASOS_MOTOR_AZ 200L //  cant de pasos del motor (Dejar la L al final del numero)
 #define MICROSTEPS_AZ 16 // microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]
 #define DIENTES_CORONA_AZ 400
 #define DIENTES_PINON_AZ 20
-// ELEVACION
+/* VALORES ELEVACION 
+ ******************/
 #define PASOS_MOTOR_EL 200L //  cant de pasos del motor (Dejar la L al final del numero)
 #define MICROSTEPS_EL 16 // microstepping = [full step = 1] [half step = 2] [quarter step = 4] [eighth step = 8] [sixteenth step = 16]
 #define DIENTES_CORONA_EL 400
 #define DIENTES_PINON_EL 20
+/* VALORES COMUNES 
+ ****************/
+#define VEL_MAX 1000
+#define ACELERACION 500
+
+/* NO DEBERIA HACER FALTA MODIFICAR NADA DEBAJO DE ESTA LINEA 
+ ************************************************************/
+
+// constantes
+#define ENABLE_PIN 8 // pin del Arduino conectado al enable de los drivers de los motores
 
 
 // variables
