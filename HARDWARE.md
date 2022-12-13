@@ -4,7 +4,7 @@
 
 1. Arduino
    1. Cargar el [firmware](/FIRMWARE.md) en el Arduino
-   2. Preparar el Arduino para ser conectado a 12V por el puerto _PowerJack 2.1x5.5mm_
+   2. Preparar el Arduino para ser conectado a 12V por el puerto _PowerJack 2.1x5.5mm_  
       <img src="/archivos/arduino_alimentacion.png" width=30% height=30%>
 2. ShieldCNC
 
