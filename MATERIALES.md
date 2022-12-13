@@ -2,7 +2,7 @@
 
 - Telescopio
 - Montura
-- [Arduino UNO](https://docs.arduino.cc/hardware/uno-rev3)
+- [Arduino UNO](https://docs.arduino.cc/static/9d6ed041fec691039663ae42f50fabcc/A000066-datasheet.pdf)
 - [CNC Arduino Shield](https://blog.protoneer.co.nz/arduino-cnc-shield/)
 - Driver [A4988](https://www.pololu.com/product/1182) x 2 ó [DRV8825](https://www.pololu.com/product/2133) x 2
 - Fuente Switching tipo notebook 12V 3A
