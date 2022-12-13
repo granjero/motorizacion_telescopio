@@ -4,7 +4,7 @@
 
 El movimiento en el eje azimutal se realiza gracias a uno de los dos motores paso a paso.
 El eje de este motor tiene asociado un _piñón_ de **X** dientes, que se acopla con una _corona_ de **Y** dientes.
-Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados anteriormente son los que se deben volcar al firmware.
+Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados son los que se deben volcar al firmware.
 
 #### Corona AZIMUT
 
