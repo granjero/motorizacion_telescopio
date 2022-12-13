@@ -4,8 +4,8 @@ El software de este proyecto **_NO_** impide que durante su recorrido el telesco
 Mirar el sol a través de un telescopio puede causar **CEGUERA IRREVERSIBLE** 👁 👨‍🦯  
 Utilizar sólo cuando el sol se haya ocultado en el horizonte o con los filtros necesarios.
 
-> Este software se proporciona "tal cual" y no se entrega ninguna garantía, expresa o implícita, en cuanto a su exactitud, integridad o rendimiento.
-> En ningún caso seré responsable de cualquier daño directo, indirecto, incidental, especial, consecuencial o ejemplar, resultante del uso de este software.
+> Este software se proporciona "tal cual" y no se entrega ninguna garantía, expresa o implícita, en cuanto a su exactitud, integridad o rendimiento.  
+> En ningún caso seré responsable de cualquier daño directo, indirecto, incidental, especial, consecuencial o ejemplar, resultante del uso de este software.  
 > El usuario asume el riesgo completo y la responsabilidad total en cuanto al uso y resultados del software.
 
 # 🔭 Montura Dobson Motorizada
