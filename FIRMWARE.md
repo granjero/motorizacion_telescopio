@@ -5,13 +5,15 @@
    - Conectar el arduino al ordenador con el cable USB
    - Ir a Herramientas/Tools -> Placas/Boards y seleccionar Arduino UNO
    - Ir a Herramientas/Tools -> Puerto/Port y seleccionar el puerto en el que esté conectado el Arduino
-3. Abrir el archivo telescopio.ino
 
 ```
 Se deben especificar en el programa la cantidad de dientes de las coronas y los piñones del telescopio.
+En las primeras
 ```
 
-- Ir a Programa/Sketch ->
+3. Abrir el archivo telescopio.ino
+   - Cambiar los valores de las constantes "PASOS_MOTOR\_", "MICROSTEPS\_", "DIENTES_CORONA\_", "DIENTES_PINON\_" según corresponda
+   - Ir a Programa/Sketch -> Subir/Upload
 
 ##### Librerías utilizadas:
 
