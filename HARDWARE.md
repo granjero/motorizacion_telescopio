@@ -4,8 +4,8 @@
 
 1. Arduino
    1. Cargar el [firmware](/FIRMWARE.md) en el Arduino
-   2. Preparar el Arduino para ser conectado a 12V por el puerto _PowerJack 2.1x5.5mm_  
-      <img src="/archivos/arduino_alimentacion.png" width=30% height=30%>
+   2. El Arduino será conectado a 12V por el puerto _PowerJack 2.1x5.5mm_  
+      <img src="/archivos/arduino_alimentacion.png" width=26% height=26%>
 2. ShieldCNC
 
    1. Popular con jumpers los 3 pares de pines (M0, M1, M2) del eje **X** y del eje **Y** para configurar el MicroStepping en 16.  
@@ -18,14 +18,21 @@
 
 ## Azimut
 
-Cheesecake dessert wafer bear claw pudding. Shortbread cake gingerbread sesame snaps jelly-o muffin sweet carrot cake
+El movimiento en el eje adazimutal se realiza gracias a uno de los dos motores paso a paso.
+El eje de este motor tiene asociado un _piñón_ de **X** dientes, que se acopla con una _corona_ de **Y** dientes.
+Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados antes son los que se deben volcar al firmware.
 
-### Motor AZIMUT
+#### Piñón AZIMUT
+
+El piñón para el eje del motor azimutal es una pieza impresa en 3D diseñada en [OpenScad](<https://openscad.org/]()>).
+Este es el [piñon](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) estándar, se puede generar una nueva pieza con este [Sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+
+#### Motor AZIMUT
 
 1. Conectar los pines del motor al eje **X** del ShieldCNC
 
-### Motor ELEVACION
+## Elevación
 
-### Elevación
+#### Motor ELEVACION
 
-Cake bonbon lollipop halvah sweet. Marshmallow danish powder cupcake jelly-o bonbon. Sweet pastry jelly halvah apple pie apple pie halvah cake icing
+aake bonbon lollipop halvah sweet. Marshmallow danish powder cupcake jelly-o bonbon. Sweet pastry jelly halvah apple pie apple pie halvah cake icing

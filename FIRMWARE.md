@@ -12,7 +12,8 @@ Se deben especificar en el programa la cantidad de dientes de las coronas y los 
 
 3. Abrir el archivo telescopio.ino
 
-   - Cambiar los valores de las constantes "PASOS_MOTOR\_", "MICROSTEPS\_", "DIENTES_CORONA\_", "DIENTES_PINON\_" para AZIMUT y ELEVACION según corresponda
+   - Cambiar los valores de las constantes "PASOS_MOTOR\_", "MICROSTEPS\_", "DIENTES_CORONA\_", "DIENTES_PINON\_" para AZIMUT y ELEVACION según corresponda con la construccion del telescopio.
+   - Guardar el Sketch
    - Ir a Programa/Sketch -> Subir/Upload
 
 4. Una vez subido el programa desconectar el Arduino del ordenador y continuar con la conección del Shield CNC. (Ver seccion Hardware)
