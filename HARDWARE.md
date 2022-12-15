@@ -12,7 +12,8 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 - 480mm de diámetro
 - 9mm de alto
 
-La corona se debe instalar centrada sobre la parte fija de la montura.  
+La corona se debe instalar centrada sobre la parte fija de la montura.
+
 <img src="/archivos/azimut/corona_instalacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 <img src="/archivos/azimut/corona_instalacion_2.png" width=25% height=25%>
 
