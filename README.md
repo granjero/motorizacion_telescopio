@@ -14,9 +14,9 @@ Utilizar sólo cuando el sol se haya ocultado en el horizonte o con los filtros 
 
 ### 📓 Resumen
 
-En la ASARAMAS dictan un curso para fabricar un telescopio refractario con una montura Dobson.
+En la ASARAMAS dictan un curso para fabricar un telescopio reflector del tipo Newtoniano con una montura tipo Dobson.
 La idea es agregar al telescopio dos motores. Uno para controlar el ángulo del Azimut y otro para controlar el ángulo de Elevación.
-Para interactuar con el telescopio programé un panel de control que toma datos de Stellarium (https://stellarium.org/) y los envia al microcontrolador del telescopio para poder hacer seguimiento de objetos celestes.
+Se interactúa con el telescopio a través de un panel de control que toma datos de Stellarium (https://stellarium.org/) y los envia al microcontrolador del telescopio para poder hacer seguimiento de objetos celestes.
 
 ### ⚙️ Instrucciones
 
