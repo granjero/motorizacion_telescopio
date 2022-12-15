@@ -8,7 +8,7 @@ El movimiento en el eje azimutal se realiza gracias a uno de los dos motores pas
 El eje de este motor tiene asociado un _piñón_ de **X** dientes, que se acopla con una _corona_ de **Y** dientes.
 Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados en el ShieldCNC son los que se deben volcar al firmware.
 
-#### Corona AZIMUT
+#### Corona
 
 - 400 dientes
 - 480mm de diámetro
@@ -21,7 +21,7 @@ La corona se debe instalar centrada sobre la parte fija de la montura.
 
 Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 
-#### Piñón AZIMUT
+#### Piñón
 
 - 20 dientes
 - 25 mm de diámetro
@@ -33,10 +33,10 @@ El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.
 
 Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) para realizar la impresion 3D, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 
-#### Soporte motor AZIMUT
+#### Soporte motor
 
 El motor debe ser instalado con su eje paralelo al eje de rotación azimutal del telescopio y el piñón debe acoplar con la corona.
-Para ello hay que realizar un orificio en la parte rotativa de la montura.
+Para ello hay que realizar un orificio en la parte rotativa de la montura.  
 &nbsp;  
 <img src="/archivos/azimut/orificio_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 <img src="/archivos/azimut/orificio_motor_azimut_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
@@ -48,7 +48,7 @@ Para ello hay que realizar un orificio en la parte rotativa de la montura.
 Con este [archivo](/imprimibles/monturas/montura_motor_azimut.stl) se puede realizar la impresion 3D del soporte.
 También se puede cortar en metal con este [molde](/imprimibles/monturas/montura_motor_azimut_diy.pdf) _Al imprimir tener en cuenta que el PDF está en tamaño carta._
 
-#### Motor AZIMUT
+#### Motor
 
 Conectar el motor al eje **X** del ShieldCNC.
 Si gira en sentido contrario cuando se lo comanda con el panel del control invertir la conección.  
