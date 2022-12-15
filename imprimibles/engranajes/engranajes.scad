@@ -101,6 +101,7 @@ module baseMontura(color = "Indigo")
         }
     }
 
+    // tapa
     translate([0,0,30])
     color("Purple", 4) {
       difference(){
@@ -111,9 +112,18 @@ module baseMontura(color = "Indigo")
         cylinder(h=30, r = 25, center = true);
       }
     }
+    // soporte
     translate([DIAMETRO_CORONA / 2.05,-45,40])
     rotate([0,0,90])
     soporte();
+
+    translate([DIAMETRO_CORONA / 2.24,0,46])
+    motor_cuerpo();
+
+    translate([DIAMETRO_CORONA / 2.27 , 0, 7])
+    color("Green"){
+      pinonPara3D();
+    }
 }
 
 // Dibuja la corona completa. Sólo para visualizar.
@@ -230,66 +240,92 @@ module reduccionPara3D()
 
 module soporte()
 {
-$fn = 100;
+  $fn = 100;
 
-color("Blue"){
-espesor = 5;
-ancho = 40; 
-largo = 90;
-separacionTornillos = 31;
+  color("Blue"){
+    espesor = 5;
+    ancho = 40; 
+    largo = 90;
+    separacionTornillos = 31;
 
 
-difference(){
     difference(){
-        cube([largo, ancho, espesor]);
-        translate([largo * 0.5, ancho * 0.5, 0])
-        cylinder(h = espesor*3, d = 23, center = true); 
+        difference(){
+            cube([largo, ancho, espesor]);
+            translate([largo * 0.5, ancho * 0.5, 0])
+            cylinder(h = espesor*3, d = 23, center = true); 
+        }
+
+        // tornillos
+        //----------
+        translate(
+            [(largo * 0.5) - (separacionTornillos * 0.5),
+            (ancho * 0.5) - (separacionTornillos * 0.5),
+            0])
+        cylinder(h = 30, d = 3, center = true);
+            
+        translate(
+            [(largo * 0.5) + (separacionTornillos * 0.5),
+            (ancho * 0.5) - (separacionTornillos * 0.5),
+            0])
+        cylinder(h = 30, d = 3, center = true);
+
+        translate(
+            [(largo * 0.5) - (separacionTornillos * 0.5),
+            (ancho * 0.5) + (separacionTornillos * 0.5),
+            0])
+        cylinder(h = 30, d = 3, center = true);
+
+        translate(
+            [(largo * 0.5) + (separacionTornillos * 0.5),
+            (ancho * 0.5) + (separacionTornillos * 0.5),
+            0])
+        cylinder(h = 30, d = 3, center = true);
+
+        // aletas
+        // ------
+
+        translate(
+            [12, 
+            (ancho * 0.5 - ancho * 0.4),
+            -3])
+        cube([3, ancho * 0.8, 10]);
+
+        translate(
+            [largo -14, 
+            (ancho * 0.5 - ancho * 0.4),
+            -3])
+        cube([3, ancho * 0.8, 10]);
     }
-
-// tornillos
-//----------
-    translate(
-        [(largo * 0.5) - (separacionTornillos * 0.5),
-        (ancho * 0.5) - (separacionTornillos * 0.5),
-        0])
-    cylinder(h = 30, d = 3, center = true);
-        
-    translate(
-        [(largo * 0.5) + (separacionTornillos * 0.5),
-        (ancho * 0.5) - (separacionTornillos * 0.5),
-        0])
-    cylinder(h = 30, d = 3, center = true);
-
-    translate(
-        [(largo * 0.5) - (separacionTornillos * 0.5),
-        (ancho * 0.5) + (separacionTornillos * 0.5),
-        0])
-    cylinder(h = 30, d = 3, center = true);
-
-    translate(
-        [(largo * 0.5) + (separacionTornillos * 0.5),
-        (ancho * 0.5) + (separacionTornillos * 0.5),
-        0])
-    cylinder(h = 30, d = 3, center = true);
-
-// aletas
-// ------
-
-    translate(
-        [12, 
-        (ancho * 0.5 - ancho * 0.4),
-        -3])
-    cube([3, ancho * 0.8, 10]);
-
-    translate(
-        [largo -14, 
-        (ancho * 0.5 - ancho * 0.4),
-        -3])
-    cube([3, ancho * 0.8, 10]);
-}
+  }
 }
 
 
+module motor_cuerpo(alto = 48, ancho = 42.6)
+{
+    esquina = 6;
+    separacionTornillos = 31;
+    
+    translate([0,0, alto/2])
+    difference()
+    {
+        cube([ancho, ancho, alto], center = true);
+         
+        // esquinas
+        translate([ancho/2,ancho/2,0])
+        rotate([0,0,45])
+        cube([esquina, esquina, alto * 1.5], center = true);
 
+        translate([ancho/2,-ancho/2,0])
+        rotate([0,0,45])
+        cube([esquina, esquina, alto * 1.5], center = true);
 
+        translate([-ancho/2,ancho/2,0])
+        rotate([0,0,45])
+        cube([esquina, esquina, alto * 1.5], center = true);
+
+        translate([-ancho/2,-ancho/2,0])
+        rotate([0,0,45])
+        cube([esquina, esquina, alto * 1.5], center = true);
+    }
 }
