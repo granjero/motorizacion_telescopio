@@ -111,7 +111,7 @@ module baseMontura(color = "Indigo")
         cylinder(h=30, r = 25, center = true);
       }
     }
-    translate([DIAMETRO_CORONA / 2.05,-45,50])
+    translate([DIAMETRO_CORONA / 2.05,-45,40])
     rotate([0,0,90])
     soporte();
 }
