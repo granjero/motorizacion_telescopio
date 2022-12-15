@@ -13,11 +13,11 @@ $fn = 200;
 // CORONA 3D
 CORONA_PARA_IMPRIMIR_3D = false;
 // CORONA COMPLETA
-CORONA_COMPLETA = false;
+CORONA_COMPLETA = true;
 // PINON 3D
 PINON_PARA_IMPRIMIR_3D = false;
 // ver base 
-BASE_MONTURA = false;
+BASE_MONTURA = true;
 
 
 
@@ -94,11 +94,27 @@ if(PINON_PARA_IMPRIMIR_3D){
 // color => color para el render
 module baseMontura(color = "Indigo")
 {
-    translate([0,0,-25])
-    color(color, 0.4) {
+    translate([0,0,-9])
+    color(color, 4) {
         union(){
-            cylinder(h = 18, r = DIAMETRO_CORONA / 2,center = true);
+            cylinder(h = 18, r = DIAMETRO_CORONA / 1.94,center = true);
         }
+    }
+
+    translate([0,0,30])
+    color("Purple", 4) {
+      difference(){
+        cylinder(h = 18, r = DIAMETRO_CORONA / 1.94,center = true);
+        translate([DIAMETRO_CORONA / 2.45, 0,0])
+        cylinder(h=30, r = 25, center = true);
+        translate([DIAMETRO_CORONA / 2.4, 0,0])
+        cylinder(h=30, r = 25, center = true);
+        translate([DIAMETRO_CORONA / 2.35, 0,0])
+        cylinder(h=30, r = 25, center = true);
+        translate([DIAMETRO_CORONA / 2.3, 0,0])
+        cylinder(h=30, r = 25, center = true);
+      }
+
     }
 }
 
