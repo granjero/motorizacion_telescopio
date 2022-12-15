@@ -278,13 +278,13 @@ difference(){
     translate(
         [12, 
         (ancho * 0.5 - ancho * 0.4),
-        -1])
+        -3])
     cube([3, ancho * 0.8, 10]);
 
     translate(
         [largo -14, 
         (ancho * 0.5 - ancho * 0.4),
-        -1])
+        -3])
     cube([3, ancho * 0.8, 10]);
 }
 }
