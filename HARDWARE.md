@@ -14,7 +14,7 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 - 480mm de diámetro
 - 9mm de alto
 
-La corona se debe instalar centrada sobre la parte fija de la montura.
+La corona se debe instalar centrada sobre la parte fija de la montura.  
 &nbsp;  
 <img src="/archivos/azimut/corona_instalacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 <img src="/archivos/azimut/corona_instalacion_2.png" width=25% height=25%>
@@ -28,6 +28,7 @@ Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf
 - 24 mm de alto
 
 El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.  
+&nbsp;  
 <img src="/archivos/azimut/motor_pinon.png" width=25% height=25%>
 
 Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) para realizar la impresion 3D, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
@@ -49,7 +50,10 @@ También se puede cortar en metal con este [molde](/imprimibles/monturas/montura
 
 #### Motor AZIMUT
 
-Conectar el motor al eje **X** del ShieldCNC. Si gira en sentido contrario cuando se lo comanda con el panel del control invertir la conección.
+Conectar el motor al eje **X** del ShieldCNC.
+Si gira en sentido contrario cuando se lo comanda con el panel del control invertir la conección.  
+&nbsp;  
+<img src="/archivos/azimut/cnc_shield_motor_azimut.png" width=25% height=25%>
 
 ## Elevación
 
