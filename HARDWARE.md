@@ -8,17 +8,23 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 
 #### Corona AZIMUT
 
-La coroza azimutal es una pieza realizada en un corte de MDF de 9mm de ancho.
-Esta es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) para cortar una corona estándar, se puede generar una nueva pieza con este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
-La corona estándar tiene 400 dientes y 486mm ± de diámetro exterior.
+- 400 dientes
+- 480mm de diámetro
+- 9mm de alto
+
+La corona se debe instalar centrada en la base inferior.
+[Figura](/imprimibles/engranajes/corona_instalacion.png) de referencia.
+
+Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 
 #### Piñón AZIMUT
 
-El piñón para el eje del motor azimutal es una pieza impresa en 3D .
-Este es el [piñon](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) estándar, se puede generar una nueva pieza con este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
-El piñon estándar tiene 20 dientes.
+- 20 dientes
+- 25 mm de diámetro
+- 24 mm de alto
 
-Los sketchs son de [OpenScad](<https://openscad.org/]()>)
+El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.
+Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) para realizar la impresion 3D, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 
 #### Motor AZIMUT
 
