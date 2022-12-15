@@ -30,8 +30,8 @@ Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) par
 
 El motor debe ser instalado con su eje paralelo al eje de rotación azimutal del telescopio y el piñón debe acoplar con la corona.
 Para ello hay que realizar un orificio en la parte rotativa de la montura.
-[Vista](orificio_motor_azimut_1.png).
-[Detalle](orificio_motor_azimut_2.png).
+[Vista](/archivos/orificio_motor_azimut_1.png).
+[Detalle](/archivos/orificio_motor_azimut_2.png).
 
 Con este [archivo](/imprimibles/monturas/montura_motor_azimut.stl) se puede realizar la impresion 3D del soporte.
 También se puede cortar en metal con este [molde](/imprimibles/monturas/montura_motor_azimut_diy.pdf) _Tener en cuenta que el PDF está en tamaño carta._
