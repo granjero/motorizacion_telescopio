@@ -4,7 +4,7 @@
 
 El movimiento en el eje azimutal se realiza gracias a uno de los dos motores paso a paso.
 El eje de este motor tiene asociado un _piñón_ de **X** dientes, que se acopla con una _corona_ de **Y** dientes.
-Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados son los que se deben volcar al firmware.
+Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados en el ShieldCNC son los que se deben volcar al firmware.
 
 #### Corona AZIMUT
 
@@ -13,7 +13,7 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 - 9mm de alto
 
 La corona se debe instalar centrada en la base inferior.
-[Figura](/imprimibles/engranajes/corona_instalacion.png) de referencia.
+[Vista](/imprimibles/engranajes/corona_instalacion.png).
 
 Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 
@@ -25,6 +25,12 @@ Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf
 
 El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.
 Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) para realizar la impresion 3D, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+
+#### Soporte motor AZIMUT
+
+El motor debe ser instalado con el eje paralelo al eje de rotación azimutal.
+Con este [archivo](/imprimibles/engranajes/montura_motor_azimut.stl) se puede realizar la impresion 3D de la pieza.
+También se puede cortar en metal con este [molde](/imprimibles/engranajes/montura/montura_motor_azimut_diy.pdf) _Tener en cuenta que el PDF está en tamaño carta._
 
 #### Motor AZIMUT
 

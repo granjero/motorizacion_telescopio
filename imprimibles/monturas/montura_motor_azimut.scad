@@ -1,8 +1,8 @@
 $fn = 100;
 
-espesor = 3;
+espesor = 5;
 ancho = 40; 
-largo = 80;
+largo = 90;
 separacionTornillos = 31;
 
 
@@ -40,15 +40,16 @@ difference(){
     cylinder(h = 100, d = 3, center = true);
 
 // aletas
-// ------ 
+// ------
+
     translate(
-        [6, 
+        [12, 
         (ancho * 0.5 - ancho * 0.4),
         0])
     cube([3, ancho * 0.8, 10]);
 
     translate(
-        [largo -8, 
+        [largo -14, 
         (ancho * 0.5 - ancho * 0.4),
         0])
     cube([3, ancho * 0.8, 10]);
