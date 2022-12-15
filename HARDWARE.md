@@ -13,7 +13,7 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 - 9mm de alto
 
 La corona se debe instalar centrada sobre la parte fija de la montura.  
-<img src="/archivos/azimut/corona_instalacion_1.png" width=25% height=25%>
+<img src="/archivos/azimut/corona_instalacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 <img src="/archivos/azimut/corona_instalacion_2.png" width=25% height=25%>
 
 Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
@@ -31,9 +31,9 @@ Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) par
 
 El motor debe ser instalado con su eje paralelo al eje de rotación azimutal del telescopio y el piñón debe acoplar con la corona.
 Para ello hay que realizar un orificio en la parte rotativa de la montura.  
-<img src="/archivos/azimut/orificio_motor_azimut_1.png" width=25% height=25%>
-<img src="/archivos/azimut/orificio_motor_azimut_2.png" width=25% height=25%>
-<img src="/archivos/azimut/soporte_motor_azimut_1.png" width=25% height=25%>
+<img src="/archivos/azimut/orificio_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/orificio_motor_azimut_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/soporte_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 <img src="/archivos/azimut/soporte_motor_azimut_2.png" width=25% height=25%>
 
 Con este [archivo](/imprimibles/monturas/montura_motor_azimut.stl) se puede realizar la impresion 3D del soporte.
