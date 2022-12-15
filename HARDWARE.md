@@ -12,8 +12,8 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 - 480mm de diámetro
 - 9mm de alto
 
-La corona se debe instalar centrada sobre la parte fija de la montura.
-[Vista](/archivos/azimut/corona_instalacion.png).
+La corona se debe instalar centrada sobre la parte fija de la montura.  
+<img src="/archivos/azimut/corona_instalacion.png" width=25% height=25%>
 
 Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 

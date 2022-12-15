@@ -105,17 +105,15 @@ module baseMontura(color = "Indigo")
     color("Purple", 4) {
       difference(){
         cylinder(h = 18, r = DIAMETRO_CORONA / 1.94,center = true);
-        translate([DIAMETRO_CORONA / 2.45, 0,0])
-        cylinder(h=30, r = 25, center = true);
-        translate([DIAMETRO_CORONA / 2.4, 0,0])
-        cylinder(h=30, r = 25, center = true);
         translate([DIAMETRO_CORONA / 2.35, 0,0])
         cylinder(h=30, r = 25, center = true);
         translate([DIAMETRO_CORONA / 2.3, 0,0])
         cylinder(h=30, r = 25, center = true);
       }
-
     }
+    translate([DIAMETRO_CORONA / 2.05,-45,50])
+    rotate([0,0,90])
+    soporte();
 }
 
 // Dibuja la corona completa. Sólo para visualizar.
@@ -226,5 +224,72 @@ module reduccionPara3D()
             helix_angle=0, 
             optimized=true);
     // huecos para los tornillos 
+
+}
+
+
+module soporte()
+{
+$fn = 100;
+
+color("Blue"){
+espesor = 5;
+ancho = 40; 
+largo = 90;
+separacionTornillos = 31;
+
+
+difference(){
+    difference(){
+        cube([largo, ancho, espesor]);
+        translate([largo * 0.5, ancho * 0.5, 0])
+        cylinder(h = espesor*3, d = 23, center = true); 
+    }
+
+// tornillos
+//----------
+    translate(
+        [(largo * 0.5) - (separacionTornillos * 0.5),
+        (ancho * 0.5) - (separacionTornillos * 0.5),
+        0])
+    cylinder(h = 30, d = 3, center = true);
+        
+    translate(
+        [(largo * 0.5) + (separacionTornillos * 0.5),
+        (ancho * 0.5) - (separacionTornillos * 0.5),
+        0])
+    cylinder(h = 30, d = 3, center = true);
+
+    translate(
+        [(largo * 0.5) - (separacionTornillos * 0.5),
+        (ancho * 0.5) + (separacionTornillos * 0.5),
+        0])
+    cylinder(h = 30, d = 3, center = true);
+
+    translate(
+        [(largo * 0.5) + (separacionTornillos * 0.5),
+        (ancho * 0.5) + (separacionTornillos * 0.5),
+        0])
+    cylinder(h = 30, d = 3, center = true);
+
+// aletas
+// ------
+
+    translate(
+        [12, 
+        (ancho * 0.5 - ancho * 0.4),
+        -1])
+    cube([3, ancho * 0.8, 10]);
+
+    translate(
+        [largo -14, 
+        (ancho * 0.5 - ancho * 0.4),
+        -1])
+    cube([3, ancho * 0.8, 10]);
+}
+}
+
+
+
 
 }
