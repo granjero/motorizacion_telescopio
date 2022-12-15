@@ -118,7 +118,10 @@ module baseMontura(color = "Indigo")
     soporte();
 
     translate([DIAMETRO_CORONA / 2.24,0,46])
-    motor_cuerpo();
+    color("CornflowerBlue")
+    {
+      motor_cuerpo();
+    }
 
     translate([DIAMETRO_CORONA / 2.27 , 0, 7])
     color("Green"){

@@ -1,4 +1,6 @@
-# Instrucciones de ensamblado
+# HARDWARE
+
+#### Instrucciones para ensamblar
 
 ## Azimut
 
@@ -45,7 +47,7 @@ También se puede cortar en metal con este [molde](/imprimibles/monturas/montura
 
 #### Motor AZIMUT
 
-1. Conectar los pines del motor al eje **X** del ShieldCNC
+Conectar el motor al eje **X** del ShieldCNC. Si gira en sentido contrario cuando se lo comanda con el panel del control invertir la conección.
 
 ## Elevación
 
