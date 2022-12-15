@@ -28,9 +28,9 @@ Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) par
 
 #### Soporte motor AZIMUT
 
-El motor debe ser instalado con el eje paralelo al eje de rotación azimutal.
-Con este [archivo](/imprimibles/engranajes/montura_motor_azimut.stl) se puede realizar la impresion 3D de la pieza.
-También se puede cortar en metal con este [molde](/imprimibles/engranajes/montura/montura_motor_azimut_diy.pdf) _Tener en cuenta que el PDF está en tamaño carta._
+El motor debe ser instalado con su eje paralelo al eje de rotación azimutal del telescopio.
+Con este [archivo](/imprimibles/monturas/montura_motor_azimut.stl) se puede realizar la impresion 3D del soporte.
+También se puede cortar en metal con este [molde](/imprimibles/monturas/montura_motor_azimut_diy.pdf) _Tener en cuenta que el PDF está en tamaño carta._
 
 #### Motor AZIMUT
 
