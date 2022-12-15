@@ -27,7 +27,9 @@ Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf
 - 25 mm de diámetro
 - 24 mm de alto
 
-El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.
+El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.  
+<img src="/archivos/azimut/motor_pinon.png" width=25% height=25%>
+
 Este es el [archivo](/imprimibles/engranajes/pinon_20_dientes_azimut_3D.stl) para realizar la impresion 3D, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
 
 #### Soporte motor AZIMUT

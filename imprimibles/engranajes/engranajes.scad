@@ -13,11 +13,11 @@ $fn = 200;
 // CORONA 3D
 CORONA_PARA_IMPRIMIR_3D = false;
 // CORONA COMPLETA
-CORONA_COMPLETA = true;
+CORONA_COMPLETA = false;
 // PINON 3D
 PINON_PARA_IMPRIMIR_3D = false;
 // ver base 
-BASE_MONTURA = true;
+BASE_MONTURA = false;
 
 
 
@@ -66,6 +66,19 @@ CANT_DIENTES_REDUCCION_PINON = 20;
 ALTO_REDUCCION_CORONA = 10;
 ALTO_REDUCCION_PINON = 20;
 ANCHO_EJE_REDUCCION = 5;
+
+rotate([0,180,0]){
+
+translate([0,0,35])
+
+    color("CornflowerBlue")
+    {
+      motor_cuerpo();
+    }
+    color("Green"){
+      pinonPara3D();
+    }
+}
 
 
 // COMENTAR O DESCOMENTAR SEGUN CORRESPONDA
@@ -331,4 +344,5 @@ module motor_cuerpo(alto = 48, ancho = 42.6)
         rotate([0,0,45])
         cube([esquina, esquina, alto * 1.5], center = true);
     }
+         cylinder(h = 60, r = 2.5 ,center = true);
 }
