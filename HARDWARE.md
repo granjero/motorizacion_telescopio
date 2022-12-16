@@ -81,7 +81,8 @@ Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_elevacion.dxf) p
 - 15.5 mm de alto
 
 El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.  
-Polea GT2 de 20 dientes.
+Polea GT2 de 20 dientes.  
+&nbsp;  
 <img src="/archivos/elevacion/polea_gt2.jpg" width=25% height=25%>
 
 #### Soporte motor
