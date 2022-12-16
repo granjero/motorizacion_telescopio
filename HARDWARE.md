@@ -86,25 +86,16 @@ Polea GT2 de 20 dientes.
 
 #### Soporte motor
 
-El motor debe ser instalado con su eje paralelo al eje de rotación azimutal del telescopio y el piñón debe acoplar con la corona.
-Para ello hay que realizar un orificio en la parte rotativa de la montura.  
-&nbsp;  
-<img src="/archivos/azimut/orificio_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
-<img src="/archivos/azimut/orificio_motor_azimut_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
-<img src="/archivos/azimut/soporte_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
-<img src="/archivos/azimut/soporte_motor_azimut_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
-<img src="/archivos/azimut/motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
-<img src="/archivos/azimut/motor_azimut_2.png" width=25% height=25%>
+El motor debe ser instalado con su eje paralelo al eje de rotación de elevación del telescopio y el piñón debe acoplar con la corona con la correa.
 
-Con este [archivo](/imprimibles/monturas/montura_motor_azimut.stl) se puede realizar la impresion 3D del soporte.
-También se puede cortar en metal con este [molde](/imprimibles/monturas/montura_motor_azimut_diy.pdf) _Al imprimir tener en cuenta que el PDF está en tamaño carta._
+Con este [archivo](/imprimibles/monturas/montura_motor_elevacion.stl) se puede realizar la impresion 3D del soporte.
 
 #### Motor
 
-Conectar el motor al eje **X** del ShieldCNC.
+Conectar el motor al eje **Y** del ShieldCNC.
 Si gira en sentido contrario cuando se lo comanda con el panel del control invertir la conección.  
 &nbsp;  
-<img src="/archivos/azimut/cnc_shield_motor_azimut.png" width=25% height=25%>
+<img src="/archivos/azimut/cnc_shield_motor_elevacion.png" width=25% height=25%>
 
 ## Arduino + CNC Shield
 
