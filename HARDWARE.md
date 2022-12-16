@@ -57,9 +57,54 @@ Si gira en sentido contrario cuando se lo comanda con el panel del control inver
 
 ## Elevación
 
-#### Motor ELEVACION
+El movimiento en el eje de la elevación se realiza gracias a uno de los dos motores paso a paso.
+El eje de este motor tiene asociado un _piñón_ de **X** dientes, que se acopla a través de una correa dentada con una _corona_ de **Y** dientes.
+Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la cantidad de microsteps configurados en el ShieldCNC son los que se deben volcar al firmware.
 
-aake bonbon lollipop halvah sweet. Marshmallow danish powder cupcake jelly-o bonbon. Sweet pastry jelly halvah apple pie apple pie halvah cake icing
+#### Corona
+
+- 400 dientes
+- 254mm de diámetro
+- 6mm de alto
+
+La corona se debe instalar centrada en el muñón del telescopio.  
+&nbsp;  
+<img src="/archivos/elevacion/corona_instalacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/elevacion/corona_instalacion_2.png" width=25% height=25%>
+
+Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_elevacion.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+
+#### Piñón
+
+- 20 dientes
+- 14 mm de diámetro
+- 15.5 mm de alto
+
+El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.  
+Polea GT2 de 20 dientes.
+<img src="/archivos/elevacion/polea_gt2.jpg" width=25% height=25%>
+
+#### Soporte motor
+
+El motor debe ser instalado con su eje paralelo al eje de rotación azimutal del telescopio y el piñón debe acoplar con la corona.
+Para ello hay que realizar un orificio en la parte rotativa de la montura.  
+&nbsp;  
+<img src="/archivos/azimut/orificio_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/orificio_motor_azimut_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/soporte_motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/soporte_motor_azimut_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/motor_azimut_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+<img src="/archivos/azimut/motor_azimut_2.png" width=25% height=25%>
+
+Con este [archivo](/imprimibles/monturas/montura_motor_azimut.stl) se puede realizar la impresion 3D del soporte.
+También se puede cortar en metal con este [molde](/imprimibles/monturas/montura_motor_azimut_diy.pdf) _Al imprimir tener en cuenta que el PDF está en tamaño carta._
+
+#### Motor
+
+Conectar el motor al eje **X** del ShieldCNC.
+Si gira en sentido contrario cuando se lo comanda con el panel del control invertir la conección.  
+&nbsp;  
+<img src="/archivos/azimut/cnc_shield_motor_azimut.png" width=25% height=25%>
 
 ## Arduino + CNC Shield
 
