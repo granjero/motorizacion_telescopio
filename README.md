@@ -2,7 +2,9 @@
 
 https://github.com/granjero/telescopio
 
-Proyecto para motorizar/robotizar la montura Dobson del telescopio modelo que se realiza en el curso de fabricación de telescopios de la ASARAMAS (https://amigosdelaastronomia.org/)
+Proyecto para motorizar/robotizar la montura Dobson del telescopio modelo que se realiza en el curso de fabricación de telescopios de la ASARAMAS (https://amigosdelaastronomia.org/)  
+&nbsp;  
+<img src="/archivos/telescopio.png" width=100% height=100%> &nbsp; &nbsp; &nbsp;
 
 ## 🚨 🚨 🚨 ¡¡¡ ADVERTENCIA !!! 🚨 🚨 🚨
 
