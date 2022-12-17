@@ -13,11 +13,11 @@ $fn = 200;
 // CORONA 3D
 CORONA_PARA_IMPRIMIR_3D = false;
 // CORONA COMPLETA
-CORONA_COMPLETA = false;
+CORONA_COMPLETA = true;
 // PINON 3D
 PINON_PARA_IMPRIMIR_3D = false;
 // ver base 
-BASE_MONTURA = false;
+BASE_MONTURA = true;
 
 
 
@@ -67,18 +67,18 @@ ALTO_REDUCCION_CORONA = 10;
 ALTO_REDUCCION_PINON = 20;
 ANCHO_EJE_REDUCCION = 5;
 
-rotate([0,180,0]){
+/*rotate([0,180,0]){*/
 
-translate([0,0,35])
+/*translate([0,0,35])*/
 
-    color("CornflowerBlue")
-    {
-      motor_cuerpo();
-    }
-    color("Green"){
-      pinonPara3D();
-    }
-}
+    /*color("CornflowerBlue")*/
+    /*{*/
+      /*motor_cuerpo();*/
+    /*}*/
+    /*color("Green"){*/
+      /*pinonPara3D();*/
+    /*}*/
+/*}*/
 
 
 // COMENTAR O DESCOMENTAR SEGUN CORRESPONDA
@@ -128,7 +128,7 @@ module baseMontura(color = "Indigo")
     // soporte
     translate([DIAMETRO_CORONA / 2.05,-45,40])
     rotate([0,0,90])
-    soporte();
+    soporte_motor_azimut();
 
     translate([DIAMETRO_CORONA / 2.24,0,46])
     color("CornflowerBlue")
@@ -139,6 +139,28 @@ module baseMontura(color = "Indigo")
     translate([DIAMETRO_CORONA / 2.27 , 0, 7])
     color("Green"){
       pinonPara3D();
+    }
+
+    soporte_telescopio();
+    telescopio();
+    color("Blue"){
+    corona_elevacion();
+    }
+
+    translate([110,0,300])
+    rotate([90,0,90])
+    soporte_motor_elevacion();
+
+    translate([160,0,300])
+    rotate([0,-90,0])
+    color("CornflowerBlue"){
+    motor_cuerpo();
+    }
+
+    translate([190,0,300])
+    rotate([0,-90,0])
+    color("Green"){
+    pinonPara3D();
     }
 }
 
@@ -254,7 +276,7 @@ module reduccionPara3D()
 }
 
 
-module soporte()
+module soporte_motor_azimut()
 {
   $fn = 100;
 
@@ -345,4 +367,113 @@ module motor_cuerpo(alto = 48, ancho = 42.6)
         cube([esquina, esquina, alto * 1.5], center = true);
     }
          cylinder(h = 60, r = 2.5 ,center = true);
+}
+
+module soporte_telescopio(){
+color("MediumOrchid"){
+  // Calcula la altura del triángulo
+  altura = sqrt(pow(800, 2) - pow(170, 2));
+
+  difference(){
+    union(){
+        translate([100,0,40])
+        rotate([90,0,90])
+        // Dibuja el triángulo
+        linear_extrude(height=18, twist=0, scale=1, slices=undef, center=true, convexity=10) {
+          polygon(points=[[-170,0], [170,0], [0,altura]], paths=[[0,1,2]]);
+        }
+        translate([-100,0,40])
+        rotate([90,0,90])
+        // Dibuja el triángulo
+        linear_extrude(height=18, twist=0, scale=1, slices=undef, center=true, convexity=10) {
+          polygon(points=[[-170,0], [170,0], [0,altura]], paths=[[0,1,2]]);
+        }
+    }
+
+    translate([0,0,600])
+    rotate([0,90,0])
+    cylinder(h = 280, r = 25,center = true);
+
+    translate([0,0,855])
+    rotate([0,90,0])
+    cube([500,500,500], center = true);
+
+  }
+}
+  color("Blue"){
+    translate([0,0,600])
+    rotate([0,90,0])
+    cylinder(h = 340, d = 50, center = true);
+  }
+}
+
+
+module telescopio (){
+  color("DodgerBlue"){
+    rotate([35,0,0])
+    translate([0,345,600])
+    cylinder(h = 1050, d = 160, center = true);
+  }
+}
+
+module corona_elevacion(){
+  translate([175,0,600])
+  rotate([0,90,0])
+  cylinder(h = 10, d = 250, center = true);
+}
+
+
+module soporte_motor_elevacion (ancho = 42.6, alto = 48, espesor = 5)
+{
+  color("Blue"){
+    solapa = 33;
+    esquina = 6;
+    separacionTornillos = 31;
+
+    difference()
+    {
+        difference()
+        {
+            translate([0,0,(alto+espesor)/2])
+            cube([ancho + espesor * 2, ancho + espesor * 2, alto + espesor], center = true);
+            motor_cuerpo();
+        }    
+
+        // vastago
+        translate([0, 0, (alto+espesor)/2])
+        cylinder(h = alto + espesor * 2, d = 25, center = true);
+         
+        // tornillos
+        translate([separacionTornillos/2, separacionTornillos/2, (alto+espesor)/2])
+        cylinder(h = alto + espesor, d = 3, center = true);
+        translate([-separacionTornillos/2, separacionTornillos/2, (alto+espesor)/2])
+        cylinder(h = alto + espesor, d = 3, center = true);
+        translate([separacionTornillos/2, -separacionTornillos/2, (alto+espesor)/2])
+        cylinder(h = alto + espesor, d = 3, center = true);
+        translate([-separacionTornillos/2, -separacionTornillos/2, (alto+espesor)/2])
+        cylinder(h = alto + espesor, d = 3, center = true);
+        
+        //enchufe
+        translate([0,0, 5])
+        cube([20, ancho * 2, 10], center = true);
+    } 
+
+    difference()
+    {
+        translate([ancho/2 + solapa/2, 0,espesor/2])    
+        cube([solapa, ancho + espesor * 2, espesor], center = true);
+
+        translate([ancho/2 + solapa/2 + espesor, 0,espesor/2])    
+        cube([espesor, ancho * .8, espesor], center = true);
+    }
+    difference()
+    {
+        translate([-ancho/2 - solapa/2, 0,espesor/2])    
+        cube([solapa, ancho + espesor * 2, espesor], center = true);
+
+        translate([-ancho/2 - solapa/2 - espesor, 0,espesor/2])    
+        cube([espesor, ancho * .8, espesor], center = true);
+
+    }
+  }
 }

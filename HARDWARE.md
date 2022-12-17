@@ -11,8 +11,6 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 #### Corona
 
 - 400 dientes
-- 480mm de diámetro
-- 9mm de alto
 
 La corona se debe instalar centrada sobre la parte fija de la montura.  
 &nbsp;  
@@ -24,10 +22,8 @@ Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_azimut_LASER.dxf
 #### Piñón
 
 - 20 dientes
-- 25 mm de diámetro
-- 24 mm de alto
 
-El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.  
+El piñon se debe instalar en el eje del motor con un tornillo y tuerca.  
 &nbsp;  
 <img src="/archivos/azimut/motor_pinon.png" width=25% height=25%>
 
@@ -64,23 +60,20 @@ Estos valores **X** e **Y**, junto con la cantidad de pasos del motor y la canti
 #### Corona
 
 - 400 dientes
-- 254mm de diámetro
-- 6mm de alto
 
 La corona se debe instalar centrada en el muñón del telescopio.  
 &nbsp;  
 <img src="/archivos/elevacion/corona_instalacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 <img src="/archivos/elevacion/corona_instalacion_2.png" width=25% height=25%>
 
-Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_elevacion.dxf) para realizar el corte laser en MDF de 9mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_elevacion.dxf) para realizar el corte laser en MDF de 6mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
+Como guía para que la correa no se salga se coloca de cada lado de la corona un anillo un poco más grande que la corona.
 
 #### Piñón
 
 - 20 dientes
-- 14 mm de diámetro
-- 15.5 mm de alto
 
-El piñon se debe instalar en el vástago del motor con un tornillo y tuerca.  
+El piñon se debe instalar en el eje del motor con sus tornillos.  
 Polea GT2 de 20 dientes.  
 &nbsp;  
 <img src="/archivos/elevacion/polea_gt2.jpg" width=25% height=25%>
