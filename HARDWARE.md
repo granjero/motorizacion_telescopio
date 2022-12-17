@@ -67,7 +67,7 @@ La corona se debe instalar centrada en el muñón del telescopio.
 <img src="/archivos/elevacion/corona_instalacion_2.png" width=25% height=25%>
 
 Este es el [archivo](/imprimibles/engranajes/corona_400_dientes_elevacion.dxf) para realizar el corte laser en MDF de 6mm de ancho, se puede generar una nueva pieza con otros parámetros usando este [sketch](/imprimibles/engranajes/engranajes.scad) de OpenScad.
-Como guía para que la correa no se salga se coloca de cada lado de la corona un anillo un poco más grande que la corona.
+Como guía para que la correa no se salga se coloca de cada lado de la corona un anillo un poco más grande que la corona. Este es el [archivo](/imprimibles/engranajes/anillos_corona_elevacion_LASER.dxf) para realizar el corte en MDF de 3mm
 
 #### Piñón
 
@@ -82,6 +82,8 @@ Polea GT2 de 20 dientes.
 
 El motor debe ser instalado con su eje paralelo al eje de rotación de elevación del telescopio y el piñón debe acoplar con la corona con la correa.
 
+<img src="/archivos/elevacion/soporte_motor.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+&nbsp;  
 Con este [archivo](/imprimibles/monturas/montura_motor_elevacion.stl) se puede realizar la impresion 3D del soporte.
 
 #### Motor
