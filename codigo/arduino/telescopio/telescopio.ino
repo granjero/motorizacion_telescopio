@@ -208,14 +208,16 @@ void cmd_set_new_home(SerialCommands* sender)
     char* az = sender->Next();
     char* el = sender->Next();
 
-    azimut.setCurrentPosition(azimut.currentPosition() + anguloAzimutAPaso(atof(az)));
-    elevacion.setCurrentPosition(elevacion.currentPosition() + anguloElevacionAPaso(atof(el)));
-     /*elevacion.setCurrentPosition(90);*/
+    long azPosActual = azimut.currentPosition();
+    long azPosASumar = anguloAzimutAPaso(atof(az));
 
-    /*sender->GetSerial()->print("Azimut + ");*/
-    /*sender->GetSerial()->println(az);*/
-    /*sender->GetSerial()->print("Elevacion + ");*/
-    /*sender->GetSerial()->println(el);*/
+    long elPosActual = elevacion.currentPosition();
+    long elPosASumar = anguloElevacionAPaso(atof(el));
+
+    azimut.setCurrentPosition(azPosActual + azPosASumar);
+    elevacion.setCurrentPosition(elPosActual + elPosASumar);
+    /*azimut.setCurrentPosition(azimut.currentPosition() + anguloAzimutAPaso(atof(az)));*/
+    /*elevacion.setCurrentPosition(elevacion.currentPosition() + anguloElevacionAPaso(atof(el)));*/
 }
 
 // GO HOME (u r drunk)
