@@ -20,7 +20,7 @@ Utilizar sólo cuando el sol se haya ocultado en el horizonte o con los filtros 
 
 En la [ASARAMAS](https://amigosdelaastronomia.org/) dictan un curso para fabricar un telescopio reflector del tipo Newtoniano con una montura tipo Dobson.  
 El objetivo de este proyecto es automatizar la montura para que el telescopio localice y siga objetos celestes a demanda. Para ello se agregarán al telescopio dos motores. Uno para controlar el ángulo del Azimut y otro para controlar el ángulo de Elevación .  
-Se interactúa con el telescopio a través de un panel de control que toma datos de Stellarium (https://stellarium.org/) y los envia al microcontrolador del telescopio.  
+Se interactúa con el telescopio a través de un panel de control que toma datos de [Stellarium](https://stellarium.org/) y los envia al microcontrolador del telescopio.  
 La electrónica es muy sencilla, como microcontrolador se utiliza un ArduinoUNO, para manejar la potencia de los motores se pueden utilizar driver A4988 ó DRV8825 y un ShieldCNC para la conección.
 En el proyecto están todos los archivos necesarios para imprimir o cortar las piezas y también están los scripts con los que fueron generadas.  
 Seguir las instrucciones en orden.

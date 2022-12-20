@@ -2,13 +2,21 @@
 
 #### Instrucciones de uso del Panel de Control .
 
+El panel de control es un archivo html que se debe cargar en un navegador web que soporte comunicación serie como [Chromium](https://www.chromium.org/getting-involved/download-chromium/) o Chrome.
+[Navegadores compatibles](https://developer.mozilla.org/en-US/docs/Web/API/SerialPort#browser_compatibility)  
+A su vez este proyecto depende de Stellarium para obtener la ubicacion de los objetos celestes para enviarlos al telescopio.
+
 ## Stellarium
 
 1. [Descargar](https://stellarium.org) stellarium 1.1 o superior.
-2. Ejecutar el IDE de Arduino
-   - Conectar el Arduino al ordenador con el cable USB
-   - Ir a Herramientas/Tools -> Placas/Boards y seleccionar Arduino UNO
-   - Ir a Herramientas/Tools -> Puerto/Port y seleccionar el puerto en el que esté conectado el Arduino
+2. Ejecutar Stellarium
+3. Configuraciones
+   1. Locación
+      - Con F6 o a través del menú de la izquierda se ingresa al menú de Locación.
+        &nbsp;  
+        <img src="/archivos/azimut/corona_instalacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+      - Setear latitud, longitud y altitud snm
+   2.
 
 ## Firmware
 
