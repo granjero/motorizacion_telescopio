@@ -19,7 +19,7 @@ A su vez este proyecto depende de Stellarium para obtener la ubicacion de los ob
         <img src="/archivos/software/stellarium_locacion_1.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
       - Setear latitud, longitud y altitud snm
         &nbsp;  
-        .img src="/archivos/software/stellarium_locacion_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
+        <img src="/archivos/software/stellarium_locacion_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 
    2. Fecha y Hora
 
@@ -40,29 +40,13 @@ A su vez este proyecto depende de Stellarium para obtener la ubicacion de los ob
      <img src="/archivos/software/stellarium_plugin_2.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
    - Tildar la casilla _Load at Startup_ y reiniciar Stellarium para poder ingresar a la configuracion del mismo.
      Tildar la casilla Enable CORS for the following origin y en el campo poner un \*.
-     _Tener en cuenta que esta configuracion permitiria que cualquiera en tome control del telescopio. Pero creo que podemos vivir con ese riesgo_
+     _Leer advertencia al respecto del \* en stellarium_
      &nbsp;  
      <img src="/archivos/software/stellarium_plugin_3.png" width=25% height=25%> &nbsp; &nbsp; &nbsp;
 
-## Firmware
-
-Si se usaron las piezas estándar del proyecto saltear el paso 3 y pasar al paso 4.
-
-3. Abrir el archivo telescopio.ino
-
-Para que los movimientos del telescopio sean correctos el microcontrolador necesita conocer las relaciones entre los piñones y las coronas.  
-Para que los cálculos sean correctos hay que modificar el Firmware y asignar a algunas constantes estos valores.
-
-- Cambiar los valores de las constantes "PASOS_MOTOR\_", "MICROSTEPS\_", "DIENTES_CORONA\_", "DIENTES_PINON\_" para AZIMUT y ELEVACION según corresponda con la construccion del telescopio.
-- Guardar el Sketch
-
-4. Abrir el archivo telescopio.ino
-
-   - Ir a Programa/Sketch -> Subir/Upload
-
-5. Una vez subido el programa desconectar el Arduino del ordenador y continuar con la conección del Shield CNC. (Ver seccion Hardware)
+## Panel de Control
 
 ##### Librerías utilizadas:
 
-- [AccelStepper](https://www.airspayce.com/mikem/arduino/AccelStepper/)
-- [SerialCommands](https://github.com/ppedro74/Arduino-SerialCommands)
+- [Bootstrap](https://www.airspayce.com/mikem/arduino/AccelStepper/)
+- [Font Awesome](https://github.com/ppedro74/Arduino-SerialCommands)
