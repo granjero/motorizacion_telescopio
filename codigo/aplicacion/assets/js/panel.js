@@ -23,7 +23,9 @@ let PANEL = {
   // TODO rever nombres variables serial
   intervalos: {
     id_seguimiento: 0,
-    id_enviar_comando: 0,
+    id_busqueda: 0,
+    contador: 1,
+    direccion: 0,
   },
 };
 
@@ -494,3 +496,52 @@ CORRECCION_EL_DOWN.addEventListener("click", function () {
   comando += " \r\n";
   serial_enviar_comando(comando);
 });
+
+const BUSQUEDA = document.querySelector("#BUSQUEDA");
+BUSQUEDA.addEventListener("click", busqueda_celeste);
+
+function busqueda_celeste() {
+  const direcciones = ["el+", "az+", "el-", "az-"];
+  let comando = "";
+
+  switch (direcciones[PANEL.intervalos.direccion]) {
+    case "el+":
+      comando = "NEW_HOME ";
+      comando += " 0 -";
+      comando += PANEL.telescopio.distancia_angular * PANEL.intervalos.contador;
+      comando += " \r\n";
+      //console.log(comando);
+      serial_enviar_comando(comando);
+      break;
+
+    case "az+":
+      comando = "NEW_HOME -";
+      comando += PANEL.telescopio.distancia_angular * PANEL.intervalos.contador;
+      comando += " 0 \r\n";
+      //console.log(comando);
+      serial_enviar_comando(comando);
+      PANEL.intervalos.contador++;
+      break;
+
+    case "el-":
+      comando = "NEW_HOME ";
+      comando += " 0 ";
+      comando += PANEL.telescopio.distancia_angular * PANEL.intervalos.contador;
+      comando += " \r\n";
+      //console.log(comando);
+      serial_enviar_comando(comando);
+      break;
+
+    case "az-":
+      comando = "NEW_HOME ";
+      comando += PANEL.telescopio.distancia_angular * PANEL.intervalos.contador;
+      comando += " 0 \r\n";
+      //console.log(comando);
+      serial_enviar_comando(comando);
+      PANEL.intervalos.contador++;
+      break;
+  }
+
+  PANEL.intervalos.direccion++;
+  PANEL.intervalos.direccion = PANEL.intervalos.direccion > 3 ? 0 : PANEL.intervalos.direccion;
+}
