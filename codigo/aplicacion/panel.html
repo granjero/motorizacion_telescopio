@@ -1,411 +1,339 @@
 <!DOCTYPE html>
 <html id="HTML" lang="en" class="modo_noche">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>🔭 Panel de Control 🔭</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="assets/css/panel.css" />
-  </head>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <body>
-    <!-- CONTAINER -->
-    <div class="container-fluid mb-3">
-      <nav class="navbar bg-light">
-        <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">Telescopio</span>
-          <div class="d-flex">
-            <button id="NOCHE" class="btn btn-outline-dark me-2" type="button"><i class="me-2 fa-solid fa-lightbulb"></i>Modo Noche</button>
-            <button id="TELESCOPIO" class="btn btn-outline-dark me-2" type="button">
-              <i class="me-2 fa-solid fa-robot"></i>Conectar con el Telescopio
-            </button>
-            <button id="STELLARIUM" class="btn btn-outline-dark me-2" type="button">
-              <i class="me-2 fa-regular fa-star"></i>Conectar con Stellarium
-            </button>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col">
-          <div id="MENSAJE"></div>
-        </div>
-      </div>
-    </div>
+	<title>🔭 Panel de Control 🔭</title>
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
+	<link rel="stylesheet" href="assets/css/panel.css" />
+</head>
 
-    <!-- CONTAINER -->
-    <div class="container-fluid">
-      <div class="row">
-        <!-- COL -->
-        <div class="col-3">
-          <div class="card mb-3">
-            <div class="card-header">CONTROLES</div>
-            <div class="card-body">
-              <div class="row text-center mb-3">
-                <div class="col-4"></div>
-                <div
-                  class="boton_dir col-4"
-                  id="UP"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="top"
-                  data-bs-title="ELEVACION +"
-                >
-                  <i class="display-1 fa-solid fa-chevron-up"></i>
-                </div>
-                <div class="col-4"></div>
-              </div>
-              <div class="row text-center mb-3">
-                <div
-                  class="boton_dir col-4"
-                  id="LEFT"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="AZIMUT -"
-                >
-                  <i class="display-1 fa-solid fa-chevron-left"></i>
-                </div>
-                <div
-                  class="boton_stop col-4"
-                  id="STOP"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="DETIENE LOS MOTORES"
-                >
-                  <i class="display-1 fa-regular fa-hand"></i>
-                </div>
-                <div
-                  class="boton_dir col-4"
-                  id="RIGHT"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="AZIMUT +"
-                >
-                  <i class="display-1 fa-solid fa-chevron-right"></i>
-                </div>
-              </div>
-              <div class="row text-center">
-                <div
-                  class="my-auto boton_dir col-4"
-                  id="GO_HOME"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="GO HOME"
-                >
-                  <i class="display-6 fa-solid fa-house-flag"></i>
-                </div>
-                <div
-                  class="boton_dir col-4"
-                  id="DOWN"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="ELEVACION -"
-                >
-                  <i class="display-1 fa-solid fa-chevron-down"></i>
-                </div>
-                <div
-                  class="my-auto boton_dir col-4"
-                  id="OFF"
-                  style="cursor: pointer"
-                  data-bs-toggle="tooltip"
-                  data-bs-custom-class="custom-tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-title="APAGA LOS MOTORES"
-                >
-                  <i class="display-6 fa-solid fa-power-off"></i>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <div class="card">
-                    <div class="card-header">Distancia Angular</div>
+<body>
+	<!-- CONTAINER -->
+	<div class="container-fluid mb-3">
+		<nav class="navbar bg-light">
+			<div class="container-fluid">
+				<span class="navbar-brand mb-0 h1">Telescopio</span>
+				<div class="d-flex">
+					<button id="NOCHE" class="btn btn-outline-dark me-2" type="button"><i
+							class="me-2 fa-solid fa-lightbulb"></i>Modo Noche</button>
+					<button id="TELESCOPIO" class="btn btn-outline-dark me-2" type="button">
+						<i class="me-2 fa-solid fa-robot"></i>Conectar con el Telescopio
+					</button>
+					<button id="STELLARIUM" class="btn btn-outline-dark me-2" type="button">
+						<i class="me-2 fa-regular fa-star"></i>Conectar con Stellarium
+					</button>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<div id="MENSAJE"></div>
+			</div>
+		</div>
+	</div>
 
-                    <div class="card-body" id="ANGULO">
-                      <!-- TODO cambiar ids a MAYUSCULA y nombre a AM-->
+	<!-- CONTAINER -->
+	<div class="container-fluid">
+		<div class="row">
+			<!-- COL -->
+			<div class="col-8 col-md-3">
+				<div class="card mb-3">
+					<div class="card-header">CONTROLES</div>
+					<div class="card-body">
+						<div class="row text-center mb-3">
+							<div class="col-4"></div>
+							<div class="boton_dir col-4" id="UP" style="cursor: pointer" data-bs-toggle="tooltip"
+								data-bs-custom-class="custom-tooltip" data-bs-placement="top"
+								data-bs-title="ELEVACION +">
+								<i class="display-1 fa-solid fa-chevron-up"></i>
+							</div>
+							<div class="col-4"></div>
+						</div>
+						<div class="row text-center mb-3">
+							<div class="boton_dir col-4" id="LEFT" style="cursor: pointer" data-bs-toggle="tooltip"
+								data-bs-custom-class="custom-tooltip" data-bs-placement="bottom"
+								data-bs-title="AZIMUT -">
+								<i class="display-1 fa-solid fa-chevron-left"></i>
+							</div>
+							<div class="boton_stop col-4" id="STOP" style="cursor: pointer" data-bs-toggle="tooltip"
+								data-bs-custom-class="custom-tooltip" data-bs-placement="bottom"
+								data-bs-title="DETIENE LOS MOTORES">
+								<i class="display-1 fa-regular fa-hand"></i>
+							</div>
+							<div class="boton_dir col-4" id="RIGHT" style="cursor: pointer" data-bs-toggle="tooltip"
+								data-bs-custom-class="custom-tooltip" data-bs-placement="bottom"
+								data-bs-title="AZIMUT +">
+								<i class="display-1 fa-solid fa-chevron-right"></i>
+							</div>
+						</div>
+						<div class="row text-center">
+							<div class="my-auto boton_dir col-4" id="GO_HOME" style="cursor: pointer"
+								data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+								data-bs-placement="bottom" data-bs-title="GO HOME">
+								<i class="display-6 fa-solid fa-house-flag"></i>
+							</div>
+							<div class="boton_dir col-4" id="DOWN" style="cursor: pointer" data-bs-toggle="tooltip"
+								data-bs-custom-class="custom-tooltip" data-bs-placement="bottom"
+								data-bs-title="ELEVACION -">
+								<i class="display-1 fa-solid fa-chevron-down"></i>
+							</div>
+							<div class="my-auto boton_dir col-4" id="OFF" style="cursor: pointer"
+								data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+								data-bs-placement="bottom" data-bs-title="APAGA LOS MOTORES">
+								<i class="display-6 fa-solid fa-power-off"></i>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="card">
+									<div class="card-header">Distancia Angular</div>
 
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d001" value="0.01" />
-                        <label class="form-check-label" for="d001">0.01&#176;</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d005" value="0.05" />
-                        <label class="form-check-label" for="d005">0.05&#176;</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d01" value="0.1" />
-                        <label class="form-check-label" for="d01">0.1&#176;</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d05" value="0.5" />
-                        <label class="form-check-label" for="d05">0.5&#176; </label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d1" value="1" checked />
-                        <label class="form-check-label" for="d1">1&#176;</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d5" value="5" />
-                        <label class="form-check-label" for="d5">5&#176;</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="ANGULO" id="d10" value="10" />
-                        <label class="form-check-label" for="d10">10&#176;</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col">
-                  <div class="card">
-                    <div class="card-header">Correcciones</div>
+									<div class="card-body" id="ANGULO">
+										<!-- TODO cambiar ids a MAYUSCULA y nombre a AM-->
 
-                    <div class="card-body" id="CORRECCIONES">
-                      <div class="row">
-                        <div class="col-4">
-                          <p>Corrige la posición en la Distancia Angular seleccionada.</p>
-                        </div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d001"
+												value="0.01" />
+											<label class="form-check-label" for="d001">0.01&#176;</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d005"
+												value="0.05" />
+											<label class="form-check-label" for="d005">0.05&#176;</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d01"
+												value="0.1" />
+											<label class="form-check-label" for="d01">0.1&#176;</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d05"
+												value="0.5" />
+											<label class="form-check-label" for="d05">0.5&#176; </label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d1" value="1"
+												checked />
+											<label class="form-check-label" for="d1">1&#176;</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d5"
+												value="5" />
+											<label class="form-check-label" for="d5">5&#176;</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="ANGULO" id="d10"
+												value="10" />
+											<label class="form-check-label" for="d10">10&#176;</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col">
+								<div class="card">
+									<div class="card-header">Correcciones</div>
 
-                        <div class="col-8">
-                          <div class="row text-center mb-3">
-                            <div class="col-4"></div>
-                            <div
-                              class="boton_dir col-4"
-                              id="CORRECCION_EL_UP"
-                              style="cursor: pointer"
-                              data-bs-toggle="tooltip"
-                              data-bs-custom-class="custom-tooltip"
-                              data-bs-placement="top"
-                              data-bs-title="ELEVACION +"
-                            >
-                              <i class="display-6 fa-solid fa-caret-up"></i>
-                            </div>
-                            <div class="col-4"></div>
-                          </div>
-                          <div class="row text-center mb-3">
-                            <div
-                              class="boton_dir col-4"
-                              id="CORRECCION_AZ_DOWN"
-                              style="cursor: pointer"
-                              data-bs-toggle="tooltip"
-                              data-bs-custom-class="custom-tooltip"
-                              data-bs-placement="left"
-                              data-bs-title="AZIMUT -"
-                            >
-                              <i class="display-6 fa-solid fa-caret-left"></i>
-                            </div>
-                            <div
-                              class="boton_stop col-4"
-                              id="BUSQUEDA"
-                              style="cursor: pointer"
-                              data-bs-toggle="tooltip"
-                              data-bs-custom-class="custom-tooltip"
-                              data-bs-placement="bottom"
-                              data-bs-title="INICIA/DETIENE LA BUSQUEDA EN ESPIRAL."
-                            >
-                              <i class="display-5 fa-solid fa-arrows-spin"></i>
-                            </div>
-                            <div
-                              class="boton_dir col-4"
-                              id="CORRECCION_AZ_UP"
-                              style="cursor: pointer"
-                              data-bs-toggle="tooltip"
-                              data-bs-custom-class="custom-tooltip"
-                              data-bs-placement="right"
-                              data-bs-title="AZIMUT +"
-                            >
-                              <i class="display-6 fa-solid fa-caret-right"></i>
-                            </div>
-                          </div>
-                          <div class="row text-center">
-                            <div class="col-4"></div>
-                            <div
-                              class="boton_dir col-4"
-                              id="CORRECCION_EL_DOWN"
-                              style="cursor: pointer"
-                              data-bs-toggle="tooltip"
-                              data-bs-custom-class="custom-tooltip"
-                              data-bs-placement="bottom"
-                              data-bs-title="ELEVACION -"
-                            >
-                              <i class="display-6 fa-solid fa-caret-down"></i>
-                            </div>
-                            <div class="col-4"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- COL -->
-        <div class="col-3">
-          <div class="card mb-3">
-            <div class="card-header">SEGUIMIENTO</div>
-            <div class="card-body">
-              <div class="row mb-3">
-                <div class="col">
-                  <div id="OBJETO" class="alert alert-secondary text-uppercase text-center" role="alert">Objeto</div>
-                  <div id="OBJETO_INFO" class="form-text"></div>
-                </div>
-              </div>
-              <div class="row text-center">
-                <div class="boton col" id="SEGUIMIENTO" style="cursor: pointer">
-                  <i class="fs-3 fa-solid fa-shuttle-space"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+									<div class="card-body" id="CORRECCIONES">
+										<div class="row">
+											<div class="col-4">
+												<p>Corrige la posición en la Distancia Angular seleccionada.</p>
+											</div>
 
-          <div class="card mb-3">
-            <div class="card-header">GO-TO</div>
-            <form action="#">
-              <div class="card-body">
-                <div class="row text-center mb-3">
-                  <div class="col">
-                    <div class="input-group mb-3">
-                      <span class="input-group-text">AZ</span>
-                      <input
-                        type="number"
-                        id="AZIMUT"
-                        min="0"
-                        max="360"
-                        step="0.0001"
-                        class="form-control"
-                        placeholder="N=0° E=90° S=180° O=270°"
-                        data-bs-toggle="tooltip"
-                        data-bs-custom-class="custom-tooltip"
-                        data-bs-placement="right"
-                        data-bs-title="MIN:0 - MAX:360"
-                      />
-                    </div>
+											<div class="col-8">
+												<div class="row text-center mb-3">
+													<div class="col-4"></div>
+													<div class="boton_dir col-4" id="CORRECCION_EL_UP"
+														style="cursor: pointer" data-bs-toggle="tooltip"
+														data-bs-custom-class="custom-tooltip" data-bs-placement="top"
+														data-bs-title="ELEVACION +">
+														<i class="display-6 fa-solid fa-caret-up"></i>
+													</div>
+													<div class="col-4"></div>
+												</div>
+												<div class="row text-center mb-3">
+													<div class="boton_dir col-4" id="CORRECCION_AZ_DOWN"
+														style="cursor: pointer" data-bs-toggle="tooltip"
+														data-bs-custom-class="custom-tooltip" data-bs-placement="left"
+														data-bs-title="AZIMUT -">
+														<i class="display-6 fa-solid fa-caret-left"></i>
+													</div>
+													<div class="boton_stop col-4" id="BUSQUEDA" style="cursor: pointer"
+														data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+														data-bs-placement="bottom"
+														data-bs-title="INICIA/DETIENE LA BUSQUEDA EN ESPIRAL.">
+														<i class="display-5 fa-solid fa-arrows-spin"></i>
+													</div>
+													<div class="boton_dir col-4" id="CORRECCION_AZ_UP"
+														style="cursor: pointer" data-bs-toggle="tooltip"
+														data-bs-custom-class="custom-tooltip" data-bs-placement="right"
+														data-bs-title="AZIMUT +">
+														<i class="display-6 fa-solid fa-caret-right"></i>
+													</div>
+												</div>
+												<div class="row text-center">
+													<div class="col-4"></div>
+													<div class="boton_dir col-4" id="CORRECCION_EL_DOWN"
+														style="cursor: pointer" data-bs-toggle="tooltip"
+														data-bs-custom-class="custom-tooltip" data-bs-placement="bottom"
+														data-bs-title="ELEVACION -">
+														<i class="display-6 fa-solid fa-caret-down"></i>
+													</div>
+													<div class="col-4"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- COL -->
+			<div class="col-4 col-md-3">
+				<div class="card mb-3">
+					<div class="card-header">SEGUIMIENTO</div>
+					<div class="card-body">
+						<div class="row mb-3">
+							<div class="col">
+								<div id="OBJETO" class="alert alert-secondary text-uppercase text-center" role="alert">
+									Objeto</div>
+								<div id="OBJETO_INFO" class="form-text"></div>
+							</div>
+						</div>
+						<div class="row text-center">
+							<div class="boton col" id="SEGUIMIENTO" style="cursor: pointer">
+								<i class="fs-3 fa-solid fa-shuttle-space"></i>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                    <div class="input-group mb-1">
-                      <span class="input-group-text">EL</span>
-                      <input
-                        type="number"
-                        id="ELEVACION"
-                        min="0"
-                        max="90"
-                        step="0.0001"
-                        class="form-control"
-                        placeholder="Hor=0° Cenit=90°"
-                        data-bs-toggle="tooltip"
-                        data-bs-custom-class="custom-tooltip"
-                        data-bs-placement="right"
-                        data-bs-title="MIN:0 - MAX:90"
-                      />
-                    </div>
-                    <div class="form-text text-start">Ingresar coordenadas para Azimut y Elevacion. Valor predeterminado: AZ 0° | EL 90°</div>
-                  </div>
-                </div>
-                <div class="row text-center">
-                  <div class="boton col" id="GOTO" style="cursor: pointer">
-                    <i class="fs-3 fa-solid fa-shuttle-space"></i>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+				<div class="card mb-3">
+					<div class="card-header">GO-TO</div>
+					<form action="#">
+						<div class="card-body">
+							<div class="row text-center mb-3">
+								<div class="col">
+									<div class="input-group mb-3">
+										<span class="input-group-text">AZ</span>
+										<input type="number" id="AZIMUT" min="0" max="360" step="0.0001"
+											class="form-control" placeholder="N=0° E=90° S=180° O=270°"
+											data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+											data-bs-placement="right" data-bs-title="MIN:0 - MAX:360" />
+									</div>
 
-        <!-- COL -->
-        <div class="col-6">
-          <div class="card mb-3">
-            <div class="card-header">Configuraciones</div>
-            <div class="card-body">
-              <div class="row text-center mb-3">
-                <div class="col-6">
-                  <div id="CARD_OBJETOS_CELESTES" class="card mb-3">
-                    <div class="card-header">Objetos Celestes</div>
-                    <div class="card-body text-start">
-                      <label for="LISTA_TIPO_OBJETOS" class="form-label">Tipo de Objeto</label>
-                      <select class="form-select mb-3" aria-label="Tipo de Objeto Celeste" id="LISTA_TIPO_OBJETOS"></select>
+									<div class="input-group mb-1">
+										<span class="input-group-text">EL</span>
+										<input type="number" id="ELEVACION" min="0" max="90" step="0.0001"
+											class="form-control" placeholder="Hor=0° Cenit=90°" data-bs-toggle="tooltip"
+											data-bs-custom-class="custom-tooltip" data-bs-placement="right"
+											data-bs-title="MIN:0 - MAX:90" />
+									</div>
+									<div class="form-text text-start">Ingresar coordenadas para Azimut y Elevacion.
+										Valor predeterminado:
+										AZ 0° | EL 90°</div>
+								</div>
+							</div>
+							<div class="row text-center">
+								<div class="boton col" id="GOTO" style="cursor: pointer">
+									<i class="fs-3 fa-solid fa-shuttle-space"></i>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 
-                      <label for="LISTA_OBJETOS" class="form-label">Objeto Celeste</label>
-                      <select class="form-select" aria-label="Objeto Celeste" name="LISTA_OBJETOS" id="LISTA_OBJETOS"></select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="card mb-3">
-                    <div class="card-header">Setear HOME</div>
+			<!-- COL -->
+			<div class="col-12 col-md-6">
+				<div class="card mb-3">
+					<div class="card-header">Configuraciones</div>
+					<div class="card-body">
+						<div class="row text-center mb-3">
+							<div class="col-6">
+								<div id="CARD_OBJETOS_CELESTES" class="card mb-3">
+									<div class="card-header">Objetos Celestes</div>
+									<div class="card-body text-start">
+										<label for="LISTA_TIPO_OBJETOS" class="form-label">Tipo de Objeto</label>
+										<select class="form-select mb-3" aria-label="Tipo de Objeto Celeste"
+											id="LISTA_TIPO_OBJETOS"></select>
 
-                    <div class="card-body">
-                      <div class="row text-center">
-                        <div
-                          class="boton col"
-                          id="SET_HOME"
-                          style="cursor: pointer"
-                          data-bs-toggle="tooltip"
-                          data-bs-custom-class="custom-tooltip"
-                          data-bs-placement="left"
-                          data-bs-title="Setea el home del telscopio. AZIMUT = 0 ELEVACION = 90"
-                        >
-                          <i class="fs-3 fa-solid fa-home"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+										<label for="LISTA_OBJETOS" class="form-label">Objeto Celeste</label>
+										<select class="form-select" aria-label="Objeto Celeste" name="LISTA_OBJETOS"
+											id="LISTA_OBJETOS"></select>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="card mb-3">
+									<div class="card-header">Setear HOME</div>
 
-                  <div class="card">
-                    <div class="card-header">Locacion</div>
+									<div class="card-body">
+										<div class="row text-center">
+											<div class="boton col" id="SET_HOME" style="cursor: pointer"
+												data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip"
+												data-bs-placement="left"
+												data-bs-title="Setea el home del telscopio. AZIMUT = 0 ELEVACION = 90">
+												<i class="fs-3 fa-solid fa-home"></i>
+											</div>
+										</div>
+									</div>
+								</div>
 
-                    <div class="card-body">
-                      <div class="row text-center mb-3">
-                        <div class="col">
-                          <div class="input-group mb-3">
-                            <span class="input-group-text">LAT</span>
-                            <input id="LATITUD" type="number" class="form-control" placeholder="Latitud" step="0.0000000000001" />
-                          </div>
+								<div class="card">
+									<div class="card-header">Locacion</div>
 
-                          <div class="input-group mb-3">
-                            <span class="input-group-text">LON</span>
-                            <input id="LONGITUD" type="number" class="form-control" placeholder="Longitud" />
-                          </div>
+									<div class="card-body">
+										<div class="row text-center mb-3">
+											<div class="col">
+												<div class="input-group mb-3">
+													<span class="input-group-text">LAT</span>
+													<input id="LATITUD" type="number" class="form-control"
+														placeholder="Latitud" step="0.0000000000001" />
+												</div>
 
-                          <div class="input-group mb-1">
-                            <span class="input-group-text">ALT</span>
-                            <input id="ALTITUD" type="number" class="form-control" placeholder="Altitud" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row text-center">
-                        <div class="boton col" id="SET_LOCACION" style="cursor: pointer">
-                          <i class="fs-3 fa-solid fa-globe"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="assets/js/panel.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script>
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
-    </script>
-  </body>
+												<div class="input-group mb-3">
+													<span class="input-group-text">LON</span>
+													<input id="LONGITUD" type="number" class="form-control"
+														placeholder="Longitud" />
+												</div>
+
+												<div class="input-group mb-1">
+													<span class="input-group-text">ALT</span>
+													<input id="ALTITUD" type="number" class="form-control"
+														placeholder="Altitud" />
+												</div>
+											</div>
+										</div>
+										<div class="row text-center">
+											<div class="boton col" id="SET_LOCACION" style="cursor: pointer">
+												<i class="fs-3 fa-solid fa-globe"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="assets/js/panel.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script>
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+		const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
+	</script>
+</body>
+
 </html>
